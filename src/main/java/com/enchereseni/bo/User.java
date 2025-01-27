@@ -9,7 +9,7 @@ public class User {
     private String lastName;
     private String email;
     private String phone;
-    private String adress;
+    private String address;
     private String zipCode;
     private String city;
     private String password;
@@ -18,13 +18,13 @@ public class User {
     //Relations
     private List<Auction> auctions;
 
-    public User(String pseudo, String firstName, String lastName, String email, String phone, String adress, String zipCode, String city, String password, long credit, boolean admin, List<Auction> auctions) {
+    public User(String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin, List<Auction> auctions) {
         this.pseudo = pseudo;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.adress = adress;
+        this.address = address;
         this.zipCode = zipCode;
         this.city = city;
         this.password = password;
@@ -73,12 +73,12 @@ public class User {
         this.phone = phone;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getZipCode() {

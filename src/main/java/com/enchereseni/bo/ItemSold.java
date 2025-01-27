@@ -12,7 +12,6 @@ public class ItemSold {
     private int itemPrice;
     private int itemSold;
     private String itemQuality;
-    //Relations
     private List<Auction> auctions;
 
     public ItemSold(int itemId, String itemName, String itemDescription, Date beginningAuctionDate, Date endingAuctionDate, int itemPrice, int itemSold, String itemQuality, List<Auction> auctions) {
