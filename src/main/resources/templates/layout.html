@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="fr" data-th-fragment="layout(title,main)" >
+
+<head>
+  <meta charset="UTF-8">
+  <title data-th-replace="${title}"></title>
+  <link rel="stylesheet" data-th-href="@{/css/encheres.css}">
+</head>
+
+<body>
+<header>
+  <h1>ENI-Enchères</h1>
+
+  <nav>
+    <ul>
+
+
+      <li><a href="/encheres">Home</a></li>
+      <li><a href="/signup">Inscription</a></li>
+      <li>  <a> <!-- th:if="${#authorization.expression('isAnonymous()')}"--> LogIn</a></li>
+<!--     <li> <a> &lt;!&ndash; th:if="${#authorization.expression('isAuthenticated()')}"&ndash;&gt; href="/logout">LogOut</a> </li>-->
+    </ul>
+
+  </nav>
+
+</header>
+
+<main data-th-replace="${main}"> </main>
+
+</body>
+</html>
