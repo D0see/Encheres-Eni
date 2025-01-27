@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create Listing</title>
+</head>
+<body>
+
+<h2>Create a New Listing</h2>
+
+<form th:action="@{/creerObjet}" th:object="*{item}" method="post">
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" placeholder="Enter name" required />
+  </div>
+  <div>
+    <label for="description">Description:</label>
+    <textarea id="description" th:field="*{description}" placeholder="Enter description" required></textarea>
+  </div>
+  <div>
+    <label for="category">Category:</label>
+    <select id="category" th:field="*{category}" required>
+      <option value="Technology">Technology</option>
+      <option value="Furniture">Furniture</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Books">Books</option>
+      <!-- Add more categories here -->
+    </select>
+  </div>
+  <div>
+    <label for="startingPrice">Starting Price:</label>
+    <input type="number" id="startingPrice" th:field="*{price}" placeholder="Enter price" required />
+  </div>
+  <div>
+    <label for="date">Date:</label>
+    <input type="date" id="date" th:field="*{beginningAuctionDate}" required />
+  </div>
+
+<!-- TO ADD WHEN WE HAVE A USER WITH AN ADRESS -->
+<!--  <div>-->
+<!--    <label for="address">Address:</label>-->
+<!--    <textarea id="address" th:field="*{address}" placeholder="Enter address" required></textarea>-->
+<!--  </div>-->
+
+
+  <div>
+    <button type="submit">Submit</button>
+  </div>
+</form>
+
+</body>
+</html>

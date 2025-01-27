@@ -5,26 +5,28 @@ import java.util.List;
 
 public class ItemSold {
     private int itemId;
-    private String itemName;
-    private String itemDescription;
+    private String name;
+    private String description;
     private Date beginningAuctionDate;
     private Date endingAuctionDate;
-    private int itemPrice;
-    private int itemSold;
-    private String itemQuality;
+    private int price;
+    private boolean soldState;
+    private Category category;
     private List<Auction> auctions;
 
-    public ItemSold(int itemId, String itemName, String itemDescription, Date beginningAuctionDate, Date endingAuctionDate, int itemPrice, int itemSold, String itemQuality, List<Auction> auctions) {
+    public ItemSold(int itemId, String name, String description, Date beginningAuctionDate, Date endingAuctionDate, int price, boolean soldState, List<Auction> auctions, Category category) {
         this.itemId = itemId;
-        this.itemName = itemName;
-        this.itemDescription = itemDescription;
+        this.name = name;
+        this.description = description;
         this.beginningAuctionDate = beginningAuctionDate;
         this.endingAuctionDate = endingAuctionDate;
-        this.itemPrice = itemPrice;
-        this.itemSold = itemSold;
-        this.itemQuality = itemQuality;
+        this.price = price;
+        this.soldState = soldState;
+        this.category = category;
         this.auctions = auctions;
     }
+
+    public ItemSold() {}
 
     public int getItemId() {
         return itemId;
@@ -34,20 +36,20 @@ public class ItemSold {
         this.itemId = itemId;
     }
 
-    public String getItemName() {
-        return itemName;
+    public String getName() {
+        return name;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getItemDescription() {
-        return itemDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setItemDescription(String itemDescription) {
-        this.itemDescription = itemDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getBeginningAuctionDate() {
@@ -66,28 +68,28 @@ public class ItemSold {
         this.endingAuctionDate = endingAuctionDate;
     }
 
-    public int getItemPrice() {
-        return itemPrice;
+    public int getPrice() {
+        return price;
     }
 
-    public void setItemPrice(int itemPrice) {
-        this.itemPrice = itemPrice;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public int getItemSold() {
-        return itemSold;
+    public boolean isSoldState() {
+        return soldState;
     }
 
-    public void setItemSold(int itemSold) {
-        this.itemSold = itemSold;
+    public void setSoldState(boolean soldState) {
+        this.soldState = soldState;
     }
 
-    public String getItemQuality() {
-        return itemQuality;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setItemQuality(String itemQuality) {
-        this.itemQuality = itemQuality;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public List<Auction> getAuctions() {
