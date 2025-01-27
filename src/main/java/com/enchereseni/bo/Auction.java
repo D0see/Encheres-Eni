@@ -5,33 +5,32 @@ import java.util.Date;
 
 public class Auction {
 
-    private Date auctionDate;
-    private int auctionRising;
-    //Relations
+    private Date date;
+    private int amount;
     private User user;
     private ItemSold itemSold;
 
-    public Auction(Date auctionDate, int auctionRising, User user, ItemSold itemSold) {
-        this.auctionDate = auctionDate;
-        this.auctionRising = auctionRising;
+    public Auction(Date date, int amount, User user, ItemSold itemSold) {
+        this.date = date;
+        this.amount = amount;
         this.user = user;
         this.itemSold = itemSold;
     }
 
-    public Date getAuctionDate() {
-        return auctionDate;
+    public Date getDate() {
+        return date;
     }
 
-    public void setAuctionDate(Date auctionDate) {
-        this.auctionDate = auctionDate;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public int getAuctionRising() {
-        return auctionRising;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setAuctionRising(int auctionRising) {
-        this.auctionRising = auctionRising;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public User getUser() {
