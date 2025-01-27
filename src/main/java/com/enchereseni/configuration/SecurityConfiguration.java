@@ -1,0 +1,67 @@
+package com.enchereseni.configuration;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfiguration {
+
+        @Autowired
+        private DataSource dataSource;
+
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+            http
+                    .authorizeHttpRequests(auth -> auth
+                            .requestMatchers("/login", "/register", "/css/**", "/error").permitAll()
+                            .requestMatchers("/admin/**").hasRole("ADMIN")
+                            .anyRequest().authenticated()
+                    )
+                    .formLogin(form -> form
+                            .loginPage("/login").permitAll()
+                            .defaultSuccessUrl("/", true) // Force la redirection
+                            .failureUrl("/login?error=true")
+                    )
+                    .logout(logout -> logout
+                            .logoutSuccessUrl("/login")
+                    ).csrf(csrf -> csrf
+                            .ignoringRequestMatchers("/register")
+                    );
+            return http.build();
+        }
+
+        @Bean
+        public UserDetailsService userDetailsService(DataSource dataSource) {
+            JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
+
+            manager.setUsersByUsernameQuery(
+                    "SELECT pseudo AS username, mot_de_passe AS password, 1 FROM UTILISATEURS WHERE pseudo = ?");
+
+            manager.setAuthoritiesByUsernameQuery(
+                    "SELECT pseudo AS username, CASE WHEN administrateur = 1 THEN 'ROLE_ADMIN' ELSE 'ROLE_USER' END " +
+                            "FROM UTILISATEURS WHERE pseudo = ?");
+
+            return manager;
+        }
+
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+        }
+
+}
