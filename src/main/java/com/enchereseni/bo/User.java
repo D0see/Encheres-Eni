@@ -4,6 +4,7 @@ import java.util.List;
 
 public class User {
 
+    private int id;
     private String pseudo;
     private String firstName;
     private String lastName;
@@ -18,7 +19,20 @@ public class User {
     //Relations
     private List<Auction> auctions;
 
-    public User(String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin, List<Auction> auctions) {
+    public User() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User(int id, String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin ) {
+        this.id = id;
         this.pseudo = pseudo;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,7 +44,7 @@ public class User {
         this.password = password;
         this.credit = credit;
         this.admin = admin;
-        this.auctions = auctions;
+
     }
 
     public String getPseudo() {
