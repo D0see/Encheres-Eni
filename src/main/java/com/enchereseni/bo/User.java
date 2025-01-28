@@ -4,6 +4,7 @@ import java.util.List;
 
 public class User {
 
+    private int userID;
     private String pseudo;
     private String firstName;
     private String lastName;
@@ -18,7 +19,8 @@ public class User {
     //Relations
     private List<Auction> auctions;
 
-    public User(String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin, List<Auction> auctions) {
+    public User(int userID, String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin, List<Auction> auctions) {
+        this.userID = userID;
         this.pseudo = pseudo;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -128,4 +130,10 @@ public class User {
     public void setAuctions(List<Auction> auctions) {
         this.auctions = auctions;
     }
+
+    public int getUserID() {return userID;}
+
+    public void setUserID(int userID) {this.userID = userID;}
 }
+
+
