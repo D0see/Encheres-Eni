@@ -25,15 +25,15 @@ public class EncheresEniApplication {
 
 
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void testCreateItemSold() {
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void testCreateItemSold() {
 
-        Category testCategory = new Category();
-        testCategory.setCategory(1);  // ID o valores que correspondan
-        testCategory.setWording("Categoría de prueba");  // Nombre de la categoría
-
-
-        List<Auction> auctions = new ArrayList<>();
+//        Category testCategory = new Category();
+//        testCategory.setCategory(1);  // ID o valores que correspondan
+//        testCategory.setWording("Categoría de prueba");  // Nombre de la categoría
+//
+//
+//        List<Auction> auctions = new ArrayList<>();
 //
 //
 //        User testUser = new User();
@@ -58,41 +58,41 @@ public class EncheresEniApplication {
 //
 //
         // Crear un objeto ItemSold
-        ItemSold newItem = new ItemSold();
-        newItem.setName("Laptop");
-        newItem.setDescription("Laptop de última generación");
-        newItem.setBeginningAuctionDate(new Date());
-        newItem.setEndingAuctionDate(new Date(System.currentTimeMillis() + 86400000)); // +1 día
-        newItem.setPrice(1000);
-        newItem.setUser.;
-        newItem.setSoldState(false);
-        newItem.setCategory(testCategory);
+//        ItemSold newItem = new ItemSold();
+//        newItem.setName("Laptop");
+//        newItem.setDescription("Laptop de última generación");
+//        newItem.setBeginningAuctionDate(new Date());
+//        newItem.setEndingAuctionDate(new Date(System.currentTimeMillis() + 86400000)); // +1 día
+//        newItem.setPrice(1000);
+//        newItem.setUser.;
+//        newItem.setSoldState(false);
+//        newItem.setCategory(testCategory);
 //
 //        // Crear la primera subasta
-        Auction auction1 = new Auction();
-        auction1.setDate(new Date());
-        auction1.setAmount(600); // Precio actual de la subasta
-        auction1.setUser(testUser); // Asociar la subasta al usuario
-        auction1.setItemSold(newItem); // Asociar el artículo vendido a la subasta
-
-
-        auctions.add(auction1);
-        testUser.setAuctions(auctions);
+//        Auction auction1 = new Auction();
+//        auction1.setDate(new Date());
+//        auction1.setAmount(600); // Precio actual de la subasta
+//        auction1.setUser(testUser); // Asociar la subasta al usuario
+//        auction1.setItemSold(newItem); // Asociar el artículo vendido a la subasta
+//
+//
+//        auctions.add(auction1);
+//        testUser.setAuctions(auctions);
 
 
 
 //         Crear el ítem en la base de datos
-        itemSoldDAO.createItemSold(newItem);
+//        itemSoldDAO.createItemSold(newItem);
 
         // Verificar si se guardó correctamente
-        ItemSold retrievedItem = itemSoldDAO.getItemSoldById(newItem.getItemId());
-        if (retrievedItem != null) {
-            System.out.println("¡El ítem se creó correctamente en la base de datos!");
-            System.out.println("Nombre: " + retrievedItem.getName());
-        } else {
-            System.out.println("Error al guardar el ítem.");
-        }
-    }
+//        ItemSold retrievedItem = itemSoldDAO.getItemSoldById(newItem.getItemId());
+//        if (retrievedItem != null) {
+//            System.out.println("¡El ítem se creó correctamente en la base de datos!");
+//            System.out.println("Nombre: " + retrievedItem.getName());
+//        } else {
+//            System.out.println("Error al guardar el ítem.");
+//        }
+//    }
 
 
     }

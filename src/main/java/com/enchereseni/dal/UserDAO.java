@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface UserDAO {
 
+    void create(User user);
     List<User> read();
     User read(int id);
     void update(User user);

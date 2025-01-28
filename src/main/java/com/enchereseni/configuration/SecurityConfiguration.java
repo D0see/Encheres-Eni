@@ -28,17 +28,17 @@ public class SecurityConfiguration {
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             http
                     .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/login", "/register", "/css/**", "/error").permitAll()
+                            .requestMatchers("/", "/index", "/login", "/register", "/css/**", "/error").permitAll()
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .anyRequest().authenticated()
                     )
                     .formLogin(form -> form
                             .loginPage("/login").permitAll()
-                            .defaultSuccessUrl("/", true) // Force la redirection
                             .failureUrl("/login?error=true")
                     )
                     .logout(logout -> logout
-                            .logoutSuccessUrl("/login")
+                            .logoutSuccessUrl("/")
+                            .logoutUrl("/logout")
                     ).csrf(csrf -> csrf
                             .ignoringRequestMatchers("/register")
                     );

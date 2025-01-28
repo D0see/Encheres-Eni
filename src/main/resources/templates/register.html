@@ -1,10 +1,40 @@
-<html>
+<!--<html data-th-replace ="~{layout::layout(title,main)}">-->
 
-<form action="/register" method="post">
-  <input type="text" name="pseudo" placeholder="Pseudo" required>
-  <input type="password" name="password" placeholder="Mot de passe" required>
-  <input type="email" name="email" placeholder="Email" required>
+<!--<form action="/register" method="post">-->
+<!--  <input type="text" name="pseudo" placeholder="Pseudo" required>-->
+
+<!--  <input type="password" name="password" placeholder="Mot de passe" required>-->
+
+<!--  <input type="email" name="email" placeholder="email" required>-->
+
+<!--  <input type="text" name="firstName" placeholder="prenom" required>-->
+
+<!--  <input type="text" name="lastName" placeholder="nom" required>-->
+
+<!--  <input type="number" name="phone" placeholder="telephone" required>-->
+
+<!--  <input type="text" name="address" placeholder="adresse" required>-->
+
+<!--  <input type="number" name="zipCode" placeholder="code postal" required>-->
+
+<!--  <input type="text" name="city" placeholder="ville" required>-->
+
+
+<!--  <button type="submit">S'inscrire</button>-->
+<!--</form>-->
+<!--</html>-->
+
+<html>
+<form action="/register" method="post" data-th-object="${user}">
+  <input type="text" name="pseudo" placeholder="Pseudo" data-th-field="*{pseudo}" required>
+  <input type="password" name="password" placeholder="Mot de passe" data-th-field="*{password}" required>
+  <input type="email" name="email" placeholder="Email" data-th-field="*{email}" required>
+  <input type="text" name="firstName" placeholder="prenom" data-th-field="*{firstName}" required>
+  <input type="text" name="lastName" placeholder="nom" data-th-field="*{lastName}" required>
+  <input type="number" name="phone" placeholder="telephone" data-th-field="*{phone}" required>
+  <input type="text" name="address" placeholder="adresse" data-th-field="*{address}" required>
+  <input type="number" name="zipCode" placeholder="code postal" data-th-field="*{zipCode}" required>
+  <input type="text" name="city" placeholder="ville" data-th-field="*{city}" required>
   <button>S'inscrire</button>
 </form>
-
 </html>
