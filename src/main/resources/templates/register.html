@@ -1,28 +1,4 @@
-<!--<html data-th-replace ="~{layout::layout(title,main)}">-->
-
-<!--<form action="/register" method="post">-->
-<!--  <input type="text" name="pseudo" placeholder="Pseudo" required>-->
-
-<!--  <input type="password" name="password" placeholder="Mot de passe" required>-->
-
-<!--  <input type="email" name="email" placeholder="email" required>-->
-
-<!--  <input type="text" name="firstName" placeholder="prenom" required>-->
-
-<!--  <input type="text" name="lastName" placeholder="nom" required>-->
-
-<!--  <input type="number" name="phone" placeholder="telephone" required>-->
-
-<!--  <input type="text" name="address" placeholder="adresse" required>-->
-
-<!--  <input type="number" name="zipCode" placeholder="code postal" required>-->
-
-<!--  <input type="text" name="city" placeholder="ville" required>-->
-
-
-<!--  <button type="submit">S'inscrire</button>-->
-<!--</form>-->
-<!--</html>-->
+<link rel="stylesheet" data-th-href="@{/css/style.css}">
 
 <html>
 <form action="/register" method="post" data-th-object="${user}">
