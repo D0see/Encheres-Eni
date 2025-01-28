@@ -36,16 +36,26 @@ private UserService userService;
 
     @PostMapping("/register")
     public String registerUser(User user, Model model)
-//        // Vérification pseudo unique
-//        if(jdbc.queryForObject(
-//                "SELECT COUNT(*) FROM UTILISATEURS WHERE pseudo = ?",
-//                Integer.class, pseudo) > 0) {
-//            return "redirect:/register?error";
+
+
+        //if (userServiceImpl.isUnique(user)) {return "redirect:/register?error"}
+
+
+    //        // Vérification pseudo unique
+
+//        if(jdbc.queryForObject("SELECT COUNT(*) FROM UTILISATEURS WHERE pseudo = ?",Integer.class, user.pseudo) > 0 ||
+//        jdbc.queryForObject("SELECT COUNT(*) FROM UTILISATEURS WHERE email = ?",Integer.class, user.email) > 0) {
+//            return true;
 //        }
+//        return false;
+
+
         // Insertion utilisateur
     {
             try {
+
                 userService.createUser(user);
+
 
             } catch (DataAccessException e) {
                 e.printStackTrace(); // Check logs for errors
