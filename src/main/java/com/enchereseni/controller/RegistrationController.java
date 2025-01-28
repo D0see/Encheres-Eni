@@ -1,5 +1,6 @@
 package com.enchereseni.controller;
 
+import com.enchereseni.bll.UserService;
 import com.enchereseni.bo.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,12 +16,10 @@ import java.security.Principal;
 @Controller
 public class RegistrationController {
 
-    private final JdbcTemplate jdbc;
-    private final PasswordEncoder encoder;
+private UserService userService;
 
-    public RegistrationController(JdbcTemplate jdbc, PasswordEncoder encoder) {
-        this.jdbc = jdbc;
-        this.encoder = encoder;
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/login")
@@ -46,20 +45,8 @@ public class RegistrationController {
         // Insertion utilisateur
     {
             try {
-                //userServiceImpl.create(user);
-                jdbc.update(
-                        "INSERT INTO UTILISATEURS (pseudo, mot_de_passe, email, administrateur, nom, prenom, telephone, rue, code_postal, ville, credit) " +
-                                "VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, ?, 100)", // Default empty values
-                        user.getPseudo(),
-                        encoder.encode(user.getPassword()),
-                        user.getEmail(),
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getPhone(),
-                        user.getAddress(),
-                        user.getZipCode(),
-                        user.getCity()
-                );
+                userService.createUser(user);
+
             } catch (DataAccessException e) {
                 e.printStackTrace(); // Check logs for errors
                 return "redirect:/register?error";

@@ -24,7 +24,6 @@ public class User implements UserDetails {
     private List<Auction> auctions;
 
     public User() {
-
     }
 
     public User(int userID, String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin, List<Auction> auctions) {
