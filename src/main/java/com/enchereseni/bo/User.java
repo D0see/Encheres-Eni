@@ -8,6 +8,7 @@ import java.util.List;
 
 public class User implements UserDetails {
 
+    private int userID;
     private String pseudo;
     private String firstName;
     private String lastName;
@@ -22,7 +23,8 @@ public class User implements UserDetails {
     //Relations
     private List<Auction> auctions;
 
-    public User(String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin, List<Auction> auctions) {
+    public User(int userID, String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin, List<Auction> auctions) {
+        this.userID = userID;
         this.pseudo = pseudo;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -162,4 +164,9 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
+    public int getUserID() {return userID;}
+
+    public void setUserID(int userID) {this.userID = userID;}
 }
+
+
