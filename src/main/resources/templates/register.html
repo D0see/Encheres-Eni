@@ -1,16 +1,55 @@
-<link rel="stylesheet" data-th-href="@{/css/style.css}">
+<link rel="stylesheet" data-th-href="@{/css/form.css}">
 
 <html>
+<div class="form-container">
+
+  <h2>Créer un compte</h2>
+
 <form action="/register" method="post" data-th-object="${user}">
-  <input type="text" name="pseudo" placeholder="Pseudo" data-th-field="*{pseudo}" required>
-  <input type="password" name="password" placeholder="Mot de passe" data-th-field="*{password}" required>
-  <input type="email" name="email" placeholder="Email" data-th-field="*{email}" required>
-  <input type="text" name="firstName" placeholder="prenom" data-th-field="*{firstName}" required>
-  <input type="text" name="lastName" placeholder="nom" data-th-field="*{lastName}" required>
-  <input type="number" name="phone" placeholder="telephone" data-th-field="*{phone}" required>
-  <input type="text" name="address" placeholder="adresse" data-th-field="*{address}" required>
-  <input type="number" name="zipCode" placeholder="code postal" data-th-field="*{zipCode}" required>
-  <input type="text" name="city" placeholder="ville" data-th-field="*{city}" required>
-  <button>S'inscrire</button>
+
+  <div class="form-group">
+
+    <label>
+  <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo" data-th-field="*{pseudo}" required>
+    </label>
+
+    <label>
+  <input type="password" id="password" name="password" placeholder="Mot de passe" data-th-field="*{password}" required>
+    </label>
+
+    <label>
+  <input type="email" id="email" name="email" placeholder="E-mail" data-th-field="*{email}" required>
+    </label>
+
+    <label>
+  <input type="text" id="prenom" name="firstName" placeholder="Prénom" data-th-field="*{firstName}" required>
+    </label>
+
+  <label>
+  <input type="text" id="nom" name="lastName" placeholder="Nom" data-th-field="*{lastName}" required>
+  </label>
+
+    <label>
+  <input type="text" id="phone" name="phone" placeholder="Numéro de téléphone" data-th-field="*{phone}" required>
+    </label>
+
+    <label>
+  <input type="text" id="address" name="address" placeholder="Adresse" data-th-field="*{address}" required>
+    </label>
+
+    <label>
+  <input type="text" id="zipCode" name="zipCode" placeholder="Code postal" data-th-field="*{zipCode}" required>
+    </label>
+
+    <label>
+  <input type="text" id="city" name="city" placeholder="Ville" data-th-field="*{city}" required>
+    </label>
+
+  <button type="submit">S'inscrire</button>
+
+  </div>
 </form>
+
+</div>
+
 </html>
