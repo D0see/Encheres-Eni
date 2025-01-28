@@ -1,10 +1,14 @@
 package com.enchereseni.bo;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 import java.util.List;
 
-public class User {
+public class User implements UserDetails {
 
-    private int id;
+    private int userID;
     private String pseudo;
     private String firstName;
     private String lastName;
@@ -19,20 +23,8 @@ public class User {
     //Relations
     private List<Auction> auctions;
 
-    public User() {
-
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public User(int id, String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin ) {
-        this.id = id;
+    public User(int userID, String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin, List<Auction> auctions) {
+        this.userID = userID;
         this.pseudo = pseudo;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,7 +36,7 @@ public class User {
         this.password = password;
         this.credit = credit;
         this.admin = admin;
-
+        this.auctions = auctions;
     }
 
     public String getPseudo() {
@@ -142,4 +134,43 @@ public class User {
     public void setAuctions(List<Auction> auctions) {
         this.auctions = auctions;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return pseudo;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
+    public int getUserID() {return userID;}
+
+    public void setUserID(int userID) {this.userID = userID;}
 }
+
+
