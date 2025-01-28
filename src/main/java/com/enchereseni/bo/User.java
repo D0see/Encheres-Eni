@@ -23,6 +23,9 @@ public class User implements UserDetails {
     //Relations
     private List<Auction> auctions;
 
+    public User() {
+    }
+
     public User(int userID, String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin, List<Auction> auctions) {
         this.userID = userID;
         this.pseudo = pseudo;
@@ -103,9 +106,6 @@ public class User implements UserDetails {
         this.city = city;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public void setPassword(String password) {
         this.password = password;

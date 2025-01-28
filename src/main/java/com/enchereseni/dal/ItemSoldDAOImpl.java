@@ -61,7 +61,7 @@ import org.springframework.stereotype.Repository;
             namedParameters.addValue("dateFinEncheres", itemSold.getEndingAuctionDate());
             namedParameters.addValue("prixInitial", itemSold.getPrice()); // Aquí es importante que se asocien las variables correctas
             namedParameters.addValue("prixVente", itemSold.getPrice()); // Si tienes un precio de venta, sino, déjalo en null o ajusta el código
-            namedParameters.addValue("noUtilisateur", itemSold.getUser().getId()); // Necesitarás obtener el ID del usuario
+            namedParameters.addValue("noUtilisateur", itemSold.getUser().getUserID()); // Necesitarás obtener el ID del usuario
             namedParameters.addValue("noCategorie", itemSold.getCategory().getCategory()); // Obtener el ID de la categoría
 
             jdbcTemplate.update(INSERT, namedParameters, keyHolder);

@@ -1,5 +1,6 @@
 package com.enchereseni;
 
+import com.enchereseni.bo.Auction;
 import com.enchereseni.bo.Category;
 import com.enchereseni.bo.ItemSold;
 import com.enchereseni.bo.User;
@@ -10,7 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @SpringBootApplication
 public class EncheresEniApplication {
@@ -30,24 +33,30 @@ public class EncheresEniApplication {
         testCategory.setWording("Categoría de prueba");  // Nombre de la categoría
 
 
-
-        User testUser = new User();
-        testUser.setId(1); // o el ID que necesites para el test
-        testUser.setPseudo("TestUser");
-        testUser.setFirstName("Nombre");
-        testUser.setLastName("Apellido");
-        testUser.setEmail("testuser@example.com");
-        testUser.setPhone("123456789");
-        testUser.setAddress("Calle Ficticia");
-        testUser.setZipCode("12345");
-        testUser.setCity("Ciudad");
-        testUser.setPassword("password");
-        testUser.setCredit(1000); // o el valor que necesites
-        testUser.setAdmin(false); // o el valor que necesites
-
-
-
-
+        List<Auction> auctions = new ArrayList<>();
+//
+//
+//        User testUser = new User();
+//        testUser.setUserID(1); // o el ID que necesites para el test
+//        testUser.setPseudo("TestUser");
+//        testUser.setFirstName("Nombre");
+//        testUser.setLastName("Apellido");
+//        testUser.setEmail("testuser@example.com");
+//        testUser.setPhone("123456789");
+//        testUser.setAddress("Calle Ficticia");
+//        testUser.setZipCode("12345");
+//        testUser.setCity("Ciudad");
+//        testUser.setPassword("password");
+//        testUser.setCredit(1000); // o el valor que necesites
+//        testUser.setAdmin(false); // o el valor que necesites
+//        testUser.setAuctions(auctions);
+//
+//
+//
+//
+//
+//
+//
         // Crear un objeto ItemSold
         ItemSold newItem = new ItemSold();
         newItem.setName("Laptop");
@@ -55,11 +64,24 @@ public class EncheresEniApplication {
         newItem.setBeginningAuctionDate(new Date());
         newItem.setEndingAuctionDate(new Date(System.currentTimeMillis() + 86400000)); // +1 día
         newItem.setPrice(1000);
-        newItem.setUser(testUser);
+        newItem.setUser.;
         newItem.setSoldState(false);
         newItem.setCategory(testCategory);
+//
+//        // Crear la primera subasta
+        Auction auction1 = new Auction();
+        auction1.setDate(new Date());
+        auction1.setAmount(600); // Precio actual de la subasta
+        auction1.setUser(testUser); // Asociar la subasta al usuario
+        auction1.setItemSold(newItem); // Asociar el artículo vendido a la subasta
 
-        // Crear el ítem en la base de datos
+
+        auctions.add(auction1);
+        testUser.setAuctions(auctions);
+
+
+
+//         Crear el ítem en la base de datos
         itemSoldDAO.createItemSold(newItem);
 
         // Verificar si se guardó correctamente
@@ -73,4 +95,4 @@ public class EncheresEniApplication {
     }
 
 
-}
+    }
