@@ -45,6 +45,26 @@
   </div>
 
 
+  <table>
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Pseudor</th>
+      <th>Id</th>
+
+    </tr>
+    </thead>
+    <tbody >
+    <tr data-th-each = "u: ${users}">
+      <td  data-th-text="${u.getFirstName()}"> </td>
+      <td data-th-text="${u.getPseudo()}"></td>
+<!--      <td ><span class="action"> <a th:href="@{/detail(id=${c.id})}" >Detail</a>  <a th:href="@{/modifier(id=${c.id})}" >Modifier</a> <form method="post"  th:action="@{/Liste}" style="display:inline;" >   <input type="hidden" name="id" th:value="${c.id}">-->
+<!--      <button type="submit" class="link-button" >Supprimer</button>-->
+<!--      </form>  </span>-->
+    </tbody>
+
+  </table>
+
 </main>
 
 

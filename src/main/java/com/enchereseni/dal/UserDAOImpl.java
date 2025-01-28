@@ -3,6 +3,7 @@ package com.enchereseni.dal;
 import com.enchereseni.bo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -25,39 +26,11 @@ public class UserDAOImpl implements UserDAO {
         this.encoder = encoder;
     }
 
-    private final String FIND_BY_ID = """
-    SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur
-    FROM UTILISATEURS
-    WHERE no_utilisateur = :no_utilisateur
-""";
+    static final String FIND_ALL = "select * from UTILISATEURS";
+    static final String FIND_BY_ID = "select * from UTILISATEURS where id=?";
+;
 
-    private final String FIND_ALL = """
-    SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur
-    FROM UTILISATEURS
-""";
 
-    private final String UPDATE = """
-    UPDATE UTILISATEURS
-    SET pseudo = :pseudo, nom = :nom, prenom = :prenom, email = :email, telephone = :telephone,
-        rue = :rue, code_postal = :code_postal, ville = :ville, mot_de_passe = :mot_de_passe,
-        credit = :credit, administrateur = :administrateur
-    WHERE no_utilisateur = :no_utilisateur
-""";
-
-    private final String DELETE = """
-    DELETE FROM UTILISATEURS
-    WHERE no_utilisateur = :no_utilisateur
-""";
-
-    private final String DELETE_NO_CREDIT = """
-    DELETE FROM UTILISATEURS
-    WHERE credit = 0
-""";
-
-    private final String INSERT = """
-    INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur)
-    VALUES (:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe, :credit, :administrateur)
-""";
 
       public boolean verifyUniqueness(User user) {
            if(jdbc.queryForObject("SELECT COUNT(*) FROM UTILISATEURS WHERE pseudo = ?",Integer.class, user.getPseudo()) > 0 ||
@@ -70,8 +43,6 @@ public class UserDAOImpl implements UserDAO {
 
 
 
-
-    private NamedParameterJdbcTemplate jdbcTemplate;
 
 
     @Override
@@ -93,17 +64,17 @@ public class UserDAOImpl implements UserDAO {
         );
     }
 
-
-
     @Override
-    public List<User> read() {
-        return null;
+    public List<User> readAll() {
+        return jdbc.query(FIND_ALL,BeanPropertyRowMapper.newInstance(User.class));
     }
 
     @Override
     public User read(int id) {
-        return null;
-    }
+        return jdbc.queryForObject(FIND_BY_ID, BeanPropertyRowMapper.newInstance(User.class), id);
+        }
+
+
 
     @Override
     public void update(User user) {
