@@ -28,8 +28,8 @@ public class UserDAOImpl implements UserDAO {
 
     static final String FIND_ALL = "select * from UTILISATEURS";
     static final String FIND_BY_ID = "select * from UTILISATEURS where id=?";
-;
-
+    static final String UPDATE = "UPDATE UTILISATEURS set pseudo=?, mot_de_passe=?, email=?, administrateur=?, nom=?, prenom=?, telephone=?, rue=?, code_postal=?, ville=?, credit=? where id=?";
+    static final String DELETE = "DELETE FROM UTILISATEURS where id=?";
 
 
       public boolean verifyUniqueness(User user) {
@@ -40,17 +40,12 @@ public class UserDAOImpl implements UserDAO {
        }
 
 
-
-
-
-
-
     @Override
     public void create(User user) {
 
 
         jdbc.update(
-                "INSERT INTO UTILISATEURS (pseudo, mot_de_passe, email, administrateur, nom, prenom, telephone, rue, code_postal, ville, credit) " +
+                "INSERT INTO UTILISATEURS (pseudo, mot_de_passe, email,administrateur, nom, prenom, telephone, rue, code_postal, ville,credit) " +
                         "VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, ?, 100)", // Default empty values
                 user.getPseudo(),
                 encoder.encode(user.getPassword()),
@@ -74,21 +69,20 @@ public class UserDAOImpl implements UserDAO {
         return jdbc.queryForObject(FIND_BY_ID, BeanPropertyRowMapper.newInstance(User.class), id);
         }
 
-
-
     @Override
     public void update(User user) {
-
+        jdbc.update(UPDATE, user.getPseudo(),user.getPassword(),user.getEmail(),user.getLastName(),user.getFirstName(),
+                user.getPhone(),user.getAddress(),user.getZipCode(),user.getCity());
     }
 
     @Override
     public void delete(User user) {
-
+        delete(user.getUserID());
     }
 
     @Override
     public void delete(int id) {
-
+    jdbc.update(DELETE, id);
     }
 }
 
