@@ -37,19 +37,27 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String registerUser(User user, Model model)
-//        // Vérification pseudo unique
-//        if(jdbc.queryForObject(
-//                "SELECT COUNT(*) FROM UTILISATEURS WHERE pseudo = ?",
-//                Integer.class, pseudo) > 0) {
-//            return "redirect:/register?error";
+
+
+        //if (userServiceImpl.isUnique(user)) {return "redirect:/register?error"}
+
+
+    //        // Vérification pseudo unique
+
+//        if(jdbc.queryForObject("SELECT COUNT(*) FROM UTILISATEURS WHERE pseudo = ?",Integer.class, user.pseudo) > 0 ||
+//        jdbc.queryForObject("SELECT COUNT(*) FROM UTILISATEURS WHERE email = ?",Integer.class, user.email) > 0) {
+//            return true;
 //        }
+//        return false;
+
+
         // Insertion utilisateur
     {
             try {
                 //userServiceImpl.create(user);
                 jdbc.update(
                         "INSERT INTO UTILISATEURS (pseudo, mot_de_passe, email, administrateur, nom, prenom, telephone, rue, code_postal, ville, credit) " +
-                                "VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, ?, 100)", // Default empty values
+                                "VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, ?, 0)", // Default empty values
                         user.getPseudo(),
                         encoder.encode(user.getPassword()),
                         user.getEmail(),
