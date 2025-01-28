@@ -36,7 +36,13 @@ public class RegistrationController {
     public String registerUser(
             @RequestParam String pseudo,
             @RequestParam String password,
-            @RequestParam String email) {
+            @RequestParam String email,
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam String phone,
+            @RequestParam String address,
+            @RequestParam String zipCode,
+            @RequestParam String city) {
 
 //        // Vérification pseudo unique
 //        if(jdbc.queryForObject(
@@ -49,10 +55,16 @@ public class RegistrationController {
             try {
                 jdbc.update(
                         "INSERT INTO UTILISATEURS (pseudo, mot_de_passe, email, administrateur, nom, prenom, telephone, rue, code_postal, ville, credit) " +
-                                "VALUES (?, ?, ?, 0, '', '', '', '', '', '', 0)", // Default empty values
+                                "VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, ?, 100)", // Default empty values
                         pseudo,
                         encoder.encode(password),
-                        email
+                        email,
+                        firstName,
+                        lastName,
+                        phone,
+                        address,
+                        zipCode,
+                        city
                 );
             } catch (DataAccessException e) {
                 e.printStackTrace(); // Check logs for errors
