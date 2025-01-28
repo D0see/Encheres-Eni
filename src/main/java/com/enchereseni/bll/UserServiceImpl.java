@@ -40,4 +40,9 @@ return userDAO.read();
     public void update(User user) {
 userDAO.update(user);
     }
+
+    @Override
+    public boolean isUnique(User user) {
+        return userDAO.isUnique(user);
+    }
 }
