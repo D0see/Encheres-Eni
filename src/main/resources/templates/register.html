@@ -26,7 +26,7 @@
 
 <html>
 <form action="/register" method="post" data-th-object="${user}">
-  <input type="text" name="pseudo" placeholder="Pseudo" data-th-field="*{pseudo}" required>
+  <input type="text" name="pseudo" placeholder="Pseudo" data-th-field="*{pseudo}" pattern="[a-zA-Z0-9]+" required>
   <input type="password" name="password" placeholder="Mot de passe" data-th-field="*{password}" required>
   <input type="email" name="email" placeholder="Email" data-th-field="*{email}" required>
   <input type="text" name="firstName" placeholder="prenom" data-th-field="*{firstName}" required>

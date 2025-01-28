@@ -35,32 +35,15 @@ private UserService userService;
     }
 
     @PostMapping("/register")
-    public String registerUser(User user, Model model)
-
-
-        //if (userServiceImpl.isUnique(user)) {return "redirect:/register?error"}
-
-
-    //        // Vérification pseudo unique
-
-//        if(jdbc.queryForObject("SELECT COUNT(*) FROM UTILISATEURS WHERE pseudo = ?",Integer.class, user.pseudo) > 0 ||
-//        jdbc.queryForObject("SELECT COUNT(*) FROM UTILISATEURS WHERE email = ?",Integer.class, user.email) > 0) {
-//            return true;
-//        }
-//        return false;
-
-
-        // Insertion utilisateur
-    {
-            try {
-
-                userService.createUser(user);
-
-
-            } catch (DataAccessException e) {
-                e.printStackTrace(); // Check logs for errors
-                return "redirect:/register?error";
-            }
+    public String registerUser(User user, Model model) {
+        System.out.println(user.getEmail());
+        if (!userService.isUnique(user)) {return "redirect:/register?error";}
+        try {
+            userService.createUser(user);
+        } catch (DataAccessException e) {
+            e.printStackTrace(); // Check logs for errors
+            return "redirect:/register?error";
+        }
         return "redirect:/login";
     }
 }
