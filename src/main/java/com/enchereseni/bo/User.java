@@ -1,9 +1,6 @@
 package com.enchereseni.bo;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,17 +13,17 @@ public class User implements UserDetails {
     private int userID;
 
     @NotNull (message = "{NotNull.user.pseudo}")
-    @Max(30)
+    @Size(min=2, max=30)
     @NotBlank (message = "{NotBlank.user.pseudo}")
     private String pseudo;
 
     @NotNull (message = "{NotNull.user.firstName}")
-    @Max(30)
+    @Size(min=2, max=30)
     @NotBlank (message = "{NotBlank.user.firstName}")
     private String firstName;
 
     @NotNull (message = "{NotNull.user.lastName}")
-    @Max(30)
+    @Size(min=2, max=30)
     @NotBlank (message = "{NotBlank.user.lastName}")
     private String lastName;
 
@@ -58,7 +55,7 @@ public class User implements UserDetails {
     @NotBlank (message = "{NotBlank.user.password}")
     private String password;
 
-//    @NotNull
+    @NotNull
     private long credit;
 
     @NotNull
