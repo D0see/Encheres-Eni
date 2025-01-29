@@ -32,7 +32,7 @@ public class UserDAOImpl implements UserDAO {
     static final String DELETE = "DELETE FROM UTILISATEURS where id=?";
 
 
-      public boolean verifyUniqueness(User user) {
+      public boolean isUnique(User user) {
            if(jdbc.queryForObject("SELECT COUNT(*) FROM UTILISATEURS WHERE pseudo = ?",Integer.class, user.getPseudo()) > 0 ||
                    jdbc.queryForObject("SELECT COUNT(*) FROM UTILISATEURS WHERE email = ?",Integer.class, user.getEmail()) > 0) {
                return true;    }
@@ -40,12 +40,13 @@ public class UserDAOImpl implements UserDAO {
        }
 
 
+
     @Override
     public void create(User user) {
 
 
         jdbc.update(
-                "INSERT INTO UTILISATEURS (pseudo, mot_de_passe, email,administrateur, nom, prenom, telephone, rue, code_postal, ville,credit) " +
+                "INSERT INTO UTILISATEURS (pseudo, mot_de_passe, email, administrateur, nom, prenom, telephone, rue, code_postal, ville, credit) " +
                         "VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, ?, 100)", // Default empty values
                 user.getPseudo(),
                 encoder.encode(user.getPassword()),

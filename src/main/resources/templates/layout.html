@@ -3,24 +3,28 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-th-replace="${title}"></title>
   <link rel="stylesheet" data-th-href="@{/css/style.css}">
+  <link rel="icon" data-th-href="@{/images/logoENI.png}" sizes="32x32">
+
 </head>
 
 <body>
 <header>
   <h1>ENI-Enchères</h1>
 
-  <nav>
-    <ul>
-      <li><a href="/encheres">Home</a></li>
-      <li><a href="/signup">Inscription</a></li>
-      <li data-th-if="${#authentication.getName() == 'anonymousUser'}">  <a data-th-href = "@{/login}">Login</a></li>
+  <a href="/"><img data-th-src="@{/images/logoENI.png}" title="logo de l'ENI"/></a>
 
+  <nav class="navbar">
+    <ul class="navbar-list">
+      <li><a href="/encheres">Home</a></li>
+      <li data-th-if="${#authentication.getName() == 'anonymousUser'}"><a data-th-href = "@{/login}">Login</a></li>
+      <li  data-th-if="${#authentication.getName() == 'anonymousUser'}"><a href="/register">Inscription</a></li>
       <li data-th-if="${#authentication.getName() != 'anonymousUser'}">
-      <form data-th-action="@{/logout}" method ="post">
-        <button data-th-method="POST" data-th-text="${#authentication.getName()}+ ' Logout'"></button>
-      </form>
+        <form data-th-action="@{/logout}" method ="post">
+          <button data-th-method="POST" data-th-text="${#authentication.getName()}+ ' Logout'"></button>
+        </form>
       </li>
     </ul>
 

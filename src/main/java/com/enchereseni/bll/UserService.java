@@ -14,5 +14,5 @@ public interface UserService {
     User getUserbyID(int id);
 
     void update (User user);
-
+    boolean isUnique(User user);
 }
