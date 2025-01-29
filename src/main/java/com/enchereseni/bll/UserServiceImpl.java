@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserbyUsername(String username) {
+        return userDAO.readAll().stream().filter(user -> user.getUsername().equals(username)).findFirst().orElse(null);
+    }
+
+    @Override
     public void update(User user) {
 userDAO.update(user);
     }
