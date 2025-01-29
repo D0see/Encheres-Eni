@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+  <link rel="stylesheet" data-th-href="@{/css/form.css}">
+    <title>profil utilisateur</title>
+</head>
+<body>
+<div class="form-container">
+<form>
+  <h1>Détail de l'utilisateur</h1>
+  <div class="form-group">
+  <ul>
+    <li>
+      <label for ="pseudo">Pseudo:</label>
+        <input type="text" id="pseudo" data-th-disabled="${readonly}" data-th-value="${user.pseudo}"/>
+      </li>
+
+    <li>
+      <label for ="prenom">Prénom:</label>
+        <input type="text" id="prenom" data-th-disabled="${readonly}" data-th-field="*{user.firstName}"/>
+    </li>
+    <li>
+      <label for ="nom">Nom:</label>
+        <input type="text" id="nom" data-th-disabled="${readonly}" data-th-field="*{user.lastName}"/>
+    </li>
+    <li>
+      <label for ="email">Nom:</label>
+      <input type="text" id="email" data-th-disabled="${readonly}" data-th-field="*{user.email}"/>
+    </li>
+    <li>
+      <label for ="phone">Nom:</label>
+      <input type="text" id="phone" data-th-disabled="${readonly}" data-th-field="*{user.phone}"/>
+    </li>
+    <li>
+      <label for ="address">Nom:</label>
+      <input type="text" id="address" data-th-disabled="${readonly}" data-th-field="*{user.address}"/>
+    </li>
+    <li>
+      <label for ="zipCode">Nom:</label>
+      <input type="text" id="zipCode" data-th-disabled="${readonly}" data-th-field="*{user.zipCode}"/>
+    </li>
+    <li>
+      <label for ="city">Nom:</label>
+      <input type="text" id="city" data-th-disabled="${readonly}" data-th-field="*{user.city}"/>
+    </li>
+
+  </ul>
+</div>
+</form>
+</div>
+
+</body>
+</html>
