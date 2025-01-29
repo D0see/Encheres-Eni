@@ -40,6 +40,10 @@ public class UserController {
         userService.getUsers().stream().filter(user1 -> user1.getUsername().equals(user.getUsername())).findFirst().ifPresent(user1 -> {
             user.setUserID(user1.getUserID());
         });
+        if (!userService.isUnique(user)) {
+            System.out.println("NOT UNIQUE MUDAFAKA");
+            return "redirect:/user/" + principal.getName();
+        }
         userService.update(user);
         System.out.println("user updated");
         return "redirect:/user/" + principal.getName();
