@@ -106,6 +106,7 @@ public class User implements UserDetails {
         this.city = city;
     }
 
+
     public void setPassword(String password) {
         this.password = password;
     }

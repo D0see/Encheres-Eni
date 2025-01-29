@@ -12,9 +12,12 @@ public class ItemSold {
     private int price;
     private boolean soldState;
     private Category category;
+    private User user;
     private List<Auction> auctions;
 
-    public ItemSold(int itemId, String name, String description, Date beginningAuctionDate, Date endingAuctionDate, int price, boolean soldState, List<Auction> auctions, Category category) {
+
+
+    public ItemSold(int itemId, String name, String description, Date beginningAuctionDate, Date endingAuctionDate, int price, boolean soldState, List<Auction> auctions, Category category, User user) {
         this.itemId = itemId;
         this.name = name;
         this.description = description;
@@ -22,6 +25,7 @@ public class ItemSold {
         this.endingAuctionDate = endingAuctionDate;
         this.price = price;
         this.soldState = soldState;
+        this.user = user;
         this.category = category;
         this.auctions = auctions;
     }
@@ -98,5 +102,13 @@ public class ItemSold {
 
     public void setAuctions(List<Auction> auctions) {
         this.auctions = auctions;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

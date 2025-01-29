@@ -18,6 +18,9 @@ repositories {
 }
 
 dependencies {
+
+
+        implementation 'com.microsoft.sqlserver:mssql-jdbc:9.4.0.jre8'  // Asegúrate de usar la versión más reciente
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
