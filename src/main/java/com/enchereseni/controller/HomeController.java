@@ -22,9 +22,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String Home (Model model) {
-        var users = userService.getUsers();
-        model.addAttribute("users", users);
-        System.out.println(users);
         return "index";
     }
 
