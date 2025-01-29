@@ -7,45 +7,52 @@
 </head>
 <body>
 <div class="form-container">
-<form>
+<form method="POST" action="/user" data-th-object="${user}">
   <h1>Détail de l'utilisateur</h1>
   <div class="form-group">
   <ul>
     <li>
+      <label>
+        <input hidden="hidden" id="id" data-th-field="*{userID}"/>
+        <input hidden="hidden" id="credit" data-th-field="*{credit}"/>
+        <input hidden="hidden" id="admin" data-th-field="*{admin}"/>
+        <input hidden="hidden" id="password" data-th-field="*{password}"/>
+      </label>
       <label for ="pseudo">Pseudo:</label>
-        <input type="text" id="pseudo" data-th-disabled="${!isUserInSession}" data-th-value="${user.pseudo}"/>
+        <input type="text" id="pseudo" data-th-disabled="${!isUserInSession}" data-th-field="*{pseudo}"/>
       </li>
-
     <li>
       <label for ="prenom">Prénom:</label>
-        <input type="text" id="prenom" data-th-disabled="${!isUserInSession}" data-th-field="*{user.firstName}"/>
+        <input type="text" id="prenom" data-th-disabled="${!isUserInSession}" data-th-field="*{firstName}"/>
     </li>
     <li>
       <label for ="nom">Nom:</label>
-        <input type="text" id="nom" data-th-disabled="${!isUserInSession}" data-th-field="*{user.lastName}"/>
+        <input type="text" id="nom" data-th-disabled="${!isUserInSession}" data-th-field="*{lastName}"/>
     </li>
     <li>
-      <label for ="email">Nom:</label>
-      <input type="text" id="email" data-th-disabled="${!isUserInSession}" data-th-field="*{user.email}"/>
+      <label for ="email">email:</label>
+      <input type="text" id="email" data-th-disabled="${!isUserInSession}" data-th-field="*{email}"/>
     </li>
     <li>
-      <label for ="phone">Nom:</label>
-      <input type="text" id="phone" data-th-disabled="${!isUserInSession}" data-th-field="*{user.phone}"/>
+      <label for ="phone">phone:</label>
+      <input type="text" id="phone" data-th-disabled="${!isUserInSession}" data-th-field="*{phone}"/>
     </li>
     <li>
-      <label for ="address">Nom:</label>
-      <input type="text" id="address" data-th-disabled="${!isUserInSession}" data-th-field="*{user.address}"/>
+      <label for ="address">address:</label>
+      <input type="text" id="address" data-th-disabled="${!isUserInSession}" data-th-field="*{address}"/>
     </li>
     <li>
-      <label for ="zipCode">Nom:</label>
-      <input type="text" id="zipCode" data-th-disabled="${!isUserInSession}" data-th-field="*{user.zipCode}"/>
+      <label for ="zipCode">zipCode:</label>
+      <input type="text" id="zipCode" data-th-disabled="${!isUserInSession}" data-th-field="*{zipCode}"/>
     </li>
     <li>
-      <label for ="city">Nom:</label>
-      <input type="text" id="city" data-th-disabled="${!isUserInSession}" data-th-field="*{user.city}"/>
+      <label for ="city">city:</label>
+      <input type="text" id="city" data-th-disabled="${!isUserInSession}" data-th-field="*{city}"/>
     </li>
-
   </ul>
+    <div data-th-if="${isUserInSession}">
+      <button type="submit">Enregistrer les modifications</button>
+    </div>
 </div>
 </form>
 </div>
