@@ -4,11 +4,12 @@ import com.enchereseni.bll.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 @Controller
-@RequestMapping("/users")
 public class UserController {
 
     private UserService userService;
@@ -17,13 +18,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/me")
-    public String me(Principal principal, Model model) {
-        var inSessionName = principal.getName();
-        userService.getUsers().stream().filter(user -> user.getUsername().equals(inSessionName)).findFirst().ifPresent(user -> {
+    @GetMapping("/user/{name}")
+    public String showUser(@PathVariable("name") String userName, Model model, Principal principal) {
+        model.addAttribute("isUserInSession", userName.equals(principal.getName()));
+        userService.getUsers().stream().filter(user -> user.getUsername().equals(userName)).findFirst().ifPresent(user -> {
             model.addAttribute("user", user);
         });
         return "affichageUser";
     }
-
 }
