@@ -5,11 +5,7 @@ import com.enchereseni.bo.Category;
 import java.util.List;
 
 public interface CategoryDAO {
-    List<Category> getCategories();
-    Category getCategory(int id);
-    Category createCategory(Category category);
-    Category updateCategory(Category category);
-    void deleteCategory(int id);
-
+    List<Category> getAllCategories(); // Recupera todas las categorías
+    Category getCategoryById(int noCategorie);
 
 }

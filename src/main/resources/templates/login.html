@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" data-th-href="@{/css/form.css}">
-    <title>Connexion</title>
-</head>
-<body>
+<html data-th-replace="~{fragNav::layout(title=~{::title}, main=~{::main})}">
+
+
+
+<title>Login</title>
+
+
+<main>
 <!-- Messages d'erreur -->
 <div th:if="${param.error}" style="color: red;">
     Identifiants invalides !
@@ -33,5 +33,5 @@
 </form>
 
 <a th:href="@{/register}">Créer un compte</a>
-</body>
+</main>
 </html>

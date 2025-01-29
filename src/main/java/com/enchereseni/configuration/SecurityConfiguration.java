@@ -49,6 +49,7 @@ public class SecurityConfiguration {
             return http.build();
         }
 
+
         @Bean
         public UserDetailsService userDetailsService(DataSource dataSource) {
             JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);

@@ -59,10 +59,14 @@ import org.springframework.stereotype.Repository;
             namedParameters.addValue("description", itemSold.getDescription());
             namedParameters.addValue("dateDebutEncheres", itemSold.getBeginningAuctionDate());
             namedParameters.addValue("dateFinEncheres", itemSold.getEndingAuctionDate());
-            namedParameters.addValue("prixInitial", itemSold.getPrice()); // Aquí es importante que se asocien las variables correctas
-            namedParameters.addValue("prixVente", itemSold.getPrice()); // Si tienes un precio de venta, sino, déjalo en null o ajusta el código
-            namedParameters.addValue("noUtilisateur", itemSold.getUser().getUserID()); // Necesitarás obtener el ID del usuario
-            namedParameters.addValue("noCategorie", itemSold.getCategory().getCategory()); // Obtener el ID de la categoría
+            namedParameters.addValue("prixInitial", itemSold.getFirstPrice()); // Aquí es importante que se asocien las variables correctas
+            namedParameters.addValue("prixVente", itemSold.getFinalPrice());// Si tienes un precio de venta, sino, déjalo en null o ajusta el código
+            namedParameters.addValue("noUtilisateur",
+                    itemSold.getUser() != null ? itemSold.getUser().getUserID() : null);
+// Necesitarás obtener el ID del usuario
+            namedParameters.addValue("noCategorie",
+                    itemSold.getCategory() != null ? itemSold.getCategory().getCategory() : null);
+            // Obtener el ID de la categoría
 
             jdbcTemplate.update(INSERT, namedParameters, keyHolder);
 
@@ -95,30 +99,7 @@ import org.springframework.stereotype.Repository;
 
 
 
-        // RowMapper para mapear los resultados de la base de datos a objetos ItemSold
-        class ItemSoldRowMapper implements RowMapper<ItemSold> {
-            @Override
-            public ItemSold mapRow(ResultSet rs, int rowNum) throws SQLException {
-                ItemSold item = new ItemSold();
-                item.setItemId(rs.getInt("ID"));
-                item.setName(rs.getString("NAME"));
-                item.setDescription(rs.getString("DESCRIPTION"));
-                item.setBeginningAuctionDate(rs.getDate("BEGINNING_AUCTION_DATE"));
-                item.setEndingAuctionDate(rs.getDate("ENDING_AUCTION_DATE"));
-                item.setPrice(rs.getInt("PRICE"));
-                item.setSoldState(rs.getBoolean("SOLD_STATE"));
 
-
-                Category category = new Category();
-                category.setCategory(rs.getInt("CATEGORY_ID"));
-                item.setCategory(category);
-
-                // Aquí puedes agregar lógica adicional para cargar las sublistas (como auctions),
-                // dependiendo de cómo estructures las relaciones en la base de datos
-
-                return item;
-            }
-        }
     }
 
 

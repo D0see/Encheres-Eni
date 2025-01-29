@@ -5,30 +5,20 @@ import com.enchereseni.bo.Category;
 import com.enchereseni.bo.ItemSold;
 import com.enchereseni.bo.PickUp;
 import com.enchereseni.dal.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class ItemServiceImpl implements ItemService {
 
 
-        private ItemSoldDAO itemSoldDAO ;
-        private AuctionDAO auctionDAO;
-        private CategoryDAO categoryDAO;
-        private PickUpDAO pickUpDAO;
-        private UserDAO userDAO;
+    private ItemSoldDAO itemSoldDAO;
 
-    public ItemServiceImpl(ItemSoldDAO itemSoldDAO, AuctionDAO auctionDAO, CategoryDAO categoryDAO, PickUpDAO pickUpDAO, UserDAO userDAO) {
+    public ItemServiceImpl(ItemSoldDAO itemSoldDAO) {
         this.itemSoldDAO = itemSoldDAO;
-        this.auctionDAO = auctionDAO;
-        this.categoryDAO = categoryDAO;
-        this.pickUpDAO = pickUpDAO;
-        this.userDAO = userDAO;
+
     }
 
-    @Override
-    public List<Auction> getAuctions() {
-        return List.of();
-    }
 
     @Override
     public List<ItemSold> getItems() {
@@ -42,16 +32,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void createItem(ItemSold item) {
+        itemSoldDAO.createItemSold(item);
 
     }
 
-    @Override
-    public List<Category> getCategories() {
-        return List.of();
-    }
-
-    @Override
-    public Category getCategory(int category) {
-        return null;
-    }
 }
