@@ -34,10 +34,12 @@ private UserService userService;
         return "register";
     }
 
+
+    // TO ADD -> VALIDATION
     @PostMapping("/register")
     public String registerUser(User user, Model model) {
         System.out.println(user.getEmail());
-        if (!userService.isUnique(user)) {return "redirect:/register?error";}
+        if (!userService.isUnique(user)) {return "redirect:/register?nonUniqueUser";}
         try {
             userService.createUser(user);
         } catch (DataAccessException e) {

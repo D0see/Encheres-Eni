@@ -45,6 +45,9 @@ userDAO.update(user);
 
     @Override
     public boolean isUnique(User user) {
-        return userDAO.isUnique(user);
+        if(userDAO.readAll().stream().anyMatch(user1 -> user.getPseudo().equals(user1.getPseudo()) || user1.getEmail().equals(user.getEmail()))) {
+            return false;
+        };
+        return true;
     }
 }
