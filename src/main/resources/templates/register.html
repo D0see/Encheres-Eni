@@ -10,41 +10,50 @@
 
   <div class="form-group">
 
-    <label>
+    <label for ="pseudo">Pseudo:</label>
   <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo" data-th-field="*{pseudo}" required>
-    </label>
+    <div data-th-if="${#fields.hasErrors('pseudo')}">
+      <p>Le pseudo est déjà utilisé. Veuillez en choisir un autre.</p>
+    </div>
 
-    <label>
-  <input type="password" id="password" name="password" placeholder="Mot de passe" data-th-field="*{password}" required>
-    </label>
+    <label for ="password">Mot de passe</label>
+  <input type="password" id="password" name="password" placeholder="Mot de passe"
+         pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$"
+         data-th-field="*{password}" required>
+  <div data-th-if="${#fields.hasErrors('password')}">
+    <p>Le mot de passe n'est pas correct</p>
+  </div>
 
-    <label>
+    <label for ="email">Email:</label>
   <input type="email" id="email" name="email" placeholder="E-mail" data-th-field="*{email}" required>
-    </label>
+  <div data-th-if="${#fields.hasErrors('email')}">
+    <p>L'email n'est pas correct</p>
+  </div>
 
-    <label>
+    <label for ="prenom">Prénom:</label>
   <input type="text" id="prenom" name="firstName" placeholder="Prénom" data-th-field="*{firstName}" required>
-    </label>
+<!--    <div th:if="${#fields.hasErrors('prenom')}" th:errors="*{firstName}"></div>-->
 
-  <label>
+    <label for ="nom">Nom:</label>
   <input type="text" id="nom" name="lastName" placeholder="Nom" data-th-field="*{lastName}" required>
-  </label>
+<!--    <div th:if="${#fields.hasErrors('nom')}" th:errors="*{lastName}"></div>-->
 
-    <label>
+    <label for ="phone">Numéro de téléphone:</label>
   <input type="text" id="phone" name="phone" placeholder="Numéro de téléphone" data-th-field="*{phone}" required>
-    </label>
+<!--    <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>-->
 
-    <label>
+    <label for ="address">adresse:</label>
   <input type="text" id="address" name="address" placeholder="Adresse" data-th-field="*{address}" required>
-    </label>
+<!--    <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>-->
 
-    <label>
+    <label for ="zipCode">Code postal:</label>
   <input type="text" id="zipCode" name="zipCode" placeholder="Code postal" data-th-field="*{zipCode}" required>
-    </label>
+<!--    <div th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}"></div>-->
 
-    <label>
+    <label for ="city">Ville:</label>
   <input type="text" id="city" name="city" placeholder="Ville" data-th-field="*{city}" required>
-    </label>
+    <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+
 
   <button type="submit">S'inscrire</button>
 

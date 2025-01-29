@@ -2,11 +2,13 @@ package com.enchereseni.controller;
 
 import com.enchereseni.bll.UserService;
 import com.enchereseni.bo.User;
+import jakarta.validation.Valid;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,8 +39,12 @@ private UserService userService;
 
     // TO ADD -> VALIDATION
     @PostMapping("/register")
-    public String registerUser(User user, Model model) {
+    public String registerUser(@Valid User user, Model model, BindingResult bindingResult) {
         System.out.println(user.getEmail());
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("user", user);
+            return "register";
+        }
         if (!userService.isUnique(user)) {return "redirect:/register?nonUniqueUser";}
         try {
             userService.createUser(user);
@@ -47,5 +53,6 @@ private UserService userService;
             return "redirect:/register?error";
         }
         return "redirect:/login";
+
     }
 }

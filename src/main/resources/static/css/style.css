@@ -37,7 +37,7 @@ nav a{
 }
 
 img{
-    width: 150px;
+    width: 100px;
 }
 
 @media (max-width: 768px) {
@@ -51,25 +51,25 @@ img{
     }
 }
 
-h1 {
-    font-size: 60px;
-    font-weight: bold;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
-    background-clip: text;
-    color: whitesmoke;
-    animation: colorChange 3s infinite alternate;
-    text-align: center;
-}
+/*h1 {*/
+/*    font-size: 60px;*/
+/*    font-weight: bold;*/
+/*    background: linear-gradient(to right, #6a11cb, #2575fc);*/
+/*    background-clip: text;*/
+/*    color: whitesmoke;*/
+/*    animation: colorChange 3s infinite alternate;*/
+/*    text-align: center;*/
+/*}*/
 
-@keyframes colorChange {
-    0% {
-        background: linear-gradient(to right, #6a11cb, #2575fc);
-    }
-    50% {
-        background: linear-gradient(to right, #ff7e5f, #feb47b);
-    }
-    100% {
-        background: linear-gradient(to right, #6a11cb, #2575fc);
-    }
-}
+/*@keyframes colorChange {*/
+/*    0% {*/
+/*        background: linear-gradient(to right, #6a11cb, #2575fc);*/
+/*    }*/
+/*    50% {*/
+/*        background: linear-gradient(to right, #ff7e5f, #feb47b);*/
+/*    }*/
+/*    100% {*/
+/*        background: linear-gradient(to right, #6a11cb, #2575fc);*/
+/*    }*/
+/*}*/
 

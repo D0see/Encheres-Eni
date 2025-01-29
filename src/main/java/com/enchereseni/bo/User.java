@@ -1,5 +1,9 @@
 package com.enchereseni.bo;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,17 +12,56 @@ import java.util.List;
 
 public class User implements UserDetails {
 
+    @NotNull
     private int userID;
+
+    @NotNull (message = "{NotNull.user.pseudo}")
+    @Max(30)
+    @NotBlank (message = "{NotBlank.user.pseudo}")
     private String pseudo;
+
+    @NotNull (message = "{NotNull.user.firstName}")
+    @Max(30)
+    @NotBlank (message = "{NotBlank.user.firstName}")
     private String firstName;
+
+    @NotNull (message = "{NotNull.user.lastName}")
+    @Max(30)
+    @NotBlank (message = "{NotBlank.user.lastName}")
     private String lastName;
+
+    @Email (message = "{Email.user.email}")
+    @NotBlank (message = "{NotBlank.user.email}")
     private String email;
+
+    @NotNull (message = "{NotNull.user.phone}")
+    @Max(15)
+    @NotBlank (message = "{NotBlank.user.phone}")
     private String phone;
+
+    @NotNull (message = "{NotNull.user.address}")
+    @Max(30)
+    @NotBlank (message = "{NotBlank.user.address}")
     private String address;
+
+    @NotNull (message = "{NotNull.user.zipCode}")
+    @Max(10)
+    @NotBlank (message = "{NotBlank.user.zipCode}")
     private String zipCode;
+
+    @NotNull (message = "{NotNull.user.city}")
+    @Max(30)
+    @NotBlank (message = "{NotBlank.user.city}")
     private String city;
+
+    @NotNull (message = "{NotNull.user.password}")
+    @NotBlank (message = "{NotBlank.user.password}")
     private String password;
+
+//    @NotNull
     private long credit;
+
+    @NotNull
     private boolean admin;
     //Relations
     private List<Auction> auctions;
