@@ -17,6 +17,10 @@ public class Auction {
         this.itemSold = itemSold;
     }
 
+    public Auction() {
+
+    }
+
     public Date getDate() {
         return date;
     }
