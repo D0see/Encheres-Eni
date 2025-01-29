@@ -13,36 +13,36 @@
   <ul>
     <li>
       <label for ="pseudo">Pseudo:</label>
-        <input type="text" id="pseudo" data-th-disabled="${readonly}" data-th-value="${user.pseudo}"/>
+        <input type="text" id="pseudo" data-th-disabled="${!isUserInSession}" data-th-value="${user.pseudo}"/>
       </li>
 
     <li>
       <label for ="prenom">Prénom:</label>
-        <input type="text" id="prenom" data-th-disabled="${readonly}" data-th-field="*{user.firstName}"/>
+        <input type="text" id="prenom" data-th-disabled="${!isUserInSession}" data-th-field="*{user.firstName}"/>
     </li>
     <li>
       <label for ="nom">Nom:</label>
-        <input type="text" id="nom" data-th-disabled="${readonly}" data-th-field="*{user.lastName}"/>
+        <input type="text" id="nom" data-th-disabled="${!isUserInSession}" data-th-field="*{user.lastName}"/>
     </li>
     <li>
       <label for ="email">Nom:</label>
-      <input type="text" id="email" data-th-disabled="${readonly}" data-th-field="*{user.email}"/>
+      <input type="text" id="email" data-th-disabled="${!isUserInSession}" data-th-field="*{user.email}"/>
     </li>
     <li>
       <label for ="phone">Nom:</label>
-      <input type="text" id="phone" data-th-disabled="${readonly}" data-th-field="*{user.phone}"/>
+      <input type="text" id="phone" data-th-disabled="${!isUserInSession}" data-th-field="*{user.phone}"/>
     </li>
     <li>
       <label for ="address">Nom:</label>
-      <input type="text" id="address" data-th-disabled="${readonly}" data-th-field="*{user.address}"/>
+      <input type="text" id="address" data-th-disabled="${!isUserInSession}" data-th-field="*{user.address}"/>
     </li>
     <li>
       <label for ="zipCode">Nom:</label>
-      <input type="text" id="zipCode" data-th-disabled="${readonly}" data-th-field="*{user.zipCode}"/>
+      <input type="text" id="zipCode" data-th-disabled="${!isUserInSession}" data-th-field="*{user.zipCode}"/>
     </li>
     <li>
       <label for ="city">Nom:</label>
-      <input type="text" id="city" data-th-disabled="${readonly}" data-th-field="*{user.city}"/>
+      <input type="text" id="city" data-th-disabled="${!isUserInSession}" data-th-field="*{user.city}"/>
     </li>
 
   </ul>

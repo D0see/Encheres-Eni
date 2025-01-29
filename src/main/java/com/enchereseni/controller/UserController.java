@@ -12,9 +12,9 @@ import java.security.Principal;
 @Controller
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    public void setUserService(UserService userService) {
+    UserController(UserService userService) {
         this.userService = userService;
     }
 
