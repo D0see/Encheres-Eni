@@ -31,16 +31,6 @@ public class UserDAOImpl implements UserDAO {
     static final String UPDATE = "UPDATE UTILISATEURS set pseudo=?, mot_de_passe=?, email=?, administrateur=?, nom=?, prenom=?, telephone=?, rue=?, code_postal=?, ville=?, credit=? where id=?";
     static final String DELETE = "DELETE FROM UTILISATEURS where id=?";
 
-
-      public boolean isUnique(User user) {
-           if(jdbc.queryForObject("SELECT COUNT(*) FROM UTILISATEURS WHERE pseudo = ?",Integer.class, user.getPseudo()) > 0 ||
-                   jdbc.queryForObject("SELECT COUNT(*) FROM UTILISATEURS WHERE email = ?",Integer.class, user.getEmail()) > 0) {
-               return true;    }
-           return false;
-       }
-
-
-
     @Override
     public void create(User user) {
 
