@@ -28,7 +28,7 @@ public class SecurityConfiguration {
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             http
                     .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/", "/index", "/login", "/register", "/css/**", "/error", "/images/**").permitAll()
+                            .requestMatchers("/", "/user", "/index", "/login", "/register", "/css/**", "/error", "/images/**").permitAll()
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .anyRequest().authenticated()
                     )
@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                             .logoutUrl("/logout")
                     ).csrf(csrf -> csrf
                             .ignoringRequestMatchers("/register")
+                            .ignoringRequestMatchers("/user")
                     );
             return http.build();
         }
