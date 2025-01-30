@@ -1,17 +1,41 @@
 package com.enchereseni.bo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
 import java.util.List;
 
 public class ItemSold {
+
+    @NotNull
     private int itemId;
+
+    @NotNull (message = "{NotNull.itemSold.name}")
+    @NotBlank (message = "{NotBlank.itemSold.name}")
+    @Size(min=2, max=30, message="{WrongSize.itemSold.name}")
     private String name;
+
+    @NotNull (message = "{NotNull.itemSold.description}")
+    @NotBlank (message = "{NotBlank.itemSold.description}")
+    @Size(min=10, max=300, message="{WrongSize.itemSold.description}")
     private String description;
+
+    @NotNull (message = "{NotNull.itemSold.beginningAuctionDate}")
     private Date beginningAuctionDate;
+
+    @NotNull (message = "{NotNull.itemSold.endingAuctionDate}")
     private Date endingAuctionDate;
+
     private int price;
+
     private boolean soldState;
+
+    @NotNull (message = "{NotNull.itemSold.category}")
     private Category category;
+
+    @NotNull (message = "{NotNull.itemSold.user}")
     private User user;
     private List<Auction> auctions;
 

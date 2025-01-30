@@ -1,6 +1,7 @@
 package com.enchereseni.controller;
 
 import com.enchereseni.bo.ItemSold;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,11 +21,14 @@ public class ObjectCreationController {
     }
 
     @PostMapping("/creerObjet")
-    public String createItem(@ModelAttribute("item") ItemSold item, Principal principal, BindingResult bindingResult) {
-
+    public String createItem(@Valid @ModelAttribute("item") ItemSold item, Principal principal, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            return "register";
+        }
         if (principal != null) {
             // Il y a un membre en session
-            if (bindingResult.hasErrors()) {
+            if (result.hasErrors()) {
                 // Il y a des erreurs sur le formulaire
                 return "objectCreationForm";
             } else {

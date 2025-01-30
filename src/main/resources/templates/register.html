@@ -30,7 +30,7 @@
 
     <label for ="nom">Nom:</label>
   <input type="text" id="nom" name="lastName" placeholder="Nom" data-th-field="*{lastName}" required>
-    <div th:if="${#fields.hasErrors('nom')}" th:errors="*{lastName}" style="color: red;">error</div>
+    <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color: red;">error</div>
 
     <label for ="phone">Numéro de téléphone:</label>
   <input type="text" id="phone" name="phone" placeholder="Numéro de téléphone" data-th-field="*{phone}" required>
@@ -45,7 +45,7 @@
     <div th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}" style="color: red;">error</div>
 
     <label for ="city">Ville:</label>
-  <input type="text" id="city" name="city" placeholder="Ville" data-th-field="*{city}" required>
+  <input required type="text" id="city" name="city" placeholder="Ville" data-th-field="*{city}" >
     <div th:if="${#fields.hasErrors('city')}" th:errors="*{city}" style="color: red;">error</div>
 
 
