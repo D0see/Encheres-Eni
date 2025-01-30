@@ -25,15 +25,11 @@ public class ItemSold {
     private String description;
 
     @NotNull (message = "{NotNull.itemSold.beginningAuctionDate}")
-    private Date beginningAuctionDate;
+    private LocalDate beginningAuctionDate;
 
     @NotNull (message = "{NotNull.itemSold.endingAuctionDate}")
-    private Date endingAuctionDate;
-
-    private int price;
-
-    private LocalDate beginningAuctionDate;
     private LocalDate endingAuctionDate;
+
     private int firstPrice;
     private int finalPrice;
     private boolean soldState;
@@ -41,7 +37,7 @@ public class ItemSold {
     @NotNull (message = "{NotNull.itemSold.category}")
     private Category category;
 
-    @NotNull (message = "{NotNull.itemSold.user}")
+//    @NotNull (message = "{NotNull.itemSold.user}")
     private User user;
     private List<Auction> auctions;
 
