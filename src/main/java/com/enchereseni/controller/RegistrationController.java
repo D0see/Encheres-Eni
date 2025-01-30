@@ -2,16 +2,19 @@ package com.enchereseni.controller;
 
 import com.enchereseni.bll.UserService;
 import com.enchereseni.bo.User;
+import jakarta.validation.Valid;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class RegistrationController {
@@ -37,8 +40,12 @@ private UserService userService;
 
     // TO ADD -> VALIDATION
     @PostMapping("/register")
-    public String registerUser(User user, Model model) {
+    public String registerUser(@Valid @ModelAttribute("user") User user, Model model, BindingResult result) {
         System.out.println(user.getEmail());
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            return "register";
+        }
         if (!userService.isUnique(user)) {return "redirect:/register?nonUniqueUser";}
         try {
             userService.createUser(user);
@@ -47,5 +54,16 @@ private UserService userService;
             return "redirect:/register?error";
         }
         return "redirect:/login";
+
+    }
+    //pour validation
+    @ControllerAdvice
+    public class GlobalExceptionHandler {
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        public String handleValidationExceptions(MethodArgumentNotValidException ex, Model model) {
+            List<FieldError> errors = ex.getBindingResult().getFieldErrors();
+            model.addAttribute("errors", errors);
+            return "errorPage";  // Affiche une page d'erreur avec les messages
+        }
     }
 }

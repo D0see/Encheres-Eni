@@ -6,24 +6,20 @@ import com.enchereseni.bo.Category;
 import com.enchereseni.bo.ItemSold;
 import com.enchereseni.bo.User;
 import com.enchereseni.dal.CategoryDAO;
-import com.enchereseni.dal.CategoryDAOImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import java.beans.PropertyEditorSupport;
-import java.security.Principal;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.sql.CommonDataSource;
+import java.beans.PropertyEditorSupport;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class ObjectCreationController {
@@ -37,13 +33,8 @@ public class ObjectCreationController {
     private CategoryDAO categoryDAO;
 
 
-
-
-
-
     @GetMapping("/vendre")
-    public String creerObjet(Principal principal,Model model) {
-
+    public String creerObjet( Principal principal,Model model) {
 
         String userConnected =principal.getName();
         userService.getUsers().stream().filter(user -> userConnected.equals(user.getUsername())).findFirst().ifPresent(user -> {
@@ -53,13 +44,16 @@ public class ObjectCreationController {
             model.addAttribute("user", user);
         });
 
-
-
         return "itemCreation";
     }
 
     @PostMapping("/vendre")
-    public String createItem( @ModelAttribute ItemSold itemSold,Principal principal,BindingResult bindingResult,Model model ) {
+    public String createItem( @Valid @ModelAttribute ItemSold itemSold,Principal principal,BindingResult result,Model model ) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            return "itemCreation";
+        }
 
         User user=userService.getUserbyUsername(principal.getName());
         itemSold.setUser(user);
@@ -69,10 +63,18 @@ public class ObjectCreationController {
         itemSold.setCategory(category);
 
         itemService.createItem(itemSold);
-        System.out.println(itemSold.getUser().getPhone());
-        System.out.println(itemSold.getCategory().getCategory());
-        System.out.printf(itemSold.getCategory().getWording());
+
         return "redirect:/";
 
+    }
+    //pour validation
+    @ControllerAdvice
+    public class GlobalExceptionHandler {
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        public String handleValidationExceptions(MethodArgumentNotValidException ex, Model model) {
+            List<FieldError> errors = ex.getBindingResult().getFieldErrors();
+            model.addAttribute("errors", errors);
+            return "errorPage";  // Affiche une page d'erreur avec les messages
+        }
     }
 }
