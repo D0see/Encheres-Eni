@@ -23,12 +23,13 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemSold> getItems() {
-        return List.of();
+        return itemSoldDAO.getAllItemSold();
     }
 
     @Override
     public ItemSold getItemById(int id) {
-        return null;
+
+        return itemSoldDAO.getItemSoldById(id);
     }
 
     @Override

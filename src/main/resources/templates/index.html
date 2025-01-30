@@ -29,42 +29,19 @@
 
 <!--  Créer un foreach sur la liste des enchères-->
   <div class="filterProd">
-
-    <div><!-- class="article"data-th-each = "c: ${encheres}"-->
+    <div class="article" data-th-each = "i: ${items}">
       <img src="https://powerlab.fr/18837-superlarge_default_2x/pc-gamer-streaming-core-qhd-powered-by-corsair.jpg" alt="">
-      <h2>   <!-- data-th-href="/connection   data-th-text="${e.name}">-->PC Gamer</h2>
+      <h2 data-th-text="${i.getName()}"></h2>
       <ul>
-        <li ><!--data-th-text="${e.montant}"-->  Prix : 210 points</li>
-        <li> <!--data-th-text="${e.dateEnchere}"--> Fin de l'enchèere : 10/08/2018</li>
-        <li> <!--data-th-text="${vendeur}"-->Vendeur : jojo44</li>
+        <li data-th-text="'from ' + ${i.getBeginningAuctionDate()} + ' to ' + ${i.getEndingAuctionDate()}"></li>
+        <li data-th-text="'started at ' + ${i.getFirstPrice()}"></li>
+        <li data-th-text="'sold by ' + ${i.getUser().getPseudo()}"></li>
       </ul>
 
     </div>
 
 
   </div>
-
-
-  <table>
-    <thead>
-    <tr>
-      <th>Nom</th>
-      <th>Pseudor</th>
-      <th>Id</th>
-
-    </tr>
-    </thead>
-    <tbody >
-    <tr data-th-each = "u: ${users}">
-      <td  data-th-text="${u.getFirstName()}"> </td>
-      <td data-th-text="${u.getPseudo()}"></td>
-<!--      <td ><span class="action"> <a th:href="@{/detail(id=${c.id})}" >Detail</a>  <a th:href="@{/modifier(id=${c.id})}" >Modifier</a> <form method="post"  th:action="@{/Liste}" style="display:inline;" >   <input type="hidden" name="id" th:value="${c.id}">-->
-<!--      <button type="submit" class="link-button" >Supprimer</button>-->
-<!--      </form>  </span>-->
-    </tbody>
-
-  </table>
-
 </main>
 
 
