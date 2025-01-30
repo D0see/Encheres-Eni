@@ -4,6 +4,7 @@ import com.enchereseni.bll.ItemService;
 import com.enchereseni.bll.UserService;
 import com.enchereseni.bo.Category;
 import com.enchereseni.bo.ItemSold;
+import com.enchereseni.bo.PickUp;
 import com.enchereseni.bo.User;
 import com.enchereseni.dal.CategoryDAO;
 import com.enchereseni.dal.CategoryDAOImpl;
@@ -41,6 +42,7 @@ public class ObjectCreationController {
 
 
 
+
     @GetMapping("/vendre")
     public String creerObjet(Principal principal,Model model) {
 
@@ -51,6 +53,7 @@ public class ObjectCreationController {
             model.addAttribute("itemSold", new ItemSold());
             model.addAttribute("categories", itemService.getCategories());
             model.addAttribute("user", user);
+            model.addAttribute("pickUp", new PickUp());
         });
 
 
@@ -59,7 +62,7 @@ public class ObjectCreationController {
     }
 
     @PostMapping("/vendre")
-    public String createItem( @ModelAttribute ItemSold itemSold,Principal principal,BindingResult bindingResult,Model model ) {
+    public String createItem(@ModelAttribute ItemSold itemSold,PickUp pickUp ,Principal principal,BindingResult bindingResult,Model model ) {
 
         User user=userService.getUserbyUsername(principal.getName());
         itemSold.setUser(user);
@@ -68,10 +71,10 @@ public class ObjectCreationController {
         Category category = categoryDAO.getCategoryById(noCategorie);
         itemSold.setCategory(category);
 
+
+
         itemService.createItem(itemSold);
-        System.out.println(itemSold.getUser().getPhone());
-        System.out.println(itemSold.getCategory().getCategory());
-        System.out.printf(itemSold.getCategory().getWording());
+
         return "redirect:/";
 
     }

@@ -47,4 +47,14 @@ public class ItemServiceImpl implements ItemService {
         return categoryDAO.getCategoryById(id);
     }
 
+    @Override
+    public void createPickUp(PickUp pickUp) {
+
+    }
+
+    @Override
+    public PickUp getPickUpById(int id) {
+        return null;
+    }
+
 }
