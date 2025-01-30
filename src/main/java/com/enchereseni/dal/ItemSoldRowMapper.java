@@ -10,7 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ItemSoldRowMapper implements RowMapper<ItemSold> {
+    
+    UserService userService;
     Category category = new Category();
+
     @Override
     public ItemSold mapRow(ResultSet rs, int rowNum) throws SQLException {
         ItemSold item = new ItemSold();
@@ -28,9 +31,10 @@ public class ItemSoldRowMapper implements RowMapper<ItemSold> {
         category.setWording(rs.getString("libelle"));
         item.setCategory(category);
 
-        User user = new User();
-        user.setUserID(rs.getInt("no_utilisateur"));
+        int userId = rs.getInt("no_utilisateur");
+        User user = userService.getUserbyID(userId);
         item.setUser(user);
+
 
 
 //cambiar manera de setear el user
