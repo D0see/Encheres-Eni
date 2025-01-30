@@ -11,11 +11,12 @@ import java.util.List;
 @Service
 public class ItemServiceImpl implements ItemService {
 
-
+    private CategoryDAO categoryDAO;
     private ItemSoldDAO itemSoldDAO;
 
-    public ItemServiceImpl(ItemSoldDAO itemSoldDAO) {
+    public ItemServiceImpl(ItemSoldDAO itemSoldDAO, CategoryDAO categoryDAO) {
         this.itemSoldDAO = itemSoldDAO;
+        this.categoryDAO = categoryDAO;
 
     }
 
@@ -34,6 +35,16 @@ public class ItemServiceImpl implements ItemService {
     public void createItem(ItemSold item) {
         itemSoldDAO.createItemSold(item);
 
+    }
+
+    @Override
+    public List<Category> getCategories() {
+        return categoryDAO.getAllCategories();
+    }
+
+    @Override
+    public Category getCategoryById(int id) {
+        return categoryDAO.getCategoryById(id);
     }
 
 }

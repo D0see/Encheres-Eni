@@ -1,6 +1,7 @@
 package com.enchereseni.dal;
 
 import com.enchereseni.bo.Category;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,8 +13,8 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     private JdbcTemplate jdbcTemplate;
 
-    // Constructor para inyectar el JdbcTemplate
-    public void CategoryDaoImpl(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public CategoryDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -21,27 +22,27 @@ public class CategoryDAOImpl implements CategoryDAO {
     public List<Category> getAllCategories() {
         String sql = "SELECT no_categorie, libelle FROM categories"; // Consulta SQL
 
-        // Usamos RowMapper para mapear cada fila a un objeto Category
+        // We use RowMapper to map each row to a Category object.
         RowMapper<Category> rowMapper = (rs, rowNum) -> new Category(
                 rs.getInt("no_categorie"),
                 rs.getString("libelle")
         );
 
-        // Ejecutamos la consulta y obtenemos la lista de categorías
+        // We execute the query and retrieve the list of categories.
         return jdbcTemplate.query(sql, rowMapper);
     }
 
     @Override
     public Category getCategoryById(int noCategorie) {
-        String sql = "SELECT no_categorie, libelle FROM categorie WHERE no_categorie = ?"; // Consulta SQL
+        String sql = "SELECT no_categorie, libelle FROM categories WHERE no_categorie = ?"; // Consulta SQL
 
-        // Usamos RowMapper para mapear la fila a un objeto Category
+
         RowMapper<Category> rowMapper = (rs, rowNum) -> new Category(
                 rs.getInt("no_categorie"),
                 rs.getString("libelle")
         );
 
-        // Ejecutamos la consulta con el parámetro no_categorie y obtenemos una categoría
+        //  We execute the query with the no_categorie parameter and retrieve a category.
         return jdbcTemplate.queryForObject(sql, rowMapper, noCategorie);
 
     }

@@ -23,7 +23,7 @@
 
         <label for="category">Category</label>
         <select id="category" name="category">
-            <option th:each="cat : ${categories}" th:value="${cat.noCategorie}" th:text="${cat.libelle}"></option>
+            <option th:each="cat : ${categories}" th:value="${cat.category}" th:text="${cat.wording}"></option>
         </select>
 
 

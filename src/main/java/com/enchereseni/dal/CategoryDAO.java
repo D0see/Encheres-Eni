@@ -5,7 +5,7 @@ import com.enchereseni.bo.Category;
 import java.util.List;
 
 public interface CategoryDAO {
-    List<Category> getAllCategories(); // Recupera todas las categorías
+    List<Category> getAllCategories();
     Category getCategoryById(int noCategorie);
 
 }

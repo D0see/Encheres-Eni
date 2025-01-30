@@ -19,7 +19,8 @@
 
   <nav class="navbar">
     <ul class="navbar-list">
-      <li><a href="/encheres">Home</a></li>
+      <li><a href="/">Home</a></li>
+      <li data-th-if="${#authentication.getName() != 'anonymousUser'}"><a href="/vendre">Vendre un article </a></li>
       <li data-th-if="${#authentication.getName() == 'anonymousUser'}"><a data-th-href = "@{/login}">Login</a></li>
       <li  data-th-if="${#authentication.getName() == 'anonymousUser'}"><a href="/register">Inscription</a></li>
       <li data-th-if="${#authentication.getName() != 'anonymousUser'}">

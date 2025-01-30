@@ -21,7 +21,16 @@ public class ItemSoldRowMapper implements RowMapper<ItemSold> {
         item.setEndingAuctionDate(rs.getDate("date_fin_encheres").toLocalDate());
         item.setFirstPrice(rs.getInt("prix_initial"));
         item.setFinalPrice(rs.getInt("prix_vente"));
-        item.getCategory().setCategory(rs.getInt("no_categorie"));
+
+
+        Category category = new Category();
+        category.setCategory(rs.getInt("no_categorie"));
+        category.setWording(rs.getString("libelle"));
+        item.setCategory(category);
+
+        User user = new User();
+        user.setUserID(rs.getInt("no_utilisateur"));
+        item.setUser(user);
 
 
 //cambiar manera de setear el user
