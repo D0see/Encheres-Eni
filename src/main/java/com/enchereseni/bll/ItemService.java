@@ -9,7 +9,6 @@ import java.util.List;
 public interface ItemService {
 
 
-    List<Auction> getAuctions();
 
     List<ItemSold> getItems();
 
@@ -19,8 +18,5 @@ public interface ItemService {
 
     List<Category> getCategories();
 
-    Category getCategory(int category);
-
-
-
+    Category getCategoryById(int id);
 }
