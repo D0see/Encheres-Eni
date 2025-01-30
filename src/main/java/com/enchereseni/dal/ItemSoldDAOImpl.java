@@ -53,7 +53,7 @@ import org.springframework.stereotype.Repository;
 """;
 
         @Override
-        public void createItemSold(ItemSold itemSold) {
+        public int createItemSold(ItemSold itemSold) {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             MapSqlParameterSource namedParameters = new MapSqlParameterSource();
             namedParameters.addValue("nomArticle", itemSold.getName());
@@ -67,6 +67,12 @@ import org.springframework.stereotype.Repository;
 
 
             jdbcTemplate.update(INSERT, namedParameters, keyHolder);
+
+            int generatedId = keyHolder.getKey().intValue(); // Recuperar el ID generado
+            itemSold.setItemId(generatedId);
+            return generatedId; // Devolver el ID generado
+
+
 
         }
 

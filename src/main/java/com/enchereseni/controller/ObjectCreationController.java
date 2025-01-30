@@ -62,7 +62,7 @@ public class ObjectCreationController {
     }
 
     @PostMapping("/vendre")
-    public String createItem(@ModelAttribute ItemSold itemSold,PickUp pickUp ,Principal principal,BindingResult bindingResult,Model model ) {
+    public String createItem(@ModelAttribute ItemSold itemSold,@ModelAttribute PickUp pickUp ,BindingResult bindingResult,Principal principal,Model model ) {
 
         User user=userService.getUserbyUsername(principal.getName());
         itemSold.setUser(user);
@@ -71,9 +71,9 @@ public class ObjectCreationController {
         Category category = categoryDAO.getCategoryById(noCategorie);
         itemSold.setCategory(category);
 
-
-
         itemService.createItem(itemSold);
+        pickUp.setItemSold(itemSold);
+        itemService.createPickUpWithItem(itemSold, pickUp);
 
         return "redirect:/";
 

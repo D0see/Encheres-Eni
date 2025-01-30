@@ -22,5 +22,6 @@ public interface ItemService {
     Category getCategoryById(int id);
 
     void createPickUp(PickUp pickUp);
+    void createPickUpWithItem(ItemSold item, PickUp pickUp);
     PickUp getPickUpById(int id);
 }

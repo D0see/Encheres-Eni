@@ -5,6 +5,7 @@ import com.enchereseni.bo.Category;
 import com.enchereseni.bo.ItemSold;
 import com.enchereseni.bo.PickUp;
 import com.enchereseni.dal.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +14,12 @@ public class ItemServiceImpl implements ItemService {
 
     private CategoryDAO categoryDAO;
     private ItemSoldDAO itemSoldDAO;
-
-    public ItemServiceImpl(ItemSoldDAO itemSoldDAO, CategoryDAO categoryDAO) {
+    private PickUpDAO pickUpDAO ;
+@Autowired
+    public ItemServiceImpl(ItemSoldDAO itemSoldDAO, CategoryDAO categoryDAO, PickUpDAO pickUpDAO) {
         this.itemSoldDAO = itemSoldDAO;
         this.categoryDAO = categoryDAO;
-
+        this.pickUpDAO = pickUpDAO;
     }
 
 
@@ -49,8 +51,16 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void createPickUp(PickUp pickUp) {
+        pickUpDAO.createPickUp(pickUp);
 
     }
+    @Override
+    public void createPickUpWithItem(ItemSold itemSold, PickUp pickUp) {
+
+        pickUpDAO.createPickUpWithItem(itemSold, pickUp);
+
+    }
+
 
     @Override
     public PickUp getPickUpById(int id) {

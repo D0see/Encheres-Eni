@@ -15,7 +15,8 @@ public class PickUpDAOImpl implements PickUpDAO {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-
+    @Autowired
+    private ItemSoldDAO itemSoldDAO;
 
 
     private final String INSERT = """
@@ -36,18 +37,25 @@ public class PickUpDAOImpl implements PickUpDAO {
     @Override
     public void createPickUp(PickUp pickUp) {
 
-            KeyHolder keyHolder = new GeneratedKeyHolder();
-            MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-            namedParameters.addValue("noArticle", pickUp.getItemSold().getItemId());
-            namedParameters.addValue("rue", pickUp.getAddress());
-            namedParameters.addValue("codePostal", pickUp.getZipCode());
-            namedParameters.addValue("ville", pickUp.getCity());
+    }
 
+    @Override
+    public void createPickUpWithItem(ItemSold item, PickUp pickUp) {
 
-            jdbcTemplate.update(INSERT, namedParameters, keyHolder);
+        pickUp.setItemSold(item);
 
+        createPickUp(pickUp);
 
-        }
+        // Procedemos a guardar el PickUp en la base de datos
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("noArticle", pickUp.getItemSold().getItemId());
+        namedParameters.addValue("rue", pickUp.getAddress());
+        namedParameters.addValue("codePostal", pickUp.getZipCode());
+        namedParameters.addValue("ville", pickUp.getCity());
+
+        jdbcTemplate.update(INSERT, namedParameters, new GeneratedKeyHolder());
+    }
+
 
     @Override
     public PickUp getPickUp(int id) {
