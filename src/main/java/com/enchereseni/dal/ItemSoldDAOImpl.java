@@ -34,10 +34,10 @@ import org.springframework.stereotype.Repository;
      FROM ARTICLES_VENDUS
 """;
         private final String UPDATE = """
-     UPDATE ARTICLES_VENDUS SET NAME = :name, DESCRIPTION = :description, BEGINNING_AUCTION_DATE = :beginningAuctionDate,
-     ENDING_AUCTION_DATE = :endingAuctionDate, PRICE = :price, SOLD_STATE = :soldState, CATEGORY_ID = :categoryId
-     WHERE ID = :id
-""";
+                     UPDATE ARTICLES_VENDUS SET NAME = :name, DESCRIPTION = :description, BEGINNING_AUCTION_DATE = :beginningAuctionDate,
+                     ENDING_AUCTION_DATE = :endingAuctionDate, PRICE = :price, SOLD_STATE = :soldState, CATEGORY_ID = :categoryId
+                     WHERE ID = :id
+                """;
 
         private final String DELETE = "DELETE FROM ITEM_SOLD WHERE ID = :id";
 
@@ -46,34 +46,29 @@ import org.springframework.stereotype.Repository;
 
 
         private final String INSERT = """
-    INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie)
-    VALUES (:nomArticle, :description, :dateDebutEncheres, :dateFinEncheres, :prixInitial, :prixVente, :noUtilisateur, :noCategorie)
+    INSERT INTO ARTICLES_VENDUS 
+        (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,prix_vente, no_utilisateur, no_categorie) 
+    VALUES 
+        (:nomArticle, :description, :beginningAuctionDate, :endingAuctionDate, :initialPrice,:finalPrice, :userId, :categoryId)
 """;
 
         @Override
         public void createItemSold(ItemSold itemSold) {
             KeyHolder keyHolder = new GeneratedKeyHolder();
-
             MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-            namedParameters.addValue("nomArticle", itemSold.getName()); // Reemplazar con el nombre de la propiedad correcta
+            namedParameters.addValue("nomArticle", itemSold.getName());
             namedParameters.addValue("description", itemSold.getDescription());
-            namedParameters.addValue("dateDebutEncheres", itemSold.getBeginningAuctionDate());
-            namedParameters.addValue("dateFinEncheres", itemSold.getEndingAuctionDate());
-            namedParameters.addValue("prixInitial", itemSold.getPrice()); // Aquí es importante que se asocien las variables correctas
-            namedParameters.addValue("prixVente", itemSold.getPrice()); // Si tienes un precio de venta, sino, déjalo en null o ajusta el código
-            namedParameters.addValue("noUtilisateur", itemSold.getUser().getUserID()); // Necesitarás obtener el ID del usuario
-            namedParameters.addValue("noCategorie", itemSold.getCategory().getCategory()); // Obtener el ID de la categoría
+            namedParameters.addValue("beginningAuctionDate", itemSold.getBeginningAuctionDate());
+            namedParameters.addValue("endingAuctionDate", itemSold.getEndingAuctionDate());
+            namedParameters.addValue("initialPrice", itemSold.getFirstPrice());
+            namedParameters.addValue("finalPrice", itemSold.getFinalPrice());
+            namedParameters.addValue("userId", itemSold.getUser().getUserID()); // Asume que existe un User
+            namedParameters.addValue("categoryId", itemSold.getCategory().getCategory()); // Usar getNoCategorie()
+
 
             jdbcTemplate.update(INSERT, namedParameters, keyHolder);
 
-            if (keyHolder.getKey() != null) {
-                itemSold.setItemId(keyHolder.getKey().intValue());
-            }
         }
-
-
-
-
 
 
         @Override
@@ -90,35 +85,11 @@ import org.springframework.stereotype.Repository;
         }
 
 
-
-
-
-
-
-        // RowMapper para mapear los resultados de la base de datos a objetos ItemSold
-        class ItemSoldRowMapper implements RowMapper<ItemSold> {
-            @Override
-            public ItemSold mapRow(ResultSet rs, int rowNum) throws SQLException {
-                ItemSold item = new ItemSold();
-                item.setItemId(rs.getInt("ID"));
-                item.setName(rs.getString("NAME"));
-                item.setDescription(rs.getString("DESCRIPTION"));
-                item.setBeginningAuctionDate(rs.getDate("BEGINNING_AUCTION_DATE"));
-                item.setEndingAuctionDate(rs.getDate("ENDING_AUCTION_DATE"));
-                item.setPrice(rs.getInt("PRICE"));
-                item.setSoldState(rs.getBoolean("SOLD_STATE"));
-
-
-                Category category = new Category();
-                category.setCategory(rs.getInt("CATEGORY_ID"));
-                item.setCategory(category);
-
-                // Aquí puedes agregar lógica adicional para cargar las sublistas (como auctions),
-                // dependiendo de cómo estructures las relaciones en la base de datos
-
-                return item;
-            }
-        }
     }
+
+
+
+
+
 
 

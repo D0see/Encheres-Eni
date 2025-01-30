@@ -1,0 +1,52 @@
+<html data-th-replace="~{fragNav::layout(title=~{::title}, main=~{::main})}" xmlns="http://www.w3.org/1999/html">
+<head>
+
+<title>Nouvelle vente</title>
+</head>
+<main>
+
+
+
+
+    <form  data-th-object="${itemSold}" method="post"  data-th-action="@{/vendre}">
+
+
+<h1>Nouvelle vente</h1>
+
+    <label for="art">Article :</label>
+    <input type="text" id="art"  data-th-field="*{name}">
+
+    <label for="description">Description :</label>
+    <textarea name="description" id="description" cols="30" rows="10" data-th-field="*{description}"></textarea>
+
+
+
+        <label for="category">Category</label>
+        <select id="category" name="category">
+            <option th:each="cat : ${categories}" th:value="${cat.category}" th:text="${cat.wording}"></option>
+        </select>
+
+
+
+
+    <label for="prix">Mise à prix :</label>
+    <input type="number" id="prix" data-th-field="*{firstPrice}">
+
+    <label for="debut">Debut de l'enchère</label>
+    <input type="date" id="debut" data-th-field="*{beginningAuctionDate}">
+
+    <label for="fin">Fin de l'enchère</label>
+    <input type="date" id="fin" data-th-field="*{endingAuctionDate}">
+
+<h5>Retrait</h5>
+    <label for="street">Rue :</label>
+    <input id="street" type="text" data-th-field="${user.address}">
+    <label for="code">Code postal :</label>
+    <input id="code" type="text" data-th-field="${user.zipCode}">
+    <label for="city">Ville :</label>
+    <input id="city" type="text" data-th-field="${user.city}">
+
+        <button type="submit">Creer</button>
+    </form>
+</main>
+</html>

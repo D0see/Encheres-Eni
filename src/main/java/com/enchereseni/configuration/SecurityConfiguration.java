@@ -30,7 +30,7 @@ public class SecurityConfiguration {
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             http
                     .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/", "/user", "/index", "/login", "/register", "/css/**", "/error", "/images/**").permitAll()
+                            .requestMatchers("/", "/user", "/index", "/logout", "/login", "/register", "/css/**", "/error", "/images/**").permitAll()
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .anyRequest().authenticated()
                     )
@@ -39,14 +39,18 @@ public class SecurityConfiguration {
                             .failureUrl("/login?error=true")
                     )
                     .logout(logout -> logout
-                            .logoutSuccessUrl("/")
                             .logoutUrl("/logout")
+                            .logoutSuccessUrl("/")
+                            .invalidateHttpSession(true)
+                            .deleteCookies("JSESSIONID")
                     ).csrf(csrf -> csrf
                             .ignoringRequestMatchers("/register")
                             .ignoringRequestMatchers("/user")
+                            .ignoringRequestMatchers("/user/deleteMyAccount")
                     );
             return http.build();
         }
+
 
         @Bean
         public UserDetailsService userDetailsService(DataSource dataSource) {

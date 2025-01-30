@@ -12,6 +12,7 @@ public interface UserService {
 
     List<User> getUsers();
     User getUserbyID(int id);
+    User getUserbyUsername(String username);
 
     void update (User user);
     boolean isUnique(User user);

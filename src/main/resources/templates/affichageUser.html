@@ -53,8 +53,15 @@
     <div data-th-if="${isUserInSession}">
       <button type="submit">Enregistrer les modifications</button>
     </div>
+    <div data-th-if="${isUserInSession}">
+    </div>
 </div>
 </form>
+  <div data-th-if="${isUserInSession}">
+    <form data-th-action="@{/deleteMyAccount}" method="POST">
+      <button type="submit">Delete my account</button>
+    </form>
+  <div data-th-if="${isUserInSession}">
 </div>
 
 </body>

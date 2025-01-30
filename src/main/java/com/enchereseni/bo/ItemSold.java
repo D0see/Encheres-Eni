@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class ItemSold {
@@ -30,6 +32,10 @@ public class ItemSold {
 
     private int price;
 
+    private LocalDate beginningAuctionDate;
+    private LocalDate endingAuctionDate;
+    private int firstPrice;
+    private int finalPrice;
     private boolean soldState;
 
     @NotNull (message = "{NotNull.itemSold.category}")
@@ -41,13 +47,14 @@ public class ItemSold {
 
 
 
-    public ItemSold(int itemId, String name, String description, Date beginningAuctionDate, Date endingAuctionDate, int price, boolean soldState, List<Auction> auctions, Category category, User user) {
+    public ItemSold(int itemId, String name, String description, LocalDate beginningAuctionDate, LocalDate endingAuctionDate, int firstPrice,int finalPrice, boolean soldState, List<Auction> auctions, Category category, User user) {
         this.itemId = itemId;
         this.name = name;
         this.description = description;
         this.beginningAuctionDate = beginningAuctionDate;
         this.endingAuctionDate = endingAuctionDate;
-        this.price = price;
+        this.firstPrice = firstPrice;
+        this.finalPrice = finalPrice;
         this.soldState = soldState;
         this.user = user;
         this.category = category;
@@ -80,28 +87,36 @@ public class ItemSold {
         this.description = description;
     }
 
-    public Date getBeginningAuctionDate() {
+    public LocalDate getBeginningAuctionDate() {
         return beginningAuctionDate;
     }
 
-    public void setBeginningAuctionDate(Date beginningAuctionDate) {
+    public void setBeginningAuctionDate(LocalDate beginningAuctionDate) {
         this.beginningAuctionDate = beginningAuctionDate;
     }
 
-    public Date getEndingAuctionDate() {
+    public LocalDate getEndingAuctionDate() {
         return endingAuctionDate;
     }
 
-    public void setEndingAuctionDate(Date endingAuctionDate) {
+    public void setEndingAuctionDate(LocalDate endingAuctionDate) {
         this.endingAuctionDate = endingAuctionDate;
     }
 
-    public int getPrice() {
-        return price;
+    public int getFirstPrice() {
+        return firstPrice;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setFirstPrice(int firstPrice) {
+        this.firstPrice = firstPrice;
+    }
+
+    public int getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(int finalPrice) {
+        this.finalPrice = finalPrice;
     }
 
     public boolean isSoldState() {
