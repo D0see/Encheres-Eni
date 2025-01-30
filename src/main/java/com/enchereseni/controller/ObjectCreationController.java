@@ -69,7 +69,9 @@ public class ObjectCreationController {
         itemSold.setCategory(category);
 
         itemService.createItem(itemSold);
-
+        System.out.println(itemSold.getUser().getPhone());
+        System.out.println(itemSold.getCategory().getCategory());
+        System.out.printf(itemSold.getCategory().getWording());
         return "redirect:/";
 
     }
