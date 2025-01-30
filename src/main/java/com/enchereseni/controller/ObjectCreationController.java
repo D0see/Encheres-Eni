@@ -4,10 +4,12 @@ import com.enchereseni.bll.ItemService;
 import com.enchereseni.bll.UserService;
 import com.enchereseni.bo.Category;
 import com.enchereseni.bo.ItemSold;
+import com.enchereseni.bo.PickUp;
 import com.enchereseni.bo.User;
 import com.enchereseni.dal.CategoryDAO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +35,11 @@ public class ObjectCreationController {
     private CategoryDAO categoryDAO;
 
 
+
+
+
+
+
     @GetMapping("/vendre")
     public String creerObjet( Principal principal,Model model) {
 
@@ -42,13 +49,14 @@ public class ObjectCreationController {
             model.addAttribute("itemSold", new ItemSold());
             model.addAttribute("categories", itemService.getCategories());
             model.addAttribute("user", user);
+            model.addAttribute("pickUp", new PickUp());
         });
 
         return "itemCreation";
     }
 
     @PostMapping("/vendre")
-    public String createItem( @Valid @ModelAttribute ItemSold itemSold,Principal principal,BindingResult result,Model model ) {
+    public String createItem(@Valid @ModelAttribute ItemSold itemSold, @ModelAttribute PickUp pickUp, Principal principal, BindingResult result, Model model ) {
 
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
@@ -63,6 +71,9 @@ public class ObjectCreationController {
         itemSold.setCategory(category);
 
         itemService.createItem(itemSold);
+
+        pickUp.setItemSold(itemSold);
+        itemService.createPickUpWithItem(itemSold, pickUp);
 
         return "redirect:/";
 
