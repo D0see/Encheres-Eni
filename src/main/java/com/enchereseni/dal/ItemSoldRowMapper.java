@@ -5,14 +5,19 @@ import com.enchereseni.bo.Category;
 import com.enchereseni.bo.ItemSold;
 import com.enchereseni.bo.User;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class ItemSoldRowMapper implements RowMapper<ItemSold> {
     
     UserService userService;
-    Category category = new Category();
+
+    public ItemSoldRowMapper (UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public ItemSold mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -35,12 +40,6 @@ public class ItemSoldRowMapper implements RowMapper<ItemSold> {
         User user = userService.getUserbyID(userId);
         item.setUser(user);
 
-
-
-//cambiar manera de setear el user
-
-        // Aquí puedes agregar lógica adicional para cargar las sublistas (como auctions),
-        // dependiendo de cómo estructures las relaciones en la base de datos
 
         return item;
     }

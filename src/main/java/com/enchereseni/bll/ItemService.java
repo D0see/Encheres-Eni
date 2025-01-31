@@ -18,7 +18,6 @@ public interface ItemService {
     void createItem(ItemSold item);
 
     List<Category> getCategories();
-
     Category getCategoryById(int id);
 
     void createPickUp(PickUp pickUp);
