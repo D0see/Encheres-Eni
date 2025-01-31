@@ -87,65 +87,7 @@
 
 
 
-<!--<main>-->
-<!--&lt;!&ndash; partie avec filtres&ndash;&gt;-->
 
-<!--  <h1>Liste des enchères</h1>-->
-
-<!--  <form action="/encheres" method="post" >-->
-<!--    <label for="filter">Nom de l'item :</label>-->
-
-<!--    <input name = "searchByName" id="filter" type="text">-->
-<!--    <label>-->
-<!--      <input type="checkbox" name="selectedFilters" value="encheres en cours"> enchères en cours-->
-<!--    </label>-->
-<!--<div data-th-if="${!#authentication.getName().equals('anonymousUser')}">-->
-<!--    <label>-->
-<!--        <input type="checkbox" name="selectedFilters" value="encheres auxquelles je participe"> enchères auxquelles je participe-->
-<!--    </label>-->
-<!--    <label>-->
-<!--        <input type="checkbox" name="selectedFilters" value="encheres gagnees"> enchères gagnées-->
-<!--    </label>-->
-<!--    <label>-->
-<!--        <input type="checkbox" name="selectedFilters" value="mesVentes"> Mes ventes-->
-<!--    </label>-->
-<!--    <label>-->
-<!--        <input type="checkbox" name="selectedFilters" value="mesVentesNonDebutes"> Mes ventes non commencées-->
-<!--    </label>-->
-<!--    <label>-->
-<!--        <input type="checkbox" name="selectedFilters" value="mesVentesEnCours"> Mes ventes en cours-->
-<!--    </label>-->
-<!--    <label>-->
-<!--        <input type="checkbox" name="selectedFilters" value="mesVentesFinalisees"> Mes ventes terminées-->
-<!--    </label>-->
-<!--</div>-->
-
-<!--    <label for="selectedCategory">Catégorie :-->
-<!--    <select name="selectedCategory" id="selectedCategory">-->
-<!--      <option value="Toutes">Toutes</option>-->
-<!--      <option data-th-each="c : ${categories}" data-th-value = "${c.wording}" data-th-text="${c.wording}"></option>-->
-<!--    </select>-->
-<!--    </label>-->
-<!--    <button type="submit">Rechercher</button>-->
-<!--  </form>-->
-
-<!--&lt;!&ndash;  Créer un foreach sur la liste des enchères&ndash;&gt;-->
-<!--  <div class="filterProd">-->
-<!--    <div class="article" data-th-each = "i: ${items}">-->
-<!--      <img src="https://powerlab.fr/18837-superlarge_default_2x/pc-gamer-streaming-core-qhd-powered-by-corsair.jpg" alt="">-->
-<!--      <h2 data-th-text="${i.getName()}"></h2>-->
-<!--      <ul>-->
-<!--      <li data-th-text="'Categorie : ' + ${i.category.wording}"></li>-->
-<!--        <li data-th-text="${i.description}"></li>-->
-<!--        <li data-th-text="'from ' + ${i.getBeginningAuctionDate()} + ' to ' + ${i.getEndingAuctionDate()}"></li>-->
-<!--        <li data-th-text="'started at ' + ${i.getFirstPrice()} + ' points'"></li>-->
-<!--&lt;!&ndash;          <li data-th-if="${i.getAuctions().size() > 0}" data-th-text="'currently at ' + ${i.getAuctions().get(i.getAuctions().size() - 1).getAmount()} + ' points'"></li>&ndash;&gt;-->
-<!--&lt;!&ndash;          <li data-th-if="${i.getAuctions().size() == 0}" data-th-text="'currently at ' + ${i.getFirstPrice()} + ' points'"></li> &ndash;&gt;-->
-<!--        <li data-th-text="'sold by ' + ${i.getUser().getPseudo()}"></li>-->
-<!--      </ul>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</main>-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
