@@ -1,35 +1,11 @@
-
-
-.nav ul{
+nav ul{
     display: flex;
 
     justify-content: space-evenly;
     font-size: 2rem;
     list-style: none;
-}
 
-.navbar-list {
-    list-style: none;
-    display: flex;
-    justify-content: center; /* Centrer les éléments horizontalement */
-}
 
-.navbar-list li {
-    margin: 0 20px;
-}
-
-.navbar-list a {
-    text-decoration: none;
-    color: black;
-    font-size: 18px;
-    padding: 10px 15px;
-    display: block;
-    transition: background-color 0.3s ease;
-}
-
-.navbar-list a:hover {
-    background-color: #555; /* Change la couleur du fond au survol */
-    border-radius: 5px; /* Ajoute des coins arrondis au survol */
 }
 
 nav a{
@@ -72,4 +48,3 @@ img{
 /*        background: linear-gradient(to right, #6a11cb, #2575fc);*/
 /*    }*/
 /*}*/
-
