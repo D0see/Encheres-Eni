@@ -9,15 +9,48 @@
   <h1>Liste des enchères</h1>
 
 
-  <form action="">
-    <label for="filter">Filtres :</label>
+  <form action="/encheres" method="post" >
+    <label for="filter">Nom de l'item :</label>
     <input id="filter" type="text">
+    <label>
+      <input type="checkbox" name="selectedItems" value="encheres en cours"> enchères en cours
+    </label>
+    <label>
+      <input type="checkbox" name="selectedItems" value="encheres auxquelles je participe"> enchères auxquelles je participe
+    </label>
+    <label>
+      <input type="checkbox" name="selectedItems" value="encheres gagnees"> enchères gagnées
+    </label>
 
-    <label for="categories">Catégorie :</label>
+
+<div th:if="${user != null}">
+    <label>
+      <input type="checkbox" name="selectedItems" value="mesEncheres"> Mes ventes
+    </label>
+    <label>
+      <input type="checkbox" name="selectedItems" value="encheresEnCours"> Mes ventes non commencées
+    </label>
+    <label>
+      <input type="checkbox" name="selectedItems" value="mesArticles"> Mes ventes en cours
+    </label>
+    <label>
+      <input type="checkbox" name="selectedItems" value="mesArticlesVendus"> Mes ventes terminées
+    </label>
+</div>
+
+    <label for="selectedCategory">Catégorie :
     <!--  Créer un foreach sur la liste des categories-->
-    <select name="" id="categories">
+<!--      <input id="selectedCategory">-->
+    <select name="" id="selectedCategory">
       <option value="Toutes">Toutes</option>
+      <option value="livres">Livres</option>
+      <option value="meubles">meubles</option>
+      <option value="sport">sport</option>
+      <option value="jouets">jouets</option>
     </select>
+    </label>
+
+
 
     <button type="submit">Rechercher</button>
 
@@ -58,7 +91,10 @@
     <tr data-th-each = "u: ${users}">
       <td  data-th-text="${u.getFirstName()}"> </td>
       <td data-th-text="${u.getPseudo()}"></td>
-<!--      <td ><span class="action"> <a th:href="@{/detail(id=${c.id})}" >Detail</a>  <a th:href="@{/modifier(id=${c.id})}" >Modifier</a> <form method="post"  th:action="@{/Liste}" style="display:inline;" >   <input type="hidden" name="id" th:value="${c.id}">-->
+<!--      <td ><span class="action"> <a th:href="@{/detail(id=${c.id})}" >Detail</a>
+<a th:href="@{/modifier(id=${c.id})}" >Modifier</a> <form method="post"
+th:action="@{/Liste}" style="display:inline;" >
+<input type="hidden" name="id" th:value="${c.id}">-->
 <!--      <button type="submit" class="link-button" >Supprimer</button>-->
 <!--      </form>  </span>-->
     </tbody>
