@@ -23,4 +23,7 @@ public interface ItemService {
     void createPickUp(PickUp pickUp);
     void createPickUpWithItem(ItemSold item, PickUp pickUp);
     PickUp getPickUpById(int id);
+
+    //annulation une vente
+    void removeItem(ItemSold item);
 }

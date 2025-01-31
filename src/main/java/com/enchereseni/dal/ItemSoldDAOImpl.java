@@ -102,6 +102,11 @@ import org.springframework.stereotype.Repository;
             return jdbcTemplate.query(FIND_ALL, new ItemSoldRowMapper(userService));
         }
 
+        @Override
+        public void removeItemSoldById(int id) {
+
+        }
+
     }
 
 
