@@ -1,0 +1,57 @@
+body{
+    background-color: #F1FAEE;
+    margin: 0;
+    width: 100%;
+}
+
+
+
+nav{
+    display: flex;
+    color: #F1FAEE;
+    background-color: #1D3557;
+    width: 100dvw;
+    justify-content: space-between;
+}
+nav h1{
+    PADDING-LEFT: 2%;
+}
+ul{
+    display: flex;
+    justify-content: space-evenly;
+    width: 25%;
+    font-size: 1.3rem;
+    list-style: none;
+}
+ul a{
+    text-decoration: none;
+    color: #F1FAEE;
+}
+main h1 {
+    text-align: center;
+    margin-top: 5%;
+    font-size: 4rem;
+    color: #457B9D;
+}
+
+form{
+    height: 5%;
+    font-size: xx-large;
+    color: #457B9D;
+    margin-left: 2%;
+}
+form button{
+    background-color: #E63946;
+    height: 30px;
+    width: 10%;
+    font-size: large;
+    margin: 1%;
+    border: none;
+    border-radius: 5%;
+    color: #F1FAEE;
+}
+
+img {
+    height: 50%;
+    width: auto;
+}
