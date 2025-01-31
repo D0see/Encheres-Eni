@@ -12,58 +12,42 @@
 
   <h1>Liste des enchères</h1>
 
-
-
   <form action="/encheres" method="post" >
     <label for="filter">Nom de l'item :</label>
 
-    <input id="filter" type="text">
+    <input name = "searchByName" id="filter" type="text">
     <label>
-      <input type="checkbox" name="selectedItems" value="encheres en cours"> enchères en cours
+      <input type="checkbox" name="selectedFilters" value="encheres en cours"> enchères en cours
     </label>
     <label>
-      <input type="checkbox" name="selectedItems" value="encheres auxquelles je participe"> enchères auxquelles je participe
+      <input type="checkbox" name="selectedFilters" value="encheres auxquelles je participe"> enchères auxquelles je participe
     </label>
     <label>
-      <input type="checkbox" name="selectedItems" value="encheres gagnees"> enchères gagnées
+      <input type="checkbox" name="selectedFilters" value="encheres gagnees"> enchères gagnées
     </label>
-
-
-<div th:if="${user != null}">
+<div>
     <label>
-      <input type="checkbox" name="selectedItems" value="mesEncheres"> Mes ventes
+      <input type="checkbox" name="selectedFilters" value="mesVentes"> Mes ventes
     </label>
     <label>
-      <input type="checkbox" name="selectedItems" value="encheresEnCours"> Mes ventes non commencées
+      <input type="checkbox" name="selectedFilters" value="mesVentesNonDebutes"> Mes ventes non commencées
     </label>
     <label>
-      <input type="checkbox" name="selectedItems" value="mesArticles"> Mes ventes en cours
+      <input type="checkbox" name="selectedFilters" value="mesVentesEnCours"> Mes ventes en cours
     </label>
     <label>
-      <input type="checkbox" name="selectedItems" value="mesArticlesVendus"> Mes ventes terminées
+      <input type="checkbox" name="selectedFilters" value="mesVentesFinalisees"> Mes ventes terminées
     </label>
 </div>
 
     <label for="selectedCategory">Catégorie :
-    <!--  Créer un foreach sur la liste des categories-->
-<!--      <input id="selectedCategory">-->
-    <select name="" id="selectedCategory">
+    <select name="selectedCategory" id="selectedCategory">
       <option value="Toutes">Toutes</option>
-      <option value="livres">Livres</option>
-      <option value="meubles">meubles</option>
-      <option value="sport">sport</option>
-      <option value="jouets">jouets</option>
+      <option data-th-each="c : ${categories}" data-th-value = "${c.wording}" data-th-text="${c.wording}"></option>
     </select>
-
-
-
-
-
-
-
+    </label>
     <button type="submit">Rechercher</button>
   </form>
-
 
 <!--  Créer un foreach sur la liste des enchères-->
   <div class="filterProd">
@@ -75,10 +59,7 @@
         <li data-th-text="'started at ' + ${i.getFirstPrice()}"></li>
         <li data-th-text="'sold by ' + ${i.getUser().getPseudo()}"></li>
       </ul>
-
     </div>
-
-
   </div>
 
 
