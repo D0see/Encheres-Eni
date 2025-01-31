@@ -54,15 +54,20 @@
     <div class="article" data-th-each = "i: ${items}">
       <img src="https://powerlab.fr/18837-superlarge_default_2x/pc-gamer-streaming-core-qhd-powered-by-corsair.jpg" alt="">
       <h2 data-th-text="${i.getName()}"></h2>
-      <ul>
-      <li data-th-text="'Categorie : ' + ${i.category.wording}"></li>
+        <ul>
+        <li data-th-text="'Categorie : ' + ${i.category.wording}"></li>
         <li data-th-text="${i.description}"></li>
         <li data-th-text="'from ' + ${i.getBeginningAuctionDate()} + ' to ' + ${i.getEndingAuctionDate()}"></li>
         <li data-th-text="'started at ' + ${i.getFirstPrice()} + ' points'"></li>
 <!--          <li data-th-if="${i.getAuctions().size() > 0}" data-th-text="'currently at ' + ${i.getAuctions().get(i.getAuctions().size() - 1).getAmount()} + ' points'"></li>-->
 <!--          <li data-th-if="${i.getAuctions().size() == 0}" data-th-text="'currently at ' + ${i.getFirstPrice()} + ' points'"></li> -->
         <li data-th-text="'sold by ' + ${i.getUser().getPseudo()}"></li>
-      </ul>
+        <li>
+            <form method = "post" data-th-action="@{/CreationEnchere/{itemId}(itemId=${i.getItemId()})}">
+                <button type = "submit">Creer une enchère</button>
+            </form>
+        </li>
+        </ul>
     </div>
   </div>
 </main>
