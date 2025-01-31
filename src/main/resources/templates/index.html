@@ -7,65 +7,145 @@
 </head>
 <body>
 
-<main>
-<!-- partie avec filtres-->
+<main class="container py-4">
 
-  <h1>Liste des enchères</h1>
+    <div class="content">
+    <h1 class="text-center mb-4">Liste des enchères</h1>
 
-  <form action="/encheres" method="post" >
-    <label for="filter">Nom de l'item :</label>
+    <form action="/encheres" method="post" class="mb-4 p-4 border rounded bg-light">
+        <div class="mb-3">
+            <label for="filter" class="form-check-label">Nom de l'item :</label>
+            <input name="searchByName" id="filter" type="text" class="form-control">
+        </div>
 
-    <input name = "searchByName" id="filter" type="text">
-    <label>
-      <input type="checkbox" name="selectedFilters" value="encheres en cours"> enchères en cours
-    </label>
-<div data-th-if="${!#authentication.getName().equals('anonymousUser')}">
-    <label>
-        <input type="checkbox" name="selectedFilters" value="encheres auxquelles je participe"> enchères auxquelles je participe
-    </label>
-    <label>
-        <input type="checkbox" name="selectedFilters" value="encheres gagnees"> enchères gagnées
-    </label>
-    <label>
-        <input type="checkbox" name="selectedFilters" value="mesVentes"> Mes ventes
-    </label>
-    <label>
-        <input type="checkbox" name="selectedFilters" value="mesVentesNonDebutes"> Mes ventes non commencées
-    </label>
-    <label>
-        <input type="checkbox" name="selectedFilters" value="mesVentesEnCours"> Mes ventes en cours
-    </label>
-    <label>
-        <input type="checkbox" name="selectedFilters" value="mesVentesFinalisees"> Mes ventes terminées
-    </label>
-</div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="selectedFilters" value="encheres en cours" id="encours">
+            <label class="form-check-label" for="encours">Enchères en cours</label>
+        </div>
 
-    <label for="selectedCategory">Catégorie :
-    <select name="selectedCategory" id="selectedCategory">
-      <option value="Toutes">Toutes</option>
-      <option data-th-each="c : ${categories}" data-th-value = "${c.wording}" data-th-text="${c.wording}"></option>
-    </select>
-    </label>
-    <button type="submit">Rechercher</button>
-  </form>
+        <div data-th-if="${!#authentication.getName().equals('anonymousUser')}">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="selectedFilters" value="encheres auxquelles je participe" id="participe">
+                <label class="form-check-label" for="participe">Enchères auxquelles je participe</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="selectedFilters" value="encheres gagnees" id="gagnees">
+                <label class="form-check-label" for="gagnees">Enchères gagnées</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="selectedFilters" value="mesVentes" id="ventes">
+                <label class="form-check-label" for="ventes">Mes ventes</label>
+            </div>
+            <div class="form-check">
+                        <input type="checkbox"  class="form-check-input" name="selectedFilters" value="mesVentesNonDebutes"> Mes ventes non commencées
+                    </label>
+            </div>
 
-<!--  Créer un foreach sur la liste des enchères-->
-  <div class="filterProd">
-    <div class="article" data-th-each = "i: ${items}">
-      <img src="https://powerlab.fr/18837-superlarge_default_2x/pc-gamer-streaming-core-qhd-powered-by-corsair.jpg" alt="">
-      <h2 data-th-text="${i.getName()}"></h2>
-      <ul>
-      <li data-th-text="'Categorie : ' + ${i.category.wording}"></li>
-        <li data-th-text="${i.description}"></li>
-        <li data-th-text="'from ' + ${i.getBeginningAuctionDate()} + ' to ' + ${i.getEndingAuctionDate()}"></li>
-        <li data-th-text="'started at ' + ${i.getFirstPrice()} + ' points'"></li>
-<!--          <li data-th-if="${i.getAuctions().size() > 0}" data-th-text="'currently at ' + ${i.getAuctions().get(i.getAuctions().size() - 1).getAmount()} + ' points'"></li>-->
-<!--          <li data-th-if="${i.getAuctions().size() == 0}" data-th-text="'currently at ' + ${i.getFirstPrice()} + ' points'"></li> -->
-        <li data-th-text="'sold by ' + ${i.getUser().getPseudo()}"></li>
-      </ul>
+            <div class="form-check">
+                    <label>
+                        <input type="checkbox" class="form-check-input" name="selectedFilters" value="mesVentesEnCours"> Mes ventes en cours
+                    </label>
+            </div>
+            <div class="form-check">
+                    <label>
+                        <input type="checkbox" class="form-check-input" name="selectedFilters" value="mesVentesFinalisees"> Mes ventes terminées
+                    </label>
+            </div>
+
+        </div>
+
+
+        <div class="mb-3">
+            <label for="selectedCategory" class="form-label">Catégorie :</label>
+            <select name="selectedCategory" id="selectedCategory" class="form-select">
+                <option value="Toutes">Toutes</option>
+                <option data-th-each="c : ${categories}" data-th-value="${c.wording}" data-th-text="${c.wording}"></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Rechercher</button>
+    </form>
     </div>
-  </div>
+    <div class="row">
+        <div class="col-md-4 mb-4" data-th-each="i: ${items}">
+            <div class="card h-100">
+                <img src="https://powerlab.fr/18837-superlarge_default_2x/pc-gamer-streaming-core-qhd-powered-by-corsair.jpg" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h5 class="card-title" data-th-text="${i.getName()}"></h5>
+                    <ul class="list-unstyled">
+                        <li data-th-text="'Catégorie : ' + ${i.category.wording}"></li>
+                        <li data-th-text="${i.description}"></li>
+                        <li data-th-text="'Du ' + ${i.getBeginningAuctionDate()} + ' au ' + ${i.getEndingAuctionDate()}"></li>
+                        <li data-th-text="'Prix de départ : ' + ${i.getFirstPrice()} + ' points'"></li>
+                        <li data-th-text="'Vendu par ' + ${i.getUser().getPseudo()}"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
+
+
+
+<!--<main>-->
+<!--&lt;!&ndash; partie avec filtres&ndash;&gt;-->
+
+<!--  <h1>Liste des enchères</h1>-->
+
+<!--  <form action="/encheres" method="post" >-->
+<!--    <label for="filter">Nom de l'item :</label>-->
+
+<!--    <input name = "searchByName" id="filter" type="text">-->
+<!--    <label>-->
+<!--      <input type="checkbox" name="selectedFilters" value="encheres en cours"> enchères en cours-->
+<!--    </label>-->
+<!--<div data-th-if="${!#authentication.getName().equals('anonymousUser')}">-->
+<!--    <label>-->
+<!--        <input type="checkbox" name="selectedFilters" value="encheres auxquelles je participe"> enchères auxquelles je participe-->
+<!--    </label>-->
+<!--    <label>-->
+<!--        <input type="checkbox" name="selectedFilters" value="encheres gagnees"> enchères gagnées-->
+<!--    </label>-->
+<!--    <label>-->
+<!--        <input type="checkbox" name="selectedFilters" value="mesVentes"> Mes ventes-->
+<!--    </label>-->
+<!--    <label>-->
+<!--        <input type="checkbox" name="selectedFilters" value="mesVentesNonDebutes"> Mes ventes non commencées-->
+<!--    </label>-->
+<!--    <label>-->
+<!--        <input type="checkbox" name="selectedFilters" value="mesVentesEnCours"> Mes ventes en cours-->
+<!--    </label>-->
+<!--    <label>-->
+<!--        <input type="checkbox" name="selectedFilters" value="mesVentesFinalisees"> Mes ventes terminées-->
+<!--    </label>-->
+<!--</div>-->
+
+<!--    <label for="selectedCategory">Catégorie :-->
+<!--    <select name="selectedCategory" id="selectedCategory">-->
+<!--      <option value="Toutes">Toutes</option>-->
+<!--      <option data-th-each="c : ${categories}" data-th-value = "${c.wording}" data-th-text="${c.wording}"></option>-->
+<!--    </select>-->
+<!--    </label>-->
+<!--    <button type="submit">Rechercher</button>-->
+<!--  </form>-->
+
+<!--&lt;!&ndash;  Créer un foreach sur la liste des enchères&ndash;&gt;-->
+<!--  <div class="filterProd">-->
+<!--    <div class="article" data-th-each = "i: ${items}">-->
+<!--      <img src="https://powerlab.fr/18837-superlarge_default_2x/pc-gamer-streaming-core-qhd-powered-by-corsair.jpg" alt="">-->
+<!--      <h2 data-th-text="${i.getName()}"></h2>-->
+<!--      <ul>-->
+<!--      <li data-th-text="'Categorie : ' + ${i.category.wording}"></li>-->
+<!--        <li data-th-text="${i.description}"></li>-->
+<!--        <li data-th-text="'from ' + ${i.getBeginningAuctionDate()} + ' to ' + ${i.getEndingAuctionDate()}"></li>-->
+<!--        <li data-th-text="'started at ' + ${i.getFirstPrice()} + ' points'"></li>-->
+<!--&lt;!&ndash;          <li data-th-if="${i.getAuctions().size() > 0}" data-th-text="'currently at ' + ${i.getAuctions().get(i.getAuctions().size() - 1).getAmount()} + ' points'"></li>&ndash;&gt;-->
+<!--&lt;!&ndash;          <li data-th-if="${i.getAuctions().size() == 0}" data-th-text="'currently at ' + ${i.getFirstPrice()} + ' points'"></li> &ndash;&gt;-->
+<!--        <li data-th-text="'sold by ' + ${i.getUser().getPseudo()}"></li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</main>-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 

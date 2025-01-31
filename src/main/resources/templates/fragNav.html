@@ -14,24 +14,51 @@
 
 <body>
 <header>
-  <h1>ENI-Enchères</h1>
-  <a href="/"><img data-th-src="@{/images/logoENI.png}" title="logo de l'ENI"/></a>
-</header>
-<div class="container">
-  <nav class="navbar">
-    <ul class="navbar-list">
-      <li><a href="/">Home</a></li>
-      <li data-th-if="${#authentication.getName() != 'anonymousUser'}"><a href="/vendre">Vendre un article </a></li>
-      <li data-th-if="${#authentication.getName() == 'anonymousUser'}"><a data-th-href = "@{/login}">Login</a></li>
-      <li  data-th-if="${#authentication.getName() == 'anonymousUser'}"><a href="/register">Inscription</a></li>
-      <li data-th-if="${#authentication.getName() != 'anonymousUser'}">
-        <form data-th-action="@{/logout}" method ="post">
-          <button data-th-method="POST" data-th-text="${#authentication.getName()}+ ' Logout'"></button>
-        </form>
-      </li>
-    </ul>
+  <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item" data-th-if="${#authentication.getName() != 'anonymousUser'}">
+            <a class="nav-link" href="/vendre">Créer une vente</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item" data-th-if="${#authentication.getName() == 'anonymousUser'}">
+            <a class="nav-link" data-th-href = "@{/login}">Login</a>
+          </li>
+          <li class="nav-item" data-th-if="${#authentication.getName() == 'anonymousUser'}">
+            <a class="nav-link" href="/register">Inscription</a>
+          </li>
+          <li class="nav-item" data-th-if="${#authentication.getName() != 'anonymousUser'}">
+            <form data-th-action="@{/logout}" method ="post">
+              <button class="btn btn-link nav-link" data-th-method="POST" data-th-text="${#authentication.getName()}+ ' Logout'"></button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
-</div>
+
+</header>
+<!--<main class="container">-->
+<!--    <nav class="navbar">-->
+<!--      <ul class="navbar-list">-->
+<!--        <li><a href="/">Home</a></li>-->
+<!--        <li data-th-if="${#authentication.getName() != 'anonymousUser'}"><a href="/vendre">Vendre un article </a></li>-->
+<!--        <li data-th-if="${#authentication.getName() == 'anonymousUser'}"><a data-th-href = "@{/login}">Login</a></li>-->
+<!--        <li  data-th-if="${#authentication.getName() == 'anonymousUser'}"><a href="/register">Inscription</a></li>-->
+<!--        <li data-th-if="${#authentication.getName() != 'anonymousUser'}">-->
+<!--          <form data-th-action="@{/logout}" method ="post">-->
+<!--            <button data-th-method="POST" data-th-text="${#authentication.getName()}+ ' Logout'"></button>-->
+<!--          </form>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </nav>-->
+<!--</main>-->
 
 
 <main data-th-replace="${main}"> </main>
