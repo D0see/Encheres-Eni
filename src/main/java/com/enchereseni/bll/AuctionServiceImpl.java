@@ -45,12 +45,17 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public List<Auction> getAuctionsByUsername(String username) {
-        return List.of();
+        return getAllAuctions().stream().filter(auction -> {
+            return auction.getUser().getUsername().equals(username);
+        }).toList();
+
     }
 
     @Override
     public List<Auction> getAuctionsByItem(ItemSold itemSold) {
-        return List.of();
+        return getAllAuctions().stream().filter(auction -> {
+            return auction.getItemSold().getItemId() == itemSold.getItemId();
+        }).toList();
     }
 
 }

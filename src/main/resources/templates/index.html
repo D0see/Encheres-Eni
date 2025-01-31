@@ -59,8 +59,8 @@
         <li data-th-text="${i.description}"></li>
         <li data-th-text="'from ' + ${i.getBeginningAuctionDate()} + ' to ' + ${i.getEndingAuctionDate()}"></li>
         <li data-th-text="'started at ' + ${i.getFirstPrice()} + ' points'"></li>
-<!--          <li data-th-if="${i.getAuctions().size() > 0}" data-th-text="'currently at ' + ${i.getAuctions().get(i.getAuctions().size() - 1).getAmount()} + ' points'"></li>-->
-<!--          <li data-th-if="${i.getAuctions().size() == 0}" data-th-text="'currently at ' + ${i.getFirstPrice()} + ' points'"></li> -->
+          <li data-th-if="${i.getAuctions() != null && i.getAuctions().size() > 0}" data-th-text="'currently at ' + ${i.get} + ' points'"></li>
+          <li data-th-if="${i.getAuctions() == null}" data-th-text="'currently at ' + ${i.getFirstPrice()} + ' points'"></li>
         <li data-th-text="'sold by ' + ${i.getUser().getPseudo()}"></li>
         <li>
             <form method = "post" data-th-action="@{/CreationEnchere/{itemId}(itemId=${i.getItemId()})}">
