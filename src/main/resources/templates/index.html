@@ -19,24 +19,24 @@
     <label>
       <input type="checkbox" name="selectedFilters" value="encheres en cours"> enchères en cours
     </label>
+<div data-th-if="${!#authentication.getName().equals('anonymousUser')}">
     <label>
-      <input type="checkbox" name="selectedFilters" value="encheres auxquelles je participe"> enchères auxquelles je participe
+        <input type="checkbox" name="selectedFilters" value="encheres auxquelles je participe"> enchères auxquelles je participe
     </label>
     <label>
-      <input type="checkbox" name="selectedFilters" value="encheres gagnees"> enchères gagnées
-    </label>
-<div>
-    <label>
-      <input type="checkbox" name="selectedFilters" value="mesVentes"> Mes ventes
+        <input type="checkbox" name="selectedFilters" value="encheres gagnees"> enchères gagnées
     </label>
     <label>
-      <input type="checkbox" name="selectedFilters" value="mesVentesNonDebutes"> Mes ventes non commencées
+        <input type="checkbox" name="selectedFilters" value="mesVentes"> Mes ventes
     </label>
     <label>
-      <input type="checkbox" name="selectedFilters" value="mesVentesEnCours"> Mes ventes en cours
+        <input type="checkbox" name="selectedFilters" value="mesVentesNonDebutes"> Mes ventes non commencées
     </label>
     <label>
-      <input type="checkbox" name="selectedFilters" value="mesVentesFinalisees"> Mes ventes terminées
+        <input type="checkbox" name="selectedFilters" value="mesVentesEnCours"> Mes ventes en cours
+    </label>
+    <label>
+        <input type="checkbox" name="selectedFilters" value="mesVentesFinalisees"> Mes ventes terminées
     </label>
 </div>
 
@@ -55,39 +55,16 @@
       <img src="https://powerlab.fr/18837-superlarge_default_2x/pc-gamer-streaming-core-qhd-powered-by-corsair.jpg" alt="">
       <h2 data-th-text="${i.getName()}"></h2>
       <ul>
+      <li data-th-text="'Categorie : ' + ${i.category.wording}"></li>
+        <li data-th-text="${i.description}"></li>
         <li data-th-text="'from ' + ${i.getBeginningAuctionDate()} + ' to ' + ${i.getEndingAuctionDate()}"></li>
-        <li data-th-text="'started at ' + ${i.getFirstPrice()}"></li>
+        <li data-th-text="'started at ' + ${i.getFirstPrice()} + ' points'"></li>
+<!--          <li data-th-if="${i.getAuctions().size() > 0}" data-th-text="'currently at ' + ${i.getAuctions().get(i.getAuctions().size() - 1).getAmount()} + ' points'"></li>-->
+<!--          <li data-th-if="${i.getAuctions().size() == 0}" data-th-text="'currently at ' + ${i.getFirstPrice()} + ' points'"></li> -->
         <li data-th-text="'sold by ' + ${i.getUser().getPseudo()}"></li>
       </ul>
     </div>
   </div>
-
-
-
-  <table>
-    <thead>
-    <tr>
-      <th>Nom</th>
-      <th>Pseudor</th>
-      <th>Id</th>
-
-    </tr>
-    </thead>
-    <tbody >
-    <tr data-th-each = "u: ${users}">
-      <td  data-th-text="${u.getFirstName()}"> </td>
-      <td data-th-text="${u.getPseudo()}"></td>
-<!--      <td ><span class="action"> <a th:href="@{/detail(id=${c.id})}" >Detail</a>
-<a th:href="@{/modifier(id=${c.id})}" >Modifier</a> <form method="post"
-th:action="@{/Liste}" style="display:inline;" >
-<input type="hidden" name="id" th:value="${c.id}">-->
-<!--      <button type="submit" class="link-button" >Supprimer</button>-->
-<!--      </form>  </span>-->
-    </tbody>
-
-  </table>
-
-
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
