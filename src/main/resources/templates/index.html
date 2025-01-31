@@ -7,6 +7,7 @@
 </head>
 <body>
 
+<
 <main class="container py-4">
 
     <div class="content">
@@ -78,10 +79,28 @@
                         <li data-th-text="'Du ' + ${i.getBeginningAuctionDate()} + ' au ' + ${i.getEndingAuctionDate()}"></li>
                         <li data-th-text="'Prix de départ : ' + ${i.getFirstPrice()} + ' points'"></li>
                         <li data-th-text="'Vendu par ' + ${i.getUser().getPseudo()}"></li>
+                      <li>
+            <form method = "post" data-th-action="@{/CreationEnchere/{itemId}(itemId=${i.getItemId()})}">
+                <button type = "submit">Creer une enchère</button>
+            </form>
+        </li>
                     </ul>
                 </div>
             </div>
         </div>
+      
+     <!--  <ul>-->
+     <!--    <li data-th-text="'Categorie : ' + ${i.category.wording}"></li>-->
+      <!--   <li data-th-text="${i.description}"></li>-->
+      <!--   <li data-th-text="'from ' + ${i.getBeginningAuctionDate()} + ' to ' + ${i.getEndingAuctionDate()}"></li>-->
+      <!--   <li data-th-text="'started at ' + ${i.getFirstPrice()} + ' points'"></li>-->
+<!--          <li data-th-if="${i.getAuctions().size() > 0}" data-th-text="'currently at ' + ${i.getAuctions().get(i.getAuctions().size() - 1).getAmount()} + ' points'"></li>-->
+<!--          <li data-th-if="${i.getAuctions().size() == 0}" data-th-text="'currently at ' + ${i.getFirstPrice()} + ' points'"></li> -->
+      <!--   <li data-th-text="'sold by ' + ${i.getUser().getPseudo()}"></li>-->
+        
+      
+      
+
     </div>
 </main>
 
