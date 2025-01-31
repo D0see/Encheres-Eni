@@ -54,14 +54,16 @@ public class HomeController {
             @RequestParam(name = "selectedCategory", required = true) String selectedCategory,
             Principal principal,
             Model model) {
-
+        System.out.println("selectedFilters " + selectedFilters);
+        System.out.println("searchByName " + searchByName);
+        System.out.println("selectedCategory " + selectedCategory);
         var items = itemService.getItems();
 
         if (!selectedCategory.equals("Toutes")) {
             items = items.stream().filter(itemSold -> itemSold.getCategory().getWording().equals(selectedCategory)).toList();
         }
-        if (!searchByName.isEmpty()) {
-            items = items.stream().filter(itemSold -> itemSold.getName().equals(searchByName)).toList();
+        if (!searchByName.trim().isEmpty()) {
+            items = items.stream().filter(itemSold -> itemSold.getName().contains(searchByName)).toList();
         }
         if (selectedFilters != null) {
             if (selectedFilters.contains("Mes encheres")) {
@@ -72,8 +74,10 @@ public class HomeController {
                 items = items.stream().filter(itemSold -> itemSold.getBeginningAuctionDate().isBefore(LocalDate.now())
                                                                 && itemSold.getEndingAuctionDate().isAfter(LocalDate.now())).toList();
             }
-            if (selectedFilters.contains("Mes articles")) {
-               items = items.stream().filter(itemSold -> itemSold.getUser().getUsername().equals(principal.getName())).toList();
+            if (selectedFilters.contains("mesVentes")) {
+               items = items.stream().filter(itemSold -> {
+                   return itemSold.getUser().getUsername().equals(principal.getName());
+               }).toList();
             }
         }
         model.addAttribute("items",items);
