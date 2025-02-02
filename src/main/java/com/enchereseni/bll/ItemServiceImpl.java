@@ -5,6 +5,7 @@ import com.enchereseni.dal.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,8 +71,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void removeItem(ItemSold item) {
-    //to do celeste bouge toi le cul
+    if (item.getBeginningAuctionDate().isBefore(LocalDate.now())) {
+        itemSoldDAO.removeItemSoldById(item.getItemId());
+        }
     }
-
-
 }

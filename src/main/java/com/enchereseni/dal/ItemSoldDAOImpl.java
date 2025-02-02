@@ -1,16 +1,13 @@
 package com.enchereseni.dal;
 
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 
 import com.enchereseni.bll.UserService;
-import com.enchereseni.bo.Category;
 import com.enchereseni.bo.ItemSold;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -57,6 +54,9 @@ import org.springframework.stereotype.Repository;
         @Autowired
         private NamedParameterJdbcTemplate jdbcTemplate;
 
+        @Autowired
+        private JdbcTemplate vraiJdbcTemplate;
+
 
         private final String INSERT = """
     INSERT INTO ARTICLES_VENDUS 
@@ -102,9 +102,14 @@ import org.springframework.stereotype.Repository;
             return jdbcTemplate.query(FIND_ALL, new ItemSoldRowMapper(userService));
         }
 
+        static final String DELETE_ITEMSOLD="DELETE FROM ARTICLES_VENDUS WHERE no_article=?";
+
+        static final String DELETE_ENCHERE="DELETE FROM ENCHERES WHERE no_article=?";
+
         @Override
         public void removeItemSoldById(int id) {
-
+            vraiJdbcTemplate.update(DELETE_ITEMSOLD, id);
+            vraiJdbcTemplate.update(DELETE_ENCHERE, id);
         }
 
     }

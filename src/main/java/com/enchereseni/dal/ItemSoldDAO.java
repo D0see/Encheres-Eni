@@ -8,5 +8,6 @@ public interface ItemSoldDAO {
     int createItemSold(ItemSold itemSold);
     ItemSold getItemSoldById(int id);
     List<ItemSold> getAllItemSold();
+
     void removeItemSoldById(int id);
 }
