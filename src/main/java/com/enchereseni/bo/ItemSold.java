@@ -41,6 +41,8 @@ public class ItemSold {
     private User user;
     private List<Auction> auctions;
 
+    private EtatVente etatVente;
+
 
 
     public ItemSold(int itemId, String name, String description, LocalDate beginningAuctionDate, LocalDate endingAuctionDate, int firstPrice,int finalPrice, boolean soldState, List<Auction> auctions, Category category, User user) {
@@ -145,5 +147,13 @@ public class ItemSold {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public EtatVente getEtatVente() {
+        return etatVente;
+    }
+
+    public void setEtatVente(EtatVente etatVente) {
+        this.etatVente = etatVente;
     }
 }
