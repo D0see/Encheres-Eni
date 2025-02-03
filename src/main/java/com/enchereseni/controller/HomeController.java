@@ -35,8 +35,7 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home (Model model) {
-
+    public String home (Model model, Principal principal) {
         return "redirect:/encheres";
     }
 
@@ -50,6 +49,7 @@ public class HomeController {
                         auction -> auction.getItemSold().getItemId() == item.getItemId()).toList())
         );
         items.get(0).getAuctions().forEach(auction -> System.out.println(auction.getAmount() + " " + auction.getUser().getUsername()));
+
 
         model.addAttribute("items", items);
         model.addAttribute("categories",categoryService.getAllCategories());

@@ -10,6 +10,5 @@ public interface UserDAO {
     List<User> readAll();
     User read(int id);
     void update(User user);
-    void delete(User user);
     void delete(int id);
 }
