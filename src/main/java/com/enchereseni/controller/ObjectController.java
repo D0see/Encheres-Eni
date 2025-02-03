@@ -89,9 +89,10 @@ public class ObjectController {
     public String articleDetail(@PathVariable("itemId") int itemId,@ModelAttribute User user, Principal principal,Model model) {
 
         itemService.getItems().stream().filter(item -> item.getItemId() == itemId).findFirst().ifPresent(item -> {
-            System.out.println(item.getUser().getUsername() + ' ' + item.getUser().getZipCode());
+            model.addAttribute("user", userService.getUserbyUsername(principal.getName()));
             model.addAttribute("item", item);
             model.addAttribute("categories", itemService.getCategories());
+
 
 
         });

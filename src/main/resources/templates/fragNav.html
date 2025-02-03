@@ -35,7 +35,7 @@
                         <a class="nav-link" href="/register">Inscription</a>
                     </li>
                     <li class="nav-item" data-th-if="${#authentication.getName() != 'anonymousUser'}" >
-                        <span class="nav-link" data-th-text="'Credit : ' + ${user.credit}"></span>
+                        <span class="nav-link" data-th-text="'Credit : ' + ${user?.credit}"></span>
                     </li>
                     <li class="nav-item" data-th-if="${#authentication.getName() != 'anonymousUser'}">
                         <a class="nav-link" th:href="@{/user/{pseudo}(pseudo=${#authentication.getName()})}">Mon profil</a>
