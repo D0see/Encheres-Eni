@@ -97,6 +97,7 @@
                         </ul>
 
                         <form method="post"
+                              data-th-if="${i.etatVente.ordinal() == 0 && #authentication.getName() != 'anonymousUser' && #authentication.getName() != i.getUser().getUsername()}"
                               data-th-action="@{/CreationEnchere/{itemId}(itemId=${i.getItemId})}"
                               class="mt-auto">
                             <div class="input-group">

@@ -6,6 +6,7 @@ import com.enchereseni.bll.CategoryService;
 import com.enchereseni.bll.ItemService;
 import com.enchereseni.bll.UserService;
 import com.enchereseni.bo.Auction;
+import com.enchereseni.bo.EtatVente;
 import com.enchereseni.bo.ItemSold;
 import com.enchereseni.bo.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,8 +47,14 @@ public class HomeController {
         var items = itemService.getItems();
         //adds auctions to item
         items.forEach(
-                item -> item.setAuctions(auctionService.getAllAuctions().stream().filter(
-                        auction -> auction.getItemSold().getItemId() == item.getItemId()).toList())
+                item -> {
+                    item.setAuctions(auctionService.getAllAuctions().stream().filter(
+                            auction -> auction.getItemSold().getItemId() == item.getItemId()).toList());
+                    item.setEtatVente(
+                            item.getEndingAuctionDate().isBefore(LocalDate.now()) ? EtatVente.TERMINEE :
+                            item.getBeginningAuctionDate().isBefore(LocalDate.now()) && item.getEndingAuctionDate().isAfter(LocalDate.now()) ? EtatVente.EN_COURS : EtatVente.EN_ATTENTE);
+                    System.out.println(item.getEtatVente() + " " + item.getName());
+                }
         );
         items.get(0).getAuctions().forEach(auction -> System.out.println(auction.getAmount() + " " + auction.getUser().getUsername()));
 
@@ -107,7 +114,9 @@ public class HomeController {
             }
 
             if (selectedFilters.contains("encheresGagnees")) {
-                //TO DO
+                items = items.stream().filter(itemSold ->
+                        itemSold.getEndingAuctionDate().isBefore(LocalDate.now())).toList();
+                items = items.stream().filter(itemSold -> auctionService.getAuctionsByItem(itemSold).get(auctionService.getAuctionsByItem(itemSold).size() - 1).getUser().getUsername().equals(principal.getName())).toList();
             }
 
             if (selectedFilters.contains("encheresEnCours")) {
@@ -115,14 +124,20 @@ public class HomeController {
                         && itemSold.getEndingAuctionDate().isAfter(LocalDate.now())).toList();
 
             }
-
         }
 
+        //SET AUCTIONSTATE & BIDS
         items.forEach(
-                item -> item.setAuctions(auctionService.getAllAuctions().stream().filter(
-                        auction -> auction.getItemSold().getItemId() == item.getItemId()).toList())
+                item -> {
+                    item.setEtatVente(item.getEndingAuctionDate().isAfter(LocalDate.now()) ? EtatVente.TERMINEE :
+                                    item.getBeginningAuctionDate().isAfter(LocalDate.now()) && item.getEndingAuctionDate().isBefore(LocalDate.now()) ? EtatVente.EN_COURS :
+                                    item.getBeginningAuctionDate().isBefore(LocalDate.now()) ? EtatVente.EN_ATTENTE : null);
+                    item.setAuctions(auctionService.getAllAuctions().stream().filter(
+                            auction -> auction.getItemSold().getItemId() == item.getItemId()).toList());
+                }
         );
         model.addAttribute("items",items);
+
         return "index";
     }
 
