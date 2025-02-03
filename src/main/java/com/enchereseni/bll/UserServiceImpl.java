@@ -2,7 +2,6 @@ package com.enchereseni.bll;
 
 import com.enchereseni.bo.User;
 import com.enchereseni.dal.UserDAO;
-import org.springframework.security.core.userdetails.memory.UserAttribute;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

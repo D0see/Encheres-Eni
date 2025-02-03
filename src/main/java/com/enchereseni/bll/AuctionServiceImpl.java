@@ -25,7 +25,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public void updateAuction(Auction auction) {
-
+        auctionDAO.updateAuction(auction);
     }
 
     @Override

@@ -17,14 +17,14 @@
 
     <input name = "searchByName" id="filter" type="text">
     <label>
-      <input type="checkbox" name="selectedFilters" value="encheres en cours"> enchères en cours
+      <input type="checkbox" name="selectedFilters" value="encheresEnCours"> enchères en cours
     </label>
 <div data-th-if="${!#authentication.getName().equals('anonymousUser')}">
     <label>
-        <input type="checkbox" name="selectedFilters" value="encheres auxquelles je participe"> enchères auxquelles je participe
+        <input type="checkbox" name="selectedFilters" value="mesEncheres"> mes enchères
     </label>
     <label>
-        <input type="checkbox" name="selectedFilters" value="encheres gagnees"> enchères gagnées
+        <input type="checkbox" name="selectedFilters" value="encheresGagnees"> enchères gagnées
     </label>
     <label>
         <input type="checkbox" name="selectedFilters" value="mesVentes"> Mes ventes
@@ -59,11 +59,17 @@
         <li data-th-text="${i.description}"></li>
         <li data-th-text="'from ' + ${i.getBeginningAuctionDate()} + ' to ' + ${i.getEndingAuctionDate()}"></li>
         <li data-th-text="'started at ' + ${i.getFirstPrice()} + ' points'"></li>
-          <li data-th-if="${i.getAuctions() != null && i.getAuctions().size() > 0}" data-th-text="'currently at ' + ${i.get} + ' points'"></li>
-          <li data-th-if="${i.getAuctions() == null}" data-th-text="'currently at ' + ${i.getFirstPrice()} + ' points'"></li>
+<!--          <li data-th-if="${i.getAuctions() != null && i.getAuctions().size() > 0}" data-th-text="'currently at ' + ${i.get} + ' points'"></li>-->
+<!--          <li data-th-if="${i.getAuctions() == null}" data-th-text="'currently at ' + ${i.getFirstPrice()} + ' points'"></li>-->
         <li data-th-text="'sold by ' + ${i.getUser().getPseudo()}"></li>
+            <li data-th-each="a: ${i.getAuctions()}">
+                <p data-th-text="${a.getUser().getUsername()} + ' ' + ${a.getAmount()} + ' points'"></p>
+            </li>
         <li>
             <form method = "post" data-th-action="@{/CreationEnchere/{itemId}(itemId=${i.getItemId()})}">
+                <label>
+                    <input type ="number" name = "amount" required />nombre de points
+                </label>
                 <button type = "submit">Creer une enchère</button>
             </form>
         </li>

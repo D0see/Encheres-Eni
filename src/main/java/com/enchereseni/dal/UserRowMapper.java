@@ -1,11 +1,13 @@
 package com.enchereseni.dal;
 
+import com.enchereseni.bll.AuctionService;
 import com.enchereseni.bo.User;
 import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserRowMapper implements RowMapper<User> {
+
     @Override
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         User user = new User();
@@ -20,7 +22,7 @@ public class UserRowMapper implements RowMapper<User> {
         user.setCity(rs.getString("ville"));
         user.setPassword(rs.getString("mot_de_passe"));  // Maps "mot_de_passe" to password
         user.setCredit(rs.getLong("credit"));
-        user.setAdmin(rs.getBoolean("administrateur"));  // Maps "administrateur" to admin
+        user.setAdmin(rs.getBoolean("administrateur"));
         return user;
     }
 }

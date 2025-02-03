@@ -1,5 +1,6 @@
 package com.enchereseni.dal;
 
+import com.enchereseni.bll.AuctionService;
 import com.enchereseni.bo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

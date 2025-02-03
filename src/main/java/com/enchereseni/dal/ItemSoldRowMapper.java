@@ -1,5 +1,6 @@
 package com.enchereseni.dal;
 
+import com.enchereseni.bll.AuctionService;
 import com.enchereseni.bll.UserService;
 import com.enchereseni.bo.Category;
 import com.enchereseni.bo.ItemSold;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 
 @Component
 public class ItemSoldRowMapper implements RowMapper<ItemSold> {
-    
+
     UserService userService;
 
     public ItemSoldRowMapper (UserService userService) {
@@ -38,6 +39,7 @@ public class ItemSoldRowMapper implements RowMapper<ItemSold> {
 
         int userId = rs.getInt("no_utilisateur");
         User user = userService.getUserbyID(userId);
+        //item.setAuctions(auctionService.getAllAuctions().stream().filter(auction -> auction.getUser().getUsername().equals(item.getUser().getUsername())).toList());
         item.setUser(user);
 
 

@@ -1,9 +1,11 @@
 package com.enchereseni.controller;
 
 
+import com.enchereseni.bll.AuctionService;
 import com.enchereseni.bll.CategoryService;
 import com.enchereseni.bll.ItemService;
 import com.enchereseni.bll.UserService;
+import com.enchereseni.bo.Auction;
 import com.enchereseni.bo.ItemSold;
 import com.enchereseni.bo.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,11 +25,13 @@ public class HomeController {
     private final ItemService itemService;
     private final UserService userService;
     private final CategoryService categoryService;
+    private final AuctionService auctionService;
 
-    public HomeController(UserService userService, ItemService itemService, CategoryService categoryService) {
+    public HomeController(UserService userService, ItemService itemService, CategoryService categoryService, AuctionService auctionService) {
         this.userService = userService;
         this.itemService = itemService;
         this.categoryService = categoryService;
+        this.auctionService = auctionService;
     }
 
     @GetMapping("/")
@@ -38,7 +42,16 @@ public class HomeController {
 
     @GetMapping("/encheres")
     public String encheres(Model model) {
-        model.addAttribute("items",itemService.getItems());
+
+        var items = itemService.getItems();
+        //adds auctions to item
+        items.forEach(
+                item -> item.setAuctions(auctionService.getAllAuctions().stream().filter(
+                        auction -> auction.getItemSold().getItemId() == item.getItemId()).toList())
+        );
+        items.get(0).getAuctions().forEach(auction -> System.out.println(auction.getAmount() + " " + auction.getUser().getUsername()));
+
+        model.addAttribute("items", items);
         model.addAttribute("categories",categoryService.getAllCategories());
         return "index";
     }
@@ -64,20 +77,51 @@ public class HomeController {
             items = items.stream().filter(itemSold -> itemSold.getName().contains(searchByName)).toList();
         }
         if (selectedFilters != null) {
-            if (selectedFilters.contains("Mes encheres")) {
-                // items = items.stream().filter(itemSold -> itemSold.getAuctions().getUserName.equals(principal.getName()));
-                // todo afficher les encheres de l'utilisateur en session
+            if (selectedFilters.contains("mesEncheres")) {
+                var myListOfAuctions = auctionService.getAllAuctions().stream().filter(
+                        auction -> auction.getUser().getUsername().equals(principal.getName())
+                ).toList();
+                items = myListOfAuctions.stream().map(Auction::getItemSold).toList();
+
+                System.out.println("mes encheres " + items);
             }
-            if (selectedFilters.contains("Encheres en cours")) {
+
+            if (selectedFilters.contains("mesVentesNonDebutes")) {
+                items = items.stream().filter(itemSold ->
+                        itemSold.getUser().getUsername().equals(principal.getName()) && itemSold.getBeginningAuctionDate().isAfter(LocalDate.now())).toList();
+            }
+
+            if (selectedFilters.contains("mesVentesEnCours")) {
                 items = items.stream().filter(itemSold -> itemSold.getBeginningAuctionDate().isBefore(LocalDate.now())
-                                                                && itemSold.getEndingAuctionDate().isAfter(LocalDate.now())).toList();
+                                                                && itemSold.getEndingAuctionDate().isAfter(LocalDate.now())
+                                                                && itemSold.getUser().getUsername().equals(principal.getName())).toList();
             }
+
+            if (selectedFilters.contains("mesVentesFinalisees")) {
+                items = items.stream().filter(itemSold ->
+                        itemSold.getUser().getUsername().equals(principal.getName()) && itemSold.getEndingAuctionDate().isBefore(LocalDate.now())).toList();
+            }
+
             if (selectedFilters.contains("mesVentes")) {
-               items = items.stream().filter(itemSold -> {
-                   return itemSold.getUser().getUsername().equals(principal.getName());
-               }).toList();
+               items = items.stream().filter(itemSold -> itemSold.getUser().getUsername().equals(principal.getName())).toList();
             }
+
+            if (selectedFilters.contains("encheresGagnees")) {
+                //TO DO
+            }
+
+            if (selectedFilters.contains("encheresEnCours")) {
+                items = items.stream().filter(itemSold -> itemSold.getBeginningAuctionDate().isBefore(LocalDate.now())
+                        && itemSold.getEndingAuctionDate().isAfter(LocalDate.now())).toList();
+
+            }
+
         }
+
+        items.forEach(
+                item -> item.setAuctions(auctionService.getAllAuctions().stream().filter(
+                        auction -> auction.getItemSold().getItemId() == item.getItemId()).toList())
+        );
         model.addAttribute("items",items);
         return "index";
     }
