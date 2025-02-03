@@ -25,6 +25,13 @@ public class AuctionDAOImpl implements AuctionDAO {
     VALUES (?, ?, ?, ?)
 """;
 
+    static final String UPDATE = """
+    UPDATE ENCHERES
+    SET
+        date_enchere = ?,
+        montant_enchere = ?
+    WHERE no_utilisateur = ? AND no_article = ?
+""";
 
     private final UserService userService;
     private final ItemService itemService;
@@ -49,7 +56,12 @@ public class AuctionDAOImpl implements AuctionDAO {
 
     @Override
     public void updateAuction(Auction auction) {
-
+        jdbcTemplate.update(UPDATE,
+                auction.getDate(),
+                auction.getAmount(),
+                auction.getUser().getUserID(),
+                auction.getItemSold().getItemId()
+        );
     }
 
     @Override

@@ -61,12 +61,11 @@ public class User implements UserDetails {
     @NotNull
     private boolean admin;
     //Relations
-    private List<Auction> auctions;
 
     public User() {
     }
 
-    public User(int userID, String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin, List<Auction> auctions) {
+    public User(int userID, String pseudo, String firstName, String lastName, String email, String phone, String address, String zipCode, String city, String password, long credit, boolean admin) {
         this.userID = userID;
         this.pseudo = pseudo;
         this.firstName = firstName;
@@ -79,7 +78,6 @@ public class User implements UserDetails {
         this.password = password;
         this.credit = credit;
         this.admin = admin;
-        this.auctions = auctions;
     }
 
     public String getPseudo() {
@@ -165,14 +163,6 @@ public class User implements UserDetails {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
-    }
-
-    public List<Auction> getAuctions() {
-        return auctions;
-    }
-
-    public void setAuctions(List<Auction> auctions) {
-        this.auctions = auctions;
     }
 
     @Override
