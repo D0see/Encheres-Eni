@@ -56,7 +56,10 @@ public class HomeController {
                     System.out.println(item.getEtatVente() + " " + item.getName());
                 }
         );
-        items.get(0).getAuctions().forEach(auction -> System.out.println(auction.getAmount() + " " + auction.getUser().getUsername()));
+        if (!items.isEmpty()) {
+            items.get(0).getAuctions().forEach(auction -> System.out.println(auction.getAmount() + " " + auction.getUser().getUsername()));
+        }
+
 
         model.addAttribute("items", items);
         model.addAttribute("categories",categoryService.getAllCategories());
