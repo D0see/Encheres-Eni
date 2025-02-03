@@ -1,0 +1,72 @@
+<main class="container py-4">
+
+  <div class="content">
+    <h1 class="text-center mb-4">Liste des enchères</h1>
+
+    <form action="/encheres" method="post" class="mb-4 p-4 border rounded bg-light">
+      <div class="mb-3">
+        <label for="filter" class="form-check-label">Nom de l'item :</label>
+        <input name="searchByName" id="filter" type="text" class="form-control">
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="selectedFilters" value="encheres en cours" id="encours">
+        <label class="form-check-label" for="encours">Enchères en cours</label>
+      </div>
+
+      <div data-th-if="${!#authentication.getName().equals('anonymousUser')}">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" name="selectedFilters" value="encheres auxquelles je participe" id="participe">
+          <label class="form-check-label" for="participe">Enchères auxquelles je participe</label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" name="selectedFilters" value="encheres gagnees" id="gagnees">
+          <label class="form-check-label" for="gagnees">Enchères gagnées</label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" name="selectedFilters" value="mesVentes" id="ventes">
+          <label class="form-check-label" for="ventes">Mes ventes</label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox"  class="form-check-input" name="selectedFilters" value="mesVentesNonDebutes"> Mes ventes non commencées
+          </label>
+        </div>
+
+        <div class="form-check">
+          <label>
+            <input type="checkbox" class="form-check-input" name="selectedFilters" value="mesVentesEnCours"> Mes ventes en cours
+          </label>
+        </div>
+        <div class="form-check">
+          <label>
+            <input type="checkbox" class="form-check-input" name="selectedFilters" value="mesVentesFinalisees"> Mes ventes terminées
+          </label>
+        </div>
+
+      </div>
+
+
+      <div class="mb-3">
+        <label for="selectedCategory" class="form-label">Catégorie :</label>
+        <select name="selectedCategory" id="selectedCategory" class="form-select">
+          <option value="Toutes">Toutes</option>
+          <option data-th-each="c : ${categories}" data-th-value="${c.wording}" data-th-text="${c.wording}"></option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Rechercher</button>
+    </form>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-4" data-th-each="i: ${items}">
+      <div class="card h-100">
+        <img src="https://powerlab.fr/18837-superlarge_default_2x/pc-gamer-streaming-core-qhd-powered-by-corsair.jpg" class="card-img-top" alt="">
+        <div class="card-body">
+          <h5 class="card-title" data-th-text="${i.getName()}"></h5>
+          <ul class="list-unstyled">
+            <li data-th-text="'Catégorie : ' + ${i.category.wording}"></li>
+            <li data-th-text="${i.description}"></li>
+            <li data-th-text="'Du ' + ${i.getBeginningAuctionDate()} + ' au ' + ${i.getEndingAuctionDate()}"></li>
+            <li data-th-text="'Prix de départ : ' + ${i.getFirstPrice()} + ' points'"></li>
+            <li>Vendu par <a th:href="@{/user/{pseudo}(pseudo=${i.getUser().getUsername()})}" data-th-text="${i.getUser().getPseudo()}"></a></li>
+            <li>it

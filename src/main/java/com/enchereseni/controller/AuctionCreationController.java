@@ -33,7 +33,7 @@ public class AuctionCreationController {
 
         var maxBid = auctionService.getAuctionsByItem(itemService.getItemById(itemId)).stream().sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
         System.out.println("maxBid = " + maxBid.getAmount());
-        if (maxBid.getAmount() > amount) {
+        if (maxBid.getAmount() >= amount) {
             System.out.println("amount inputted too low");
             return "redirect:/encheres";
         }
