@@ -63,6 +63,11 @@ public class HomeController {
         return "index";
     }
 
+    @PostMapping("/deleteItem/{param}")
+    public String removeItem(@PathVariable Integer param, Model model) {
+        itemService.removeItem(itemService.getItemById(param));
+        return "redirect:/encheres";
+    }
 
     //TO TEST
     @PostMapping("/encheres")

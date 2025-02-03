@@ -77,12 +77,12 @@
                         <ul class="list-unstyled">
                             <li data-th-text="'Catégorie : ' + ${i.category.wording}"></li>
                             <li data-th-text="${i.description}"></li>
-                            <li data-th-text="'Du ' + ${i.getBeginningAuctionDate()} + ' au ' + ${i.getEndingAuctionDate()}"></li>
-                            <li data-th-text="'Prix de départ : ' + ${i.getFirstPrice()} + ' points'"></li>
+                            <li data-th-text="'Du ' + ${i.beginningAuctionDate} + ' au ' + ${i.endingAuctionDate}"></li>
+                            <li data-th-text="'Prix de départ : ' + ${i.firstPrice} + ' points'"></li>
                             <li>
                                 Vendu par
                                 <a th:href="@{/user/{pseudo}(pseudo=${i.getUser().getUsername()})}"
-                                   data-th-text="${i.getUser().getPseudo()}"
+                                   data-th-text="${i.user.pseudo}"
                                    class="text-decoration-none">
                                 </a>
                             </li>
@@ -108,6 +108,9 @@
                                        placeholder="Nombre de points">
                                 <button type="submit" class="btn btn-outline-primary">Enchérir</button>
                             </div>
+                        </form>
+                        <form method="post" data-th-action="@{/deleteItem/{param}(param=${i.getItemId()})}">
+                            <button type="submit">Supprimer</button>
                         </form>
                     </div>
                 </div>
