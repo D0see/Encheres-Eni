@@ -31,7 +31,13 @@ public class AuctionCreationController {
     @PostMapping("/CreationEnchere/{itemId}")
     public String createAuctionForItem(@RequestParam("amount") int amount, @PathVariable("itemId") int itemId, Model model, Principal principal) {
 
-        var maxBid = auctionService.getAuctionsByItem(itemService.getItemById(itemId)).stream().sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
+        Auction maxBid = new Auction();
+        if (!auctionService.getAuctionsByItem(itemService.getItemById(itemId)).isEmpty()) {
+            maxBid = auctionService.getAuctionsByItem(itemService.getItemById(itemId)).stream().sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
+        } else {
+            maxBid.setAmount(itemService.getItemById(itemId).getFirstPrice());
+        }
+
         System.out.println("maxBid = " + maxBid.getAmount());
         if (maxBid.getAmount() >= amount) {
             System.out.println("amount inputted too low");
@@ -50,6 +56,8 @@ public class AuctionCreationController {
             auctionService.createAuction(auction);
             System.out.println("createdAuction");
         }
+
+        //TO DO : RECREDIT HIGHEST BIDDER, DISCREDIT ? NEW BIDDER
 
         return "redirect:/encheres";
     }
