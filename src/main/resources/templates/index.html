@@ -78,7 +78,7 @@
                         <li data-th-text="${i.description}"></li>
                         <li data-th-text="'Du ' + ${i.getBeginningAuctionDate()} + ' au ' + ${i.getEndingAuctionDate()}"></li>
                         <li data-th-text="'Prix de départ : ' + ${i.getFirstPrice()} + ' points'"></li>
-                        <li data-th-text="'Vendu par ' + ${i.getUser().getPseudo()}"></li>
+                        <li>Vendu par <a th:href="@{/user/{pseudo}(pseudo=${i.getUser().getUsername()})}" data-th-text="${i.getUser().getPseudo()}"></a></li>
                       <li>
             <form method = "post" data-th-action="@{/CreationEnchere/{itemId}(itemId=${i.getItemId()})}">
                 <button type = "submit">Creer une enchère</button>
