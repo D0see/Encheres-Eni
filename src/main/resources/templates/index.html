@@ -91,11 +91,15 @@
                             </li>
 
                             <li class="mt-2">
-                                <div data-th-each="a: ${i.getAuctions()}">
-                                    <small class="text-muted"
-                                           data-th-text="${a.getUser().getUsername()} + ' - ' + ${a.getAmount()} + ' points'">
-                                    </small>
+                                <div data-th-each="a: ${i.getAuctions()}"
+                                     class="mb-2 p-2 d-flex align-items-center"
+                                     style="height: 40px;"
+                                     data-th-classappend="${aStat.last} ? 'bg-primary text-light' : 'bg-light text-dark'">
+
+                                    <div data-th-text="${a.getUser().getUsername()} + ' - ' + ${a.getAmount()} + ' points'">
+                                    </div>
                                 </div>
+
                             </li>
                         </ul>
 
