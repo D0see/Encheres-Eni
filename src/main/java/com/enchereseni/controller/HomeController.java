@@ -151,15 +151,14 @@ public class HomeController {
         //SETS AUCTIONSTATE & BIDS
         items.forEach(
                 item -> {
-                    item.setEtatVente(item.getEndingAuctionDate().isAfter(LocalDate.now()) ? EtatVente.TERMINEE :
-                                    (item.getBeginningAuctionDate().isAfter(LocalDate.now()) ||  item.getBeginningAuctionDate().isEqual(LocalDate.now())) &&
-                                    item.getEndingAuctionDate().isBefore(LocalDate.now()) ? EtatVente.EN_COURS :
-                                    item.getBeginningAuctionDate().isBefore(LocalDate.now()) ? EtatVente.EN_ATTENTE : null);
+                    item.setEtatVente(item.getEndingAuctionDate().isBefore(LocalDate.now()) ? EtatVente.TERMINEE :
+                            item.getBeginningAuctionDate().isBefore(LocalDate.now()) && item.getEndingAuctionDate().isAfter(LocalDate.now()) ? EtatVente.EN_COURS : EtatVente.EN_ATTENTE);
                     item.setAuctions(auctionService.getAllAuctions().stream().filter(auction ->
                             auction.getItemSold().getItemId() == item.getItemId()).toList().stream().sorted(
                                     (a, b) -> a.getAmount() - b.getAmount()).toList());
                 }
         );
+        items.forEach(itemSold -> System.out.println(itemSold.getEtatVente() + " " + itemSold.getName()));
         model.addAttribute("items",items);
 
 

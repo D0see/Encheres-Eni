@@ -116,8 +116,12 @@
                                 <button type="submit" class="btn btn-outline-primary">Enchérir</button>
                             </div>
                         </form>
-                        <form data-th-if="${#authentication.getName() == i.getUser().getUsername()}" method="post" data-th-action="@{/deleteItem/{param}(param=${i.getItemId()})}">
-                            <button type = "submit">Delete</button>
+                        <form data-th-if="${#authentication.getName() == i.getUser().getUsername() && i.etatVente.ordinal() == 2}" method="post" data-th-action="@{/deleteItem/{param}(param=${i.getItemId()})}">
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-danger btn-lg fw-bold">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
