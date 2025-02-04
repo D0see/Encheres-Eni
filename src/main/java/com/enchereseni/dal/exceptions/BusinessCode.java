@@ -33,8 +33,6 @@ public class BusinessCode {
     public static final String VALIDATION_USER_PASSWORD_EMPTY="validation.user.password.empty";
     public static final String VALIDATION_USER_PASSWORD_BLANK="validation.user.password.blank";
     public static final String VALIDATION_USER_PASSWORD_LENGHT="validation.user.password.length";
-    public static final String
-    public static final String
 
 
 }
