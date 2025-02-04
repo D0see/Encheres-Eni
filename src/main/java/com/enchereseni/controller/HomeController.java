@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.rmi.MarshalledObject;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
@@ -38,12 +39,20 @@ public class HomeController {
     @GetMapping("/")
     public String home (Model model) {
 
+
         return "redirect:/encheres";
     }
 
     @GetMapping("/encheres")
-    public String encheres(Model model) {
+    public String encheres(Model model,Principal principal) {
 
+        if (principal != null) {
+            String username = principal.getName();
+            User user = userService.getUserbyUsername(username);
+            model.addAttribute("user", user);
+        } else {
+            model.addAttribute("user", null);
+        }
         var items = itemService.getItems();
         //adds auctions to item
         items.forEach(
@@ -59,7 +68,6 @@ public class HomeController {
         if (!items.isEmpty()) {
             items.get(0).getAuctions().forEach(auction -> System.out.println(auction.getAmount() + " " + auction.getUser().getUsername()));
         }
-
 
         model.addAttribute("items", items);
         model.addAttribute("categories",categoryService.getAllCategories());
@@ -140,6 +148,7 @@ public class HomeController {
                 }
         );
         model.addAttribute("items",items);
+
 
         return "index";
     }

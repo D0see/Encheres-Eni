@@ -72,7 +72,10 @@
                          class="card-img-top" alt="Item image">
 
                     <div class="card-body">
-                        <h5 class="card-title" data-th-text="${i.getName()}"></h5>
+                        <h5 class="card-title" ><a th:href="@{/articleDetail/{itemId}(itemId=${i.getItemId()})}"
+                                                   data-th-text="${i.getName()}"
+                                                                                class="text-decoration-none">
+                        </a>  </h5>
 
                         <ul class="list-unstyled">
                             <li data-th-text="'Catégorie : ' + ${i.category.wording}"></li>

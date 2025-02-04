@@ -9,22 +9,19 @@ import com.enchereseni.bo.User;
 import com.enchereseni.dal.CategoryDAO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sql.CommonDataSource;
-import java.beans.PropertyEditorSupport;
 import java.security.Principal;
 import java.util.List;
 
 @Controller
-public class ObjectCreationController {
+public class ObjectController {
     @Autowired
     private UserService userService;
     @Autowired
@@ -84,6 +81,29 @@ public class ObjectCreationController {
         return "redirect:/";
 
     }
+
+
+
+
+    @GetMapping("/articleDetail/{itemId}")
+    public String articleDetail(@PathVariable("itemId") int itemId,@ModelAttribute User user, Principal principal,Model model) {
+
+        itemService.getItems().stream().filter(item -> item.getItemId() == itemId).findFirst().ifPresent(item -> {
+            model.addAttribute("user", userService.getUserbyUsername(principal.getName()));
+            model.addAttribute("item", item);
+            model.addAttribute("categories", itemService.getCategories());
+
+
+
+        });
+
+
+
+        return "itemDetail";
+    }
+
+
+
     //pour validation
     @ControllerAdvice
     public class GlobalExceptionHandler {
