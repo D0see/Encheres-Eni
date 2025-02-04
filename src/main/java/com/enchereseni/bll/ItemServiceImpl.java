@@ -42,6 +42,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public void updateItem(ItemSold item) {
+        itemSoldDAO.updateItemSold(item);
+    }
+
+    @Override
     public List<Category> getCategories() {
         return categoryDAO.getAllCategories();
     }

@@ -13,18 +13,18 @@
 
       <div class="mb-3">
         <label for="art" class="form-label">Article :</label>
-        <input type="text" id="art" data-th-field="*{name}" class="form-control" placeholder="Enter name" disabled>
+        <input type="text" id="art" data-th-field="*{name}" class="form-control" placeholder="Enter name" readonly>
 
       </div>
       <div class="mb-3">
         <label for="description" class="form-label">Description :</label>
-        <textarea id="description" data-th-field="*{description}" class="form-control" placeholder="Enter description"disabled></textarea>
+        <textarea id="description" data-th-field="*{description}" class="form-control" placeholder="Enter description" readonly></textarea>
 
 
       </div>
       <div class="mb-3">
         <label for="category" class="form-label">Catégorie :</label>
-        <select id="category" name="category" class="form-select" disabled>
+        <select id="category" name="category" class="form-select" disabled >
           <option th:each="cat : ${categories}" th:value="${cat.category}" th:text="${cat.wording}" th:selected="${cat.category == item.category.category}" ></option>
         </select>
 
@@ -32,18 +32,18 @@
       </div>
       <div class="mb-3">
         <label for="prix" class="form-label">Mise à prix :</label>
-        <input type="number" id="prix" data-th-field="*{firstPrice}" class="form-control" disabled>
+        <input type="number" id="prix" data-th-field="*{firstPrice}" class="form-control" readonly>
 
       </div>
       <div class="mb-3">
         <label for="debut" class="form-label">Début de l'enchère :</label>
-        <input type="date" id="debut" th:value="${#temporals.format(item.beginningAuctionDate, 'yyyy-MM-dd')}"  class="form-control" disabled>
+        <input type="date" id="debut" th:value="${#temporals.format(item.beginningAuctionDate, 'yyyy-MM-dd')}"  class="form-control" readonly>
 
 
       </div>
       <div class="mb-3">
         <label for="fin" class="form-label">Fin de l'enchère :</label>
-        <input type="date" id="fin" th:value="${#temporals.format(item.endingAuctionDate, 'yyyy-MM-dd')}" class="form-control" disabled>
+        <input type="date" id="fin" th:value="${#temporals.format(item.endingAuctionDate, 'yyyy-MM-dd')}" class="form-control" readonly>
 
 
       </div>
@@ -52,19 +52,19 @@
 
       <div class="mb-3">
         <label class="form-label" for="street">Rue :</label>
-        <input id="street" type="text" data-th-field="*{user.address}" class="form-control" disabled>
+        <input id="street" type="text" data-th-field="*{user.address}" class="form-control" readonly>
 
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="code">Code postal :</label>
-        <input id="code" type="text" data-th-field="*{user.zipCode}" class="form-control"disabled>
+        <input id="code" type="text" data-th-field="*{user.zipCode}" class="form-control" readonly>
 
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="city">Ville :</label>
-        <input id="city" type="text" data-th-field="*{user.city}" class="form-control" disabled>
+        <input id="city" type="text" data-th-field="*{user.city}" class="form-control" readonly>
 
       </div>
 

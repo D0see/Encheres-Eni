@@ -23,6 +23,7 @@ import org.springframework.stereotype.Repository;
 
 
 
+
         private final String FIND_BY_ID = """
      SELECT av.no_article, av.nom_article, av.description, av.date_debut_encheres, av.date_fin_encheres, 
             av.prix_initial, av.prix_vente, 
@@ -43,11 +44,14 @@ import org.springframework.stereotype.Repository;
      JOIN CATEGORIES c ON av.no_categorie = c.no_categorie
      JOIN UTILISATEURS u ON av.no_utilisateur = u.no_utilisateur
 """;
-        private final String UPDATE = """
-                     UPDATE ARTICLES_VENDUS SET NAME = :name, DESCRIPTION = :description, BEGINNING_AUCTION_DATE = :beginningAuctionDate,
-                     ENDING_AUCTION_DATE = :endingAuctionDate, PRICE = :price, SOLD_STATE = :soldState, CATEGORY_ID = :categoryId
-                     WHERE ID = :id
-                """;
+private static String UPDATE= """
+
+        UPDATE ARTICLES_VENDUS
+        SET nom_article = ?, description = ?, date_debut_encheres = ?,
+        date_fin_encheres = ?, prix_initial = ?, no_categorie = ?
+        WHERE no_article = ?
+        """;
+
 
         private final String DELETE = "DELETE FROM ITEM_SOLD WHERE ID = :id";
 
@@ -64,6 +68,9 @@ import org.springframework.stereotype.Repository;
     VALUES 
         (:nomArticle, :description, :beginningAuctionDate, :endingAuctionDate, :initialPrice,:finalPrice, :userId, :categoryId)
 """;
+
+
+
 
         public ItemSoldDAOImpl(UserService userService) {
             this.userService = userService;
@@ -100,6 +107,20 @@ import org.springframework.stereotype.Repository;
         @Override
         public List<ItemSold> getAllItemSold() {
             return jdbcTemplate.query(FIND_ALL, new ItemSoldRowMapper(userService));
+        }
+
+
+        @Override
+        public void updateItemSold(ItemSold itemSold) {
+            vraiJdbcTemplate.update(UPDATE,
+                    itemSold.getName(),
+                    itemSold.getDescription(),
+                    itemSold.getBeginningAuctionDate(),
+                    itemSold.getEndingAuctionDate(),
+                    itemSold.getFirstPrice(),
+                    itemSold.getCategory().getCategory(),
+                    itemSold.getItemId() // Clave primaria para actualizar el artículo correcto
+            );
         }
 
         static final String DELETE_ITEMSOLD="DELETE FROM ARTICLES_VENDUS WHERE no_article=?";
