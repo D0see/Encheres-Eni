@@ -4,7 +4,7 @@ import com.enchereseni.bll.AuctionService;
 import com.enchereseni.bll.ItemService;
 import com.enchereseni.bll.UserService;
 import com.enchereseni.bo.*;
-import com.enchereseni.dal.AuctionDAO;
+
 import com.enchereseni.dal.CategoryDAO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +35,6 @@ public class ObjectController {
 
 
 
-
-
-
     @GetMapping("/vendre")
     public String creerObjet( Principal principal,Model model) {
 
@@ -55,6 +52,21 @@ public class ObjectController {
 
     @PostMapping("/deleteItem/{param}")
     public String deleteItem(@PathVariable int param, Model model) {
+        var item = itemService.getItemById(param);
+        // reimburses bidder
+        var highestBid = new Auction();
+        if (!auctionService.getAuctionsByItem(item).isEmpty()) {
+            highestBid = auctionService.getAuctionsByItem(item).stream().filter(auction ->
+                    auction.getItemSold().getItemId() == param).sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
+        }
+        var highestBidder = highestBid.getUser();
+
+        if (highestBidder.getUsername() != null) {
+            highestBidder.setCredit(highestBidder.getCredit() + highestBid.getAmount());
+            userService.update(highestBidder);
+            System.out.println("reimbursing user " + highestBidder.getUsername());
+        }
+
         itemService.removeItem(itemService.getItemById(param));
         return "redirect:/encheres";
     }
