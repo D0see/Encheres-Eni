@@ -1,11 +1,9 @@
 package com.enchereseni.controller;
 
+import com.enchereseni.bll.AuctionService;
 import com.enchereseni.bll.ItemService;
 import com.enchereseni.bll.UserService;
-import com.enchereseni.bo.Category;
-import com.enchereseni.bo.ItemSold;
-import com.enchereseni.bo.PickUp;
-import com.enchereseni.bo.User;
+import com.enchereseni.bo.*;
 import com.enchereseni.dal.CategoryDAO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +28,8 @@ public class ObjectController {
     private CommonDataSource commonDataSource;
     @Autowired
     private CategoryDAO categoryDAO;
-
-
-
-
-
+    @Autowired
+    private AuctionService auctionService;
 
 
     @GetMapping("/vendre")
@@ -54,6 +49,21 @@ public class ObjectController {
 
     @PostMapping("/deleteItem/{param}")
     public String deleteItem(@PathVariable int param, Model model) {
+        var item = itemService.getItemById(param);
+        // reimburses bidder
+        var highestBid = new Auction();
+        if (!auctionService.getAuctionsByItem(item).isEmpty()) {
+            highestBid = auctionService.getAuctionsByItem(item).stream().filter(auction ->
+                    auction.getItemSold().getItemId() == param).sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
+        }
+        var highestBidder = highestBid.getUser();
+
+        if (highestBidder.getUsername() != null) {
+            highestBidder.setCredit(highestBidder.getCredit() + highestBid.getAmount());
+            userService.update(highestBidder);
+            System.out.println("reimbursing user " + highestBidder.getUsername());
+        }
+
         itemService.removeItem(itemService.getItemById(param));
         return "redirect:/encheres";
     }

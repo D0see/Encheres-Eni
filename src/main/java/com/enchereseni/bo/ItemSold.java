@@ -42,10 +42,9 @@ public class ItemSold {
     private List<Auction> auctions;
 
     private EtatVente etatVente;
+    private Auction highestBid;
 
-
-
-    public ItemSold(int itemId, String name, String description, LocalDate beginningAuctionDate, LocalDate endingAuctionDate, int firstPrice,int finalPrice, boolean soldState, List<Auction> auctions, Category category, User user) {
+    public ItemSold(int itemId, String name, String description, LocalDate beginningAuctionDate, LocalDate endingAuctionDate, int firstPrice, int finalPrice, boolean soldState, List<Auction> auctions, Category category, User user) {
         this.itemId = itemId;
         this.name = name;
         this.description = description;
@@ -155,5 +154,13 @@ public class ItemSold {
 
     public void setEtatVente(EtatVente etatVente) {
         this.etatVente = etatVente;
+    }
+
+    public Auction getHighestBid() {
+        return highestBid;
+    }
+
+    public void setHighestBid(Auction highestBid) {
+        this.highestBid = highestBid;
     }
 }
