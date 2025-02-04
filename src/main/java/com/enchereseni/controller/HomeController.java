@@ -88,6 +88,8 @@ public class HomeController {
         System.out.println("selectedCategory " + selectedCategory);
         var items = itemService.getItems();
 
+        //TO DO : PULL SOLDSTATE HERE and rework filters around it
+
         if (!selectedCategory.equals("Toutes")) {
             items = items.stream().filter(itemSold -> itemSold.getCategory().getWording().equals(selectedCategory)).toList();
         }
@@ -137,7 +139,7 @@ public class HomeController {
             }
         }
 
-        //SET AUCTIONSTATE & BIDS
+        //SETS AUCTIONSTATE & BIDS
         items.forEach(
                 item -> {
                     item.setEtatVente(item.getEndingAuctionDate().isAfter(LocalDate.now()) ? EtatVente.TERMINEE :
