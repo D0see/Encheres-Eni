@@ -59,6 +59,11 @@ public class HomeController {
                 item -> {
                     item.setAuctions(auctionService.getAllAuctions().stream().filter(
                             auction -> auction.getItemSold().getItemId() == item.getItemId()).toList());
+                    item.setAuctions(item.getAuctions().subList(Math.max(0, item.getAuctions().size() - 3), item.getAuctions().size()));
+
+                    item.getAuctions().forEach(auction -> {
+                        System.out.println(auction.getAmount() + ' ' + auction.getUser().getUsername());
+                    });
                     item.setEtatVente(
                             item.getEndingAuctionDate().isBefore(LocalDate.now()) ? EtatVente.TERMINEE :
                             item.getBeginningAuctionDate().isBefore(LocalDate.now()) && item.getEndingAuctionDate().isAfter(LocalDate.now()) ? EtatVente.EN_COURS : EtatVente.EN_ATTENTE);
@@ -150,8 +155,9 @@ public class HomeController {
                                     (item.getBeginningAuctionDate().isAfter(LocalDate.now()) ||  item.getBeginningAuctionDate().isEqual(LocalDate.now())) &&
                                     item.getEndingAuctionDate().isBefore(LocalDate.now()) ? EtatVente.EN_COURS :
                                     item.getBeginningAuctionDate().isBefore(LocalDate.now()) ? EtatVente.EN_ATTENTE : null);
-                    item.setAuctions(auctionService.getAllAuctions().stream().filter(
-                            auction -> auction.getItemSold().getItemId() == item.getItemId()).toList());
+                    item.setAuctions(auctionService.getAllAuctions().stream().filter(auction ->
+                            auction.getItemSold().getItemId() == item.getItemId()).toList().stream().sorted(
+                                    (a, b) -> a.getAmount() - b.getAmount()).toList());
                 }
         );
         model.addAttribute("items",items);
