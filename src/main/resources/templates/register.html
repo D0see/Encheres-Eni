@@ -11,31 +11,31 @@
   <h2 class="text-center mb-4">Créer un compte</h2>
   <form action="/register" method="post" data-th-object="${user}" class="p-4 border rounded bg-light">
     <div class="mb-3">
-      <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo" data-th-field="*{pseudo}" class="form-control" required>
+      <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo" pattern="^[a-zA-Z0-9]+$" maxlength="30" data-th-field="*{pseudo}" class="form-control" required>
     </div>
     <div class="mb-3">
-      <input type="password" id="password" name="password" placeholder="Mot de passe" data-th-field="*{password}" class="form-control" required>
+      <input type="password" id="password" name="password" placeholder="Mot de passe" maxlength="255" data-th-field="*{password}" class="form-control" required>
     </div>
     <div class="mb-3">
-      <input type="email" id="email" name="email" placeholder="E-mail" data-th-field="*{email}" class="form-control" required>
+      <input type="email" id="email" name="email" placeholder="E-mail" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" maxlength="255" data-th-field="*{email}" class="form-control" required>
     </div>
     <div class="mb-3">
-      <input type="text" id="prenom" name="firstName" placeholder="Prénom" data-th-field="*{firstName}" class="form-control" required>
+      <input type="text" id="prenom" name="firstName" placeholder="Prénom" maxlength="30" data-th-field="*{firstName}" class="form-control" required>
     </div>
     <div class="mb-3">
-      <input type="text" id="nom" name="lastName" placeholder="Nom" data-th-field="*{lastName}" class="form-control" required>
+      <input type="text" id="nom" name="lastName" placeholder="Nom" maxlength="30" data-th-field="*{lastName}" class="form-control" required>
     </div>
     <div class="mb-3">
-      <input type="text" id="phone" name="phone" placeholder="Numéro de téléphone" data-th-field="*{phone}" class="form-control" required>
+      <input type="text" id="phone" name="phone" placeholder="Numéro de téléphone" pattern="^\+?(\d{1,2}[\s.-]?)?(\(?\d{1,4}\)?[\s.-]?)?(\d{1,4}[\s.-]?)?\d{2,4}[\s.-]?\d{2,4}$" maxlength="15" data-th-field="*{phone}" class="form-control" required>
     </div>
     <div class="mb-3">
-      <input type="text" id="address" name="address" placeholder="Adresse" data-th-field="*{address}" class="form-control" required>
+      <input type="text" id="address" name="address" placeholder="Adresse" pattern="^\d+\s[A-Za-z0-9\s,.'-]+(?:\s(?:[A-Za-z0-9\s,.'-]+))?$" maxlength="30" data-th-field="*{address}" class="form-control" required>
     </div>
     <div class="mb-3">
-      <input type="text" id="zipCode" name="zipCode" placeholder="Code postal" data-th-field="*{zipCode}" class="form-control" required>
+      <input type="text" id="zipCode" name="zipCode" placeholder="Code postal" pattern="^\d{5}$" maxlength="10" data-th-field="*{zipCode}" class="form-control" required>
     </div>
     <div class="mb-3">
-      <input type="text" id="city" name="city" placeholder="Ville" data-th-field="*{city}" class="form-control" required>
+      <input type="text" id="city" name="city" placeholder="Ville" pattern="^[A-Za-zÀ-ÿa-zA-Z\s'-]+$" maxlength="30" data-th-field="*{city}" class="form-control" required>
     </div>
     <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
   </form>

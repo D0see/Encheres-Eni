@@ -1,13 +1,28 @@
 package com.enchereseni.bo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalTime;
 import java.util.Date;
 
 public class Auction {
 
+    @NotNull (message = "{NotNull.auction.date}")
+    @NotBlank (message = "{NotBlank.auction.date}")
     private Date date;
+
+    @NotNull (message = "{NotNull.auction.amount}")
+    @NotBlank (message = "{NotBlank.auction.amount}")
     private int amount;
+
+    @NotNull (message = "{NotNull.auction.user}")
+    @NotBlank (message = "{NotBlank.auction.user}")
     private User user;
+
+    @NotNull (message = "{NotNull.auction.itemSold}")
+    @NotBlank (message = "{NotBlank.auction.itemSold}")
     private ItemSold itemSold;
 
     public Auction(Date date, int amount, User user, ItemSold itemSold) {

@@ -79,7 +79,6 @@ public class HomeController {
         return "index";
     }
 
-
     //TO TEST
     @PostMapping("/encheres")
     public String filterEncheres(
