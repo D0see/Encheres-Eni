@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.rmi.MarshalledObject;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
@@ -38,18 +39,31 @@ public class HomeController {
     @GetMapping("/")
     public String home (Model model) {
 
+
         return "redirect:/encheres";
     }
 
     @GetMapping("/encheres")
-    public String encheres(Model model) {
+    public String encheres(Model model,Principal principal) {
 
+        if (principal != null) {
+            String username = principal.getName();
+            User user = userService.getUserbyUsername(username);
+            model.addAttribute("user", user);
+        } else {
+            model.addAttribute("user", null);
+        }
         var items = itemService.getItems();
         //adds auctions to item
         items.forEach(
                 item -> {
                     item.setAuctions(auctionService.getAllAuctions().stream().filter(
                             auction -> auction.getItemSold().getItemId() == item.getItemId()).toList());
+                    item.setAuctions(item.getAuctions().subList(Math.max(0, item.getAuctions().size() - 3), item.getAuctions().size()));
+
+                    item.getAuctions().forEach(auction -> {
+                        System.out.println(auction.getAmount() + ' ' + auction.getUser().getUsername());
+                    });
                     item.setEtatVente(
                             item.getEndingAuctionDate().isBefore(LocalDate.now()) ? EtatVente.TERMINEE :
                             item.getBeginningAuctionDate().isBefore(LocalDate.now()) && item.getEndingAuctionDate().isAfter(LocalDate.now()) ? EtatVente.EN_COURS : EtatVente.EN_ATTENTE);
@@ -59,7 +73,6 @@ public class HomeController {
         if (!items.isEmpty()) {
             items.get(0).getAuctions().forEach(auction -> System.out.println(auction.getAmount() + " " + auction.getUser().getUsername()));
         }
-
 
         model.addAttribute("items", items);
         model.addAttribute("categories",categoryService.getAllCategories());
@@ -78,6 +91,8 @@ public class HomeController {
         System.out.println("searchByName " + searchByName);
         System.out.println("selectedCategory " + selectedCategory);
         var items = itemService.getItems();
+
+        //TO DO : PULL SOLDSTATE HERE and rework filters around it
 
         if (!selectedCategory.equals("Toutes")) {
             items = items.stream().filter(itemSold -> itemSold.getCategory().getWording().equals(selectedCategory)).toList();
@@ -116,9 +131,13 @@ public class HomeController {
             }
 
             if (selectedFilters.contains("encheresGagnees")) {
+
                 items = items.stream().filter(itemSold ->
                         itemSold.getEndingAuctionDate().isBefore(LocalDate.now())).toList();
-                items = items.stream().filter(itemSold -> auctionService.getAuctionsByItem(itemSold).get(auctionService.getAuctionsByItem(itemSold).size() - 1).getUser().getUsername().equals(principal.getName())).toList();
+                items = items.stream().filter(itemSold -> {
+                    if (auctionService.getAuctionsByItem(itemSold).isEmpty()) {return false;}
+                    return auctionService.getAuctionsByItem(itemSold).get(auctionService.getAuctionsByItem(itemSold).size() - 1).getUser().getUsername().equals(principal.getName());
+                }).toList();
             }
 
             if (selectedFilters.contains("encheresEnCours")) {
@@ -128,17 +147,19 @@ public class HomeController {
             }
         }
 
-        //SET AUCTIONSTATE & BIDS
+        //SETS AUCTIONSTATE & BIDS
         items.forEach(
                 item -> {
-                    item.setEtatVente(item.getEndingAuctionDate().isAfter(LocalDate.now()) ? EtatVente.TERMINEE :
-                                    item.getBeginningAuctionDate().isAfter(LocalDate.now()) && item.getEndingAuctionDate().isBefore(LocalDate.now()) ? EtatVente.EN_COURS :
-                                    item.getBeginningAuctionDate().isBefore(LocalDate.now()) ? EtatVente.EN_ATTENTE : null);
-                    item.setAuctions(auctionService.getAllAuctions().stream().filter(
-                            auction -> auction.getItemSold().getItemId() == item.getItemId()).toList());
+                    item.setEtatVente(item.getEndingAuctionDate().isBefore(LocalDate.now()) ? EtatVente.TERMINEE :
+                            item.getBeginningAuctionDate().isBefore(LocalDate.now()) && item.getEndingAuctionDate().isAfter(LocalDate.now()) ? EtatVente.EN_COURS : EtatVente.EN_ATTENTE);
+                    item.setAuctions(auctionService.getAllAuctions().stream().filter(auction ->
+                            auction.getItemSold().getItemId() == item.getItemId()).toList().stream().sorted(
+                                    (a, b) -> a.getAmount() - b.getAmount()).toList());
                 }
         );
+        items.forEach(itemSold -> System.out.println(itemSold.getEtatVente() + " " + itemSold.getName()));
         model.addAttribute("items",items);
+
 
         return "index";
     }

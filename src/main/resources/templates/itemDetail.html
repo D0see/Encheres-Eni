@@ -1,0 +1,93 @@
+<html data-th-replace="~{fragNav::layout(title=~{::title}, main=~{::main})}">
+
+<head>
+  <title>Detail article</title>
+  <!--  je ne sais pas si il doit etre ici ou dans le layout/navbar-->
+  <!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">-->
+</head>
+<body>
+
+<main class="container py-4">
+  <div class="content" data-th-object="${item}">
+    <h1 class="text-center mb-4">Detail</h1>
+
+      <div class="mb-3">
+        <label for="art" class="form-label">Article :</label>
+        <input type="text" id="art" data-th-field="*{name}" class="form-control" placeholder="Enter name" disabled>
+
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description :</label>
+        <textarea id="description" data-th-field="*{description}" class="form-control" placeholder="Enter description"disabled></textarea>
+
+
+      </div>
+      <div class="mb-3">
+        <label for="category" class="form-label">Catégorie :</label>
+        <select id="category" name="category" class="form-select" disabled>
+          <option th:each="cat : ${categories}" th:value="${cat.category}" th:text="${cat.wording}" th:selected="${cat.category == item.category.category}" ></option>
+        </select>
+
+
+      </div>
+      <div class="mb-3">
+        <label for="prix" class="form-label">Mise à prix :</label>
+        <input type="number" id="prix" data-th-field="*{firstPrice}" class="form-control" disabled>
+
+      </div>
+      <div class="mb-3">
+        <label for="debut" class="form-label">Début de l'enchère :</label>
+        <input type="date" id="debut" th:value="${#temporals.format(item.beginningAuctionDate, 'yyyy-MM-dd')}"  class="form-control" disabled>
+
+
+      </div>
+      <div class="mb-3">
+        <label for="fin" class="form-label">Fin de l'enchère :</label>
+        <input type="date" id="fin" th:value="${#temporals.format(item.endingAuctionDate, 'yyyy-MM-dd')}" class="form-control" disabled>
+
+
+      </div>
+
+      <h5>Retrait</h5>
+
+      <div class="mb-3">
+        <label class="form-label" for="street">Rue :</label>
+        <input id="street" type="text" data-th-field="*{user.address}" class="form-control" disabled>
+
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="code">Code postal :</label>
+        <input id="code" type="text" data-th-field="*{user.zipCode}" class="form-control"disabled>
+
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="city">Ville :</label>
+        <input id="city" type="text" data-th-field="*{user.city}" class="form-control" disabled>
+
+      </div>
+
+    <ul>
+    <li class="mt-2">
+      <div data-th-each="a: ${item.auctions}">
+        <small class="text-muted"
+               data-th-text="${a.getUser().getUsername()} + ' - ' + ${a.getAmount()} + ' points'">
+        </small>
+      </div>
+    </li>
+    </ul>
+
+    <form method="post"
+          data-th-if="${item.etatVente != null and item.etatVente.ordinal() == 0 and #authentication.getName() != 'anonymousUser' and #authentication.getName() != item.getUser().getUsername()}"
+          data-th-action="@{/CreationEnchere/{itemId}(itemId=${item.getItemId})}"
+          class="mt-3">
+      <div class="input-group">
+        <input type="number" name="amount" required class="form-control" placeholder="Nombre de points">
+        <button type="submit" class="btn btn-outline-primary">Enchérir</button>
+      </div>
+    </form>
+
+
+  </div>
+</main>

@@ -4,6 +4,8 @@ import com.enchereseni.bll.AuctionService;
 import com.enchereseni.bll.ItemService;
 import com.enchereseni.bll.UserService;
 import com.enchereseni.bo.Auction;
+import com.enchereseni.bo.ItemSold;
+import com.enchereseni.bo.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,10 +38,16 @@ public class AuctionCreationController {
             return "redirect:/AuctionCreation";
         }
         Auction maxBid = new Auction();
-        if (!auctionService.getAuctionsByItem(itemService.getItemById(itemId)).isEmpty()) {
-            maxBid = auctionService.getAuctionsByItem(itemService.getItemById(itemId)).stream().sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
+        ItemSold currItem = itemService.getItemById(itemId);
+        User currUser = userService.getUserbyUsername(principal.getName());
+        if (auctionService.getAuctionsByItem(currItem).isEmpty()) {
+            maxBid.setAmount(currItem.getFirstPrice());
         } else {
-            maxBid.setAmount(itemService.getItemById(itemId).getFirstPrice());
+            maxBid = auctionService.getAuctionsByItem(currItem).stream().sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
+        }
+        if (maxBid.getUser() != null && maxBid.getUser().getUsername().equals(currUser.getUsername())) {
+            System.out.println("you can't create auction while the user already has the highest bid");
+            return "redirect:/encheres";
         }
 
         System.out.println("maxBid = " + maxBid.getAmount());
@@ -47,13 +55,27 @@ public class AuctionCreationController {
             System.out.println("amount inputted too low");
             return "redirect:/encheres";
         }
+
+        if (amount > currUser.getCredit()) {
+            System.out.println("balance too low");
+            return "redirect:/encheres";
+        }
+
+        // debits & recredits
+        currUser.setCredit(currUser.getCredit() - amount);
+        userService.update(currUser);
+        if (maxBid.getUser() != null) {
+            maxBid.getUser().setCredit(maxBid.getUser().getCredit() + maxBid.getAmount());
+            userService.update(maxBid.getUser());
+        }
+
         var auction = new Auction();
         var date = new Date();
         auction.setDate(date);
         auction.setItemSold(itemService.getItemById(itemId));
-        auction.setUser(userService.getUserbyUsername(principal.getName()));
+        auction.setUser(currUser);
         auction.setAmount(amount);
-        if (auctionService.getAuctionsByItem(itemService.getItemById(itemId)).stream().anyMatch(temp -> temp.getUser().getUsername().equals(principal.getName()))) {
+        if (auctionService.getAuctionsByItem(currItem).stream().anyMatch(temp -> temp.getUser().getUsername().equals(principal.getName()))) {
             auctionService.updateAuction(auction);
             System.out.println("updated auction");
         } else {
@@ -61,7 +83,7 @@ public class AuctionCreationController {
             System.out.println("createdAuction");
         }
 
-        //TO DO : RECREDIT HIGHEST BIDDER, DISCREDIT ? NEW BIDDER
+        //currItem.setHighestBid(maxBid);
 
         return "redirect:/encheres";
     }

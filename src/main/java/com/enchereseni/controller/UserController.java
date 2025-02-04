@@ -1,6 +1,9 @@
 package com.enchereseni.controller;
 
+import com.enchereseni.bll.AuctionService;
+import com.enchereseni.bll.ItemService;
 import com.enchereseni.bll.UserService;
+import com.enchereseni.bo.Auction;
 import com.enchereseni.bo.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -17,9 +20,13 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
+    private final AuctionService auctionService;
+    private final ItemService itemService;
 
-    UserController(UserService userService) {
+    UserController(UserService userService, AuctionService auctionService, ItemService itemService) {
         this.userService = userService;
+        this.auctionService = auctionService;
+        this.itemService = itemService;
     }
 
     @GetMapping("/user/{name}")
@@ -64,9 +71,30 @@ public class UserController {
     @PostMapping("/deleteMyAccount")
     public String deleteMyAccount(Principal principal, HttpServletRequest request) {
         System.out.println("delete my account");
-        userService.getUsers().stream().filter(user1 -> user1.getUsername().equals(principal.getName())).findFirst().ifPresent(user1 -> {
-            userService.removeUser(user1.getUserID());
+        User userToDelete = userService.getUserbyUsername(principal.getName());
+
+        auctionService.getAuctionsByUsername(userToDelete.getUsername()).forEach(auction -> {
+            auction.setUser(userService.getUserbyUsername("erasedUser"));
         });
+
+        itemService.getItems().forEach(item -> {
+            if (item.getUser().getUsername().equals(userToDelete.getUsername())) {
+                var highestBid = new Auction();
+                if (!auctionService.getAuctionsByItem(item).isEmpty()) {
+                    highestBid = auctionService.getAuctionsByItem(item).stream().filter(auction ->
+                            auction.getItemSold().getItemId() == item.getItemId()).sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
+                }
+                var highestBidder = highestBid.getUser();
+
+                if (highestBidder.getUsername() != null) {
+                    highestBidder.setCredit(highestBidder.getCredit() + highestBid.getAmount());
+                    userService.update(highestBidder);
+                    System.out.println("reimbursing user " + highestBidder.getUsername());
+                }
+            }
+        });
+
+        userService.removeUser(userToDelete.getUserID());
         request.getSession().invalidate();
         SecurityContextHolder.clearContext();
         return "redirect:/";
