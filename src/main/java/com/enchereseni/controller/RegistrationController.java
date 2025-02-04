@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Controller
 public class RegistrationController {
@@ -42,6 +43,16 @@ private UserService userService;
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("user") User user, Model model, BindingResult result) {
         System.out.println(user.getEmail());
+
+        String regexPseudo="^[a-zA-Z0-9]+$";
+        if (Pattern.matches(regexPseudo, user.getPseudo())) {
+            model.addAttribute("error", "Le pseudo doit être uniquement composé de lettres et de chiffres.");
+            return "register";
+        }
+        if (!userService.isUnique(user)) {
+            model.addAttribute("user", "Ce pseudo n'est plus disponible");
+            return "register";
+        }
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
             return "register";
@@ -63,7 +74,7 @@ private UserService userService;
         public String handleValidationExceptions(MethodArgumentNotValidException ex, Model model) {
             List<FieldError> errors = ex.getBindingResult().getFieldErrors();
             model.addAttribute("errors", errors);
-            return "errorPage";  // Affiche une page d'erreur avec les messages
+            return "errorPage";  // Affiche une page d'erreur avec les messages normalement
         }
     }
 }
