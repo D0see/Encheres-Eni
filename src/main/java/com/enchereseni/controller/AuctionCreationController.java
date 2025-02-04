@@ -41,6 +41,10 @@ public class AuctionCreationController {
         } else {
             maxBid = auctionService.getAuctionsByItem(currItem).stream().sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
         }
+        if (maxBid.getUser() != null && maxBid.getUser().getUsername().equals(currUser.getUsername())) {
+            System.out.println("you can't create auction while the user already has the highest bid");
+            return "redirect:/encheres";
+        }
 
         System.out.println("maxBid = " + maxBid.getAmount());
         if (maxBid.getAmount() >= amount) {

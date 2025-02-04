@@ -127,9 +127,13 @@ public class HomeController {
             }
 
             if (selectedFilters.contains("encheresGagnees")) {
+
                 items = items.stream().filter(itemSold ->
                         itemSold.getEndingAuctionDate().isBefore(LocalDate.now())).toList();
-                items = items.stream().filter(itemSold -> auctionService.getAuctionsByItem(itemSold).get(auctionService.getAuctionsByItem(itemSold).size() - 1).getUser().getUsername().equals(principal.getName())).toList();
+                items = items.stream().filter(itemSold -> {
+                    if (auctionService.getAuctionsByItem(itemSold).isEmpty()) {return false;}
+                    return auctionService.getAuctionsByItem(itemSold).get(auctionService.getAuctionsByItem(itemSold).size() - 1).getUser().getUsername().equals(principal.getName());
+                }).toList();
             }
 
             if (selectedFilters.contains("encheresEnCours")) {
@@ -143,7 +147,8 @@ public class HomeController {
         items.forEach(
                 item -> {
                     item.setEtatVente(item.getEndingAuctionDate().isAfter(LocalDate.now()) ? EtatVente.TERMINEE :
-                                    item.getBeginningAuctionDate().isAfter(LocalDate.now()) && item.getEndingAuctionDate().isBefore(LocalDate.now()) ? EtatVente.EN_COURS :
+                                    (item.getBeginningAuctionDate().isAfter(LocalDate.now()) ||  item.getBeginningAuctionDate().isEqual(LocalDate.now())) &&
+                                    item.getEndingAuctionDate().isBefore(LocalDate.now()) ? EtatVente.EN_COURS :
                                     item.getBeginningAuctionDate().isBefore(LocalDate.now()) ? EtatVente.EN_ATTENTE : null);
                     item.setAuctions(auctionService.getAllAuctions().stream().filter(
                             auction -> auction.getItemSold().getItemId() == item.getItemId()).toList());
