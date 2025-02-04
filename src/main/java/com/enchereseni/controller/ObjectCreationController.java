@@ -55,6 +55,12 @@ public class ObjectCreationController {
         return "itemCreation";
     }
 
+    @PostMapping("/deleteItem/{param}")
+    public String deleteItem(@PathVariable int param, Model model) {
+        itemService.removeItem(itemService.getItemById(param));
+        return "redirect:/encheres";
+    }
+
     @PostMapping("/vendre")
     public String createItem(@Valid @ModelAttribute ItemSold itemSold, @ModelAttribute PickUp pickUp, Principal principal, BindingResult result, Model model ) {
 

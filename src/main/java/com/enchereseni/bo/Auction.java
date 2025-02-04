@@ -1,13 +1,19 @@
 package com.enchereseni.bo;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalTime;
 import java.util.Date;
 
 public class Auction {
 
+    @NotNull
     private Date date;
+    @NotNull
     private int amount;
+    @NotNull
     private User user;
+    @NotNull
     private ItemSold itemSold;
 
     public Auction(Date date, int amount, User user, ItemSold itemSold) {
