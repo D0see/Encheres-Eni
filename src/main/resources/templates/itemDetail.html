@@ -68,6 +68,25 @@
 
       </div>
 
+    <ul>
+    <li class="mt-2">
+      <div data-th-each="a: ${item.auctions}">
+        <small class="text-muted"
+               data-th-text="${a.getUser().getUsername()} + ' - ' + ${a.getAmount()} + ' points'">
+        </small>
+      </div>
+    </li>
+    </ul>
+
+    <form method="post"
+          data-th-if="${item.etatVente != null and item.etatVente.ordinal() == 0 and #authentication.getName() != 'anonymousUser' and #authentication.getName() != item.getUser().getUsername()}"
+          data-th-action="@{/CreationEnchere/{itemId}(itemId=${item.getItemId})}"
+          class="mt-3">
+      <div class="input-group">
+        <input type="number" name="amount" required class="form-control" placeholder="Nombre de points">
+        <button type="submit" class="btn btn-outline-primary">Enchérir</button>
+      </div>
+    </form>
 
 
   </div>

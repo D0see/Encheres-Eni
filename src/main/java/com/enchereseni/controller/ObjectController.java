@@ -1,11 +1,10 @@
 package com.enchereseni.controller;
 
+import com.enchereseni.bll.AuctionService;
 import com.enchereseni.bll.ItemService;
 import com.enchereseni.bll.UserService;
-import com.enchereseni.bo.Category;
-import com.enchereseni.bo.ItemSold;
-import com.enchereseni.bo.PickUp;
-import com.enchereseni.bo.User;
+import com.enchereseni.bo.*;
+import com.enchereseni.dal.AuctionDAO;
 import com.enchereseni.dal.CategoryDAO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.sql.CommonDataSource;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -30,7 +30,8 @@ public class ObjectController {
     private CommonDataSource commonDataSource;
     @Autowired
     private CategoryDAO categoryDAO;
-
+    @Autowired
+    private AuctionService auctionService;
 
 
 
@@ -90,17 +91,26 @@ public class ObjectController {
 
         itemService.getItems().stream().filter(item -> item.getItemId() == itemId).findFirst().ifPresent(item -> {
             model.addAttribute("user", userService.getUserbyUsername(principal.getName()));
+            item.setAuctions(auctionService.getAllAuctions().stream()
+                    .filter(auction -> auction.getItemSold().getItemId() == item.getItemId())
+                    .toList());
+            LocalDate today = LocalDate.now();
+            if (item.getEndingAuctionDate().isBefore(today)) {
+                item.setEtatVente(EtatVente.TERMINEE);
+            } else if (item.getBeginningAuctionDate().isBefore(today) && item.getEndingAuctionDate().isAfter(today)) {
+                item.setEtatVente(EtatVente.EN_COURS);
+            } else {
+                item.setEtatVente(EtatVente.EN_ATTENTE);
+            }
             model.addAttribute("item", item);
             model.addAttribute("categories", itemService.getCategories());
-
-
 
         });
 
 
-
         return "itemDetail";
     }
+
 
 
 
