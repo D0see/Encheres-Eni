@@ -13,17 +13,17 @@ public class User implements UserDetails {
     private int userID;
 
     @NotNull (message = "{NotNull.user.pseudo}")
-    @Max(value=30, message="{WrongSize.user.pseudo}")
+    @Size(max=30, message="{WrongSize.user.pseudo}")
     @NotBlank (message = "{NotBlank.user.pseudo}")
     private String pseudo;
 
     @NotNull (message = "{NotNull.user.firstName}")
-    @Max(value=30, message="{WrongSize.user.firstName}")
+    @Size(max=30, message="{WrongSize.user.firstName}")
     @NotBlank (message = "{NotBlank.user.firstName}")
     private String firstName;
 
     @NotNull (message = "{NotNull.user.lastName}")
-    @Max(value=30, message="{WrongSize.user.lastName}")
+    @Size(max=30, message="{WrongSize.user.lastName}")
     @NotBlank (message = "{NotBlank.user.lastName}")
     private String lastName;
 
@@ -32,22 +32,22 @@ public class User implements UserDetails {
     private String email;
 
     @NotNull (message = "{NotNull.user.phone}")
-    @Max(value=15, message="{WrongSize.user.phone}")
+    @Size(max=15, message="{WrongSize.user.phone}")
     @NotBlank (message = "{NotBlank.user.phone}")
     private String phone;
 
     @NotNull (message = "{NotNull.user.address}")
-    @Max(value=30, message="{WrongSize.user.address}")
+    @Size(max=30, message="{WrongSize.user.address}")
     @NotBlank (message = "{NotBlank.user.address}")
     private String address;
 
     @NotNull (message = "{NotNull.user.zipCode}")
-    @Max(value=10, message="{WrongSize.user.zipCode}")
+    @Size(max=10, message="{WrongSize.user.zipCode}")
     @NotBlank (message = "{NotBlank.user.zipCode}")
     private String zipCode;
 
     @NotNull (message = "{NotNull.user.city}")
-    @Max(value=30, message="{WrongSize.user.city}")
+    @Size(max=30, message="{WrongSize.user.city}")
     @NotBlank (message = "{NotBlank.user.city}")
     private String city;
 
