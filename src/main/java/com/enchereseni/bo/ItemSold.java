@@ -14,12 +14,10 @@ public class ItemSold {
     @NotNull
     private int itemId;
 
-    @NotNull (message = "{NotNull.itemSold.name}")
     @NotBlank (message = "{NotBlank.itemSold.name}")
     @Size(min=2, max=30, message="{WrongSize.itemSold.name}")
     private String name;
 
-    @NotNull (message = "{NotNull.itemSold.description}")
     @NotBlank (message = "{NotBlank.itemSold.description}")
     @Size(min=10, max=300, message="{WrongSize.itemSold.description}")
     private String description;
@@ -37,7 +35,6 @@ public class ItemSold {
     @NotNull (message = "{NotNull.itemSold.category}")
     private Category category;
 
-//    @NotNull (message = "{NotNull.itemSold.user}")
     private User user;
     private List<Auction> auctions;
 

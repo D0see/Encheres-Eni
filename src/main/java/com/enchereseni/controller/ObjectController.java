@@ -19,6 +19,7 @@ import javax.sql.CommonDataSource;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Controller
 public class ObjectController {
@@ -78,7 +79,11 @@ public class ObjectController {
             model.addAttribute("errors", result.getAllErrors());
             return "itemCreation";
         }
-
+        //validation regex
+        String regexNomItem = "^[A-Za-z0-9\\s\\-_.]{3,30}$";
+        if (!Pattern.matches(regexNomItem, itemSold.getName())){
+            model.addAttribute("error", "Nom non valide");
+        }
         User user=userService.getUserbyUsername(principal.getName());
         itemSold.setUser(user);
 
@@ -156,8 +161,6 @@ public class ObjectController {
 
         return "redirect:/articleDetail/" + id; // Volvemos a la vista de detalles
     }
-
-
 
     //pour validation
     @ControllerAdvice

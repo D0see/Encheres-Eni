@@ -34,5 +34,14 @@ public class BusinessCode {
     public static final String VALIDATION_USER_PASSWORD_BLANK="validation.user.password.blank";
     public static final String VALIDATION_USER_PASSWORD_LENGHT="validation.user.password.length";
 
+    public static final String BLL_ITEM_CREER_ERREUR="bll.item.creer.erreur";
+    public static final String VALIDATION_ITEM_NAME_EMPTY="validation.item.name.empty";
+    public static final String VALIDATION_ITEM_NAME_SIZE="validation.item.name.size";
+    public static final String VALIDATION_ITEM_DESCRIPTION_ITEM="validation.item.description.on.item";
+    public static final String VALIDATION_ITEM_DESCRIPTION_SIZE="validation.item.description.size";
+    public static final String VALIDATION_ITEM_TOOEARLY="validation.item.tooearly";
+    public static final String VALIDATION_ITEM_NULL="validation.item.empty";
+    public static final String VALIDATION_ITEM_CATEGORY_NULL="validation.item.category.empty";
+    public static final String VALIDATION_ITEM_TOO_TOOEARLY="validation.item.tooearly";
 
 }
