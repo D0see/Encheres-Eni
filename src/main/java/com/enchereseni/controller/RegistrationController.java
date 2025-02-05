@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.View;
 
 import java.security.Principal;
 import java.util.List;
@@ -20,10 +21,12 @@ import java.util.regex.Pattern;
 @Controller
 public class RegistrationController {
 
-private UserService userService;
+    private final View error;
+    private UserService userService;
 
-    public RegistrationController(UserService userService) {
+    public RegistrationController(UserService userService, View error) {
         this.userService = userService;
+        this.error = error;
     }
 
     @GetMapping("/login")
@@ -39,29 +42,27 @@ private UserService userService;
     }
 
 
-    // TO ADD -> VALIDATION
+
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("user") User user, Model model, BindingResult result) {
         System.out.println(user.getEmail());
-
-        String regexPseudo="^[a-zA-Z0-9]+$";
-        if (Pattern.matches(regexPseudo, user.getPseudo())) {
-            model.addAttribute("error", "Le pseudo doit être uniquement composé de lettres et de chiffres.");
-            return "register";
-        }
-        if (!userService.isUnique(user)) {
-            model.addAttribute("user", "Ce pseudo n'est plus disponible");
-            return "register";
-        }
         if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
+            model.addAttribute("error", "Une erreur est survenue pendant l'inscription");
+            return "register";
+        }
+        String regexPseudo="^[a-zA-Z0-9_-]+$";
+        if (!Pattern.matches(regexPseudo, user.getPseudo())) {
+            model.addAttribute("error", "Le pseudo doit être uniquement composé de lettres et de chiffres.");
+            System.out.println(user.getPseudo());
             return "register";
         }
         if (!userService.isUnique(user)) {return "redirect:/register?nonUniqueUser";}
         try {
             userService.createUser(user);
         } catch (DataAccessException e) {
-            e.printStackTrace(); // Check logs for errors
+            e.printStackTrace();// Check logs for errors
+            model.addAttribute("error", "Une erreur est survenue lors de l'enregistrement. Veuillez réessayer.");
+
             return "redirect:/register?error";
         }
         return "redirect:/login";
