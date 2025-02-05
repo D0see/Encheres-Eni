@@ -123,6 +123,39 @@ public class ObjectController {
         return "itemDetail";
     }
 
+    @GetMapping("/modifierVente/{id}")
+    public String modifierVente(@PathVariable("id") int id,@ModelAttribute User user, Principal principal, Model model) {
+        ItemSold item = itemService.getItemById(id);
+
+        if (item == null || !item.getUser().getUsername().equals(principal.getName())) {
+            return "redirect:/"; // Redirigir si el artículo no existe o el usuario no es el dueño
+        }
+        model.addAttribute("user", userService.getUserbyUsername(principal.getName()));
+        model.addAttribute("item", item);
+        model.addAttribute("categories", itemService.getCategories());
+        return "modifyItemSold";
+    }
+
+    @PostMapping("/modifierVente/{id}")
+    public String enregistrerModification(@PathVariable("id") int id, @ModelAttribute ItemSold updatedItem, Principal principal) {
+        ItemSold item = itemService.getItemById(id);
+
+        if (item == null || !item.getUser().getUsername().equals(principal.getName())) {
+            return "redirect:/";
+        }
+
+        // Actualizar solo los campos permitidos
+        item.setName(updatedItem.getName());
+        item.setDescription(updatedItem.getDescription());
+        item.setCategory(updatedItem.getCategory());
+        item.setFirstPrice(updatedItem.getFirstPrice());
+        item.setBeginningAuctionDate(updatedItem.getBeginningAuctionDate());
+        item.setEndingAuctionDate(updatedItem.getEndingAuctionDate());
+
+        itemService.updateItem(item); // Guardamos la modificación
+
+        return "redirect:/articleDetail/" + id; // Volvemos a la vista de detalles
+    }
 
 
 

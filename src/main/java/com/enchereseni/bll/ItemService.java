@@ -16,6 +16,7 @@ public interface ItemService {
     ItemSold getItemById(int id);
 
     void createItem(ItemSold item);
+    void updateItem(ItemSold item);
 
     List<Category> getCategories();
     Category getCategoryById(int id);
