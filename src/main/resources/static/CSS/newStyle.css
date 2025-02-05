@@ -4,6 +4,7 @@
 /*    margin-top: 5%;*/
 /*}*/
 /* Definimos las variables de colores */
+/*
 :root {
     --primary-color: #E76F51;
     --secondary-color: #F4A261;
@@ -12,15 +13,15 @@
     --dark-color: #264653;
 }
 
-/* Estilización general */
+!* Estilización general *!
 body {
     font-family: 'Arial', sans-serif !important;
     background-color: var(--accent-color) !important;
     color: var(--dark-color) !important;
-    margin-top: 60px !important; /* Ajuste para la navbar fija */
+    margin-top: 60px !important; !* Ajuste para la navbar fija *!
 }
 
-/* Navbar personalizada */
+!* Navbar personalizada *!
 .navbar-custom {
     background-color: var(--highlight-color) !important;
 }
@@ -41,7 +42,7 @@ body {
     color: var(--secondary-color) !important;
 }
 
-/* Aseguramos la disposición de la navbar */
+!* Aseguramos la disposición de la navbar *!
 .navbar-nav.ms-auto {
     margin-left: auto !important;
 }
@@ -52,7 +53,7 @@ body {
     transform: translateX(-50%) !important;
 }
 
-/* Botones */
+!* Botones *!
 .btn-primary {
     background-color: var(--primary-color) !important;
     border-color: var(--primary-color) !important;
@@ -63,7 +64,7 @@ body {
     border-color: var(--secondary-color) !important;
 }
 
-/* Tarjetas de productos */
+!* Tarjetas de productos *!
 .card {
     border: none !important;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2) !important;
@@ -83,13 +84,13 @@ body {
     color: var(--highlight-color) !important;
 }
 
-/* Formularios */
+!* Formularios *!
 .form-control:focus {
     border-color: var(--highlight-color) !important;
     box-shadow: 0 0 5px var(--highlight-color) !important;
 }
 
-/* Pie de página */
+!* Pie de página *!
 footer {
     background-color: var(--dark-color) !important;
     color: white!important;
@@ -97,3 +98,4 @@ footer {
     padding: 10px!important;
     margin-top: 20px!important;
 }
+*/

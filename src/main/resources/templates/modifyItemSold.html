@@ -37,13 +37,15 @@
       </div>
       <div class="mb-3">
         <label for="debut" class="form-label">Début de l'enchère :</label>
-        <input type="date" id="debut"  data-th-field="*{beginningAuctionDate}"   class="form-control">
+        <input type="date"     th:value="*{beginningAuctionDate}"   class="form-control" disabled>
+        <input type="date" id="debut" th:field="*{beginningAuctionDate}">
         <div th:if="${#fields.hasErrors('beginningAuctionDate')}" th:errors="*{beginningAuctionDate}" style="color: red;">error></div>
 
       </div>
       <div class="mb-3">
         <label for="fin" class="form-label">Fin de l'enchère :</label>
-        <input type="date" id="fin" data-th-field="*{endingAuctionDate}" class="form-control">
+        <input type="date"   th:value="*{endingAuctionDate}" class="form-control" disabled>
+        <input type="date" id="fin" th:field="*{endingAuctionDate}">
         <div th:if="${#fields.hasErrors('endingAuctionDate')}" th:errors="*{endingAuctionDate}" style="color: red;">error></div>
 
       </div>
