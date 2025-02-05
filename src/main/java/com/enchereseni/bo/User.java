@@ -13,7 +13,7 @@ public class User implements UserDetails {
     private int userID;
 
     @NotNull (message = "{NotNull.user.pseudo}")
-    @Size(max=30, message="{WrongSize.user.pseudo}")
+    @Size(max=30, message="Le pseudo ne doit pas dépasser 30 caractères")
     @NotBlank (message = "{NotBlank.user.pseudo}")
     private String pseudo;
 
