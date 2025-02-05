@@ -9,7 +9,7 @@
 <main >
   <div class="content">
     <h1 class="text-center mb-4">Modifier vente</h1>
-    <form data-th-object="${item}" method="post" data-th-action="@{/modifierVente/{id}(id=${item.itemId})}" class="p-4 border rounded bg-light">
+    <form data-th-object="${item}" method="post" data-th-action="@{/modifierVente/{id}(id=${item.itemId})}" class="p-4 border rounded bg-light" enctype="multipart/form-data">
       <div class="mb-3">
         <label for="art" class="form-label">Article :</label>
         <input type="text" id="art" data-th-field="*{name}" class="form-control" placeholder="Enter name" required>
@@ -70,7 +70,12 @@
         <div th:if="${#fields.hasErrors('user.city')}" th:errors="*{user.city}" style="color: red;">error</div>
       </div>
 
+      <input type="file" name="file" accept="image/*">
 
+      <div class="card-img-container">
+        <img  th:src="${item != null and item.imagePath != null} ? @{${item.imagePath}} : @{/images/default.jpg}"
+              alt="Imagen del artículo" class="card-img-top" >
+      </div>
 
       <button type="submit" class="btn btn-primary w-100">Modifier</button>
     </form>

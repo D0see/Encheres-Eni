@@ -48,6 +48,11 @@
 
       </div>
 
+    <div class="card-img-container">
+      <img  th:src="${item != null and item.imagePath != null} ? @{${item.imagePath}} : @{/images/default.jpg}"
+            alt="Imagen del artículo" class="card-img-top" >
+    </div>
+
       <h5>Retrait</h5>
 
       <div class="mb-3">

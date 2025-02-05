@@ -68,9 +68,11 @@
         <div class="row">
             <div class="col-md-4 mb-4" data-th-each="i: ${items}">
                 <div class="card h-100">
-<!--                    <img src="https://powerlab.fr/18837-superlarge_default_2x/pc-gamer-streaming-core-qhd-powered-by-corsair.jpg"-->
-<!--                         class="card-img-top" alt="Item image">-->
-                    <img th:src="@{${itemSold?.imagePath}}" alt="Imagen del artículo" class="img-thumbnail">
+
+                    <div class="card-img-container">
+                    <img  th:src="${i != null and i.imagePath != null} ? @{${i.imagePath}} : @{/images/default.jpg}"
+                         alt="Imagen del artículo" class="card-img-top" >
+                    </div>
 
                     <div class="card-body">
                         <h5 class="card-title" ><a th:href="@{/articleDetail/{itemId}(itemId=${i.getItemId()})}"

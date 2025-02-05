@@ -48,7 +48,7 @@ private static String UPDATE= """
 
         UPDATE ARTICLES_VENDUS
         SET no_utilisateur = ?, nom_article = ?, description = ?, date_debut_encheres = ?,
-        date_fin_encheres = ?, prix_initial = ?, no_categorie = ?
+        date_fin_encheres = ?, prix_initial = ?, no_categorie = ?,image_path = ?
         WHERE no_article = ?
         """;
 
@@ -86,8 +86,8 @@ private static String UPDATE= """
                 namedParameters.addValue("endingAuctionDate", itemSold.getEndingAuctionDate());
                 namedParameters.addValue("initialPrice", itemSold.getFirstPrice());
                 namedParameters.addValue("finalPrice", itemSold.getFinalPrice());
-                namedParameters.addValue("userId", itemSold.getUser().getUserID()); // Asume que existe un User
-                namedParameters.addValue("categoryId", itemSold.getCategory().getCategory()); // Usar getNoCategorie()
+                namedParameters.addValue("userId", itemSold.getUser().getUserID());
+                namedParameters.addValue("categoryId", itemSold.getCategory().getCategory());
                 namedParameters.addValue("imagePath", itemSold.getImagePath());
                 jdbcTemplate.update(INSERT, namedParameters, keyHolder);
 
@@ -121,7 +121,9 @@ private static String UPDATE= """
                     itemSold.getEndingAuctionDate(),
                     itemSold.getFirstPrice(),
                     itemSold.getCategory().getCategory(),
-                    itemSold.getItemId() // Clave primaria para actualizar el artículo correcto
+                    itemSold.getImagePath(),
+                    itemSold.getItemId()
+
             );
         }
 
