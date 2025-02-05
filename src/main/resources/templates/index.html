@@ -117,16 +117,16 @@
                             </div>
                         </form>
 
-                        <a class="btn btn-secondary " data-th-if="${#authentication.getName() == i.getUser().getUsername() && i.getBeginningAuctionDate().isAfter(T(java.time.LocalDate).now())}"  th:href="@{/modifierVente/{id}(id=${i.getItemId})}">Modifier</a>
+
 
 
                         <form data-th-if="${#authentication.getName() == i.getUser().getUsername() && i.etatVente.ordinal() == 2}" method="post" data-th-action="@{/deleteItem/{param}(param=${i.getItemId()})}">
-                            <div class="d-flex justify-content-center">
+                            <div class="d-flex justify-content-center" style ="justify-content: space-around !important;">
+                                    <a class="btn btn-warning btn-lg fw-bold" th:href="@{/modifierVente/{id}(id=${i.getItemId})}">Modifier</a>
                                 <button type="submit" class="btn btn-danger btn-lg fw-bold">
                                     <i class="bi bi-trash"></i> Delete
                                 </button>
                             </div>
-
                         </form>
                     </div>
                 </div>
