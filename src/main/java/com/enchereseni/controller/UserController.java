@@ -9,13 +9,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 @Controller
 public class UserController {
 
@@ -76,8 +78,19 @@ public class UserController {
             auction.setUser(userService.getUserbyUsername("erasedUser"));
         });
 
+        AtomicBoolean candelete = new AtomicBoolean(true);
         itemService.getItems().forEach(item -> {
-
+                if (item.getUser().getUsername().equals(userToDelete.getUsername())) {
+                    if (item.getBeginningAuctionDate().isBefore(LocalDate.now()) &&
+                            item.getEndingAuctionDate().isAfter(LocalDate.now())) {
+                        System.out.println("cannot delete user since you have transactions still open");
+                        candelete.set(false);
+                    }
+                }
+            });
+        if (!candelete.get()) {
+            return "redirect:/user/" + principal.getName();
+        }
             //Version where i keep the auction after user deletion and assign it to erasedUSER
 
 //            if (item.getUser().getUsername().equals(userToDelete.getUsername())) {
@@ -88,23 +101,24 @@ public class UserController {
 //                itemService.updateItem(item);
 //            }
 
-            if (item.getUser().getUsername().equals(userToDelete.getUsername())) {
-                var highestBid = new Auction();
-                if (!auctionService.getAuctionsByItem(item).isEmpty()) {
-                    highestBid = auctionService.getAuctionsByItem(item).stream().filter(auction ->
-                            auction.getItemSold().getItemId() == item.getItemId()).sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
-                }
-                var highestBidder = highestBid.getUser();
+        // version where if you can delete whenever you want it reimburses ppl
 
-                if (highestBidder != null && highestBidder.getUsername() != null) {
-                    highestBidder.setCredit(highestBidder.getCredit() + highestBid.getAmount());
-                    userService.update(highestBidder);
-                    System.out.println("reimbursing user " + highestBidder.getUsername());
-                }
-                var erasedUser = userService.getUserbyUsername("erasedUser");
-                item.setUser(erasedUser);
-            }
-        });
+//        itemService.getItems().forEach(item -> {
+//            if (item.getUser().getUsername().equals(userToDelete.getUsername())) {
+//                var highestBid = new Auction();
+//                if (!auctionService.getAuctionsByItem(item).isEmpty()) {
+//                    highestBid = auctionService.getAuctionsByItem(item).stream().filter(auction ->
+//                            auction.getItemSold().getItemId() == item.getItemId()).sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
+//                }
+//                var highestBidder = highestBid.getUser();
+//
+//                if (highestBidder != null && highestBidder.getUsername() != null) {
+//                    highestBidder.setCredit(highestBidder.getCredit() + highestBid.getAmount());
+//                    userService.update(highestBidder);
+//                    System.out.println("reimbursing user " + highestBidder.getUsername());
+//                }
+//            }
+//        });
 
         userService.removeUser(userToDelete.getUserID());
         request.getSession().invalidate();
