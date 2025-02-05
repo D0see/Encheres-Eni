@@ -30,7 +30,7 @@ public class ItemSoldRowMapper implements RowMapper<ItemSold> {
         item.setEndingAuctionDate(rs.getDate("date_fin_encheres").toLocalDate());
         item.setFirstPrice(rs.getInt("prix_initial"));
         item.setFinalPrice(rs.getInt("prix_vente"));
-
+        item.setImagePath(rs.getString("image_path"));
 
         Category category = new Category();
         category.setCategory(rs.getInt("no_categorie"));
