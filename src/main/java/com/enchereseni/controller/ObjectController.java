@@ -14,8 +14,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.CommonDataSource;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
@@ -57,7 +62,7 @@ public class ObjectController {
     }
 
     @PostMapping("/vendre")
-    public String createItem(@Valid @ModelAttribute ItemSold itemSold, @ModelAttribute PickUp pickUp, Principal principal, BindingResult result, Model model ) {
+    public String createItem(@Valid @ModelAttribute ItemSold itemSold, @ModelAttribute PickUp pickUp, @RequestParam("file") MultipartFile file, Principal principal, BindingResult result, Model model ) {
 
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
@@ -70,6 +75,24 @@ public class ObjectController {
         int noCategorie = itemSold.getCategory().getCategory();
         Category category = categoryDAO.getCategoryById(noCategorie);
         itemSold.setCategory(category);
+
+        String uploadDir = "src/main/resources/static/images";
+        try {
+            // Si el usuario sube una imagen
+            if (!file.isEmpty()) {
+                // Obtener el nombre original del archivo
+                String fileName = file.getOriginalFilename();
+
+                Path filePath = Paths.get(uploadDir + fileName);
+
+                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                itemSold.setImagePath("/images/" + fileName);
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Error al guardar la imagen.");
+            return "itemCreation";
+        }
 
         itemService.createItem(itemSold);
 
