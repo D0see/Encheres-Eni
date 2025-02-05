@@ -117,6 +117,9 @@
                             </div>
                         </form>
 
+                        <a class="btn btn-secondary " data-th-if="${#authentication.getName() == i.getUser().getUsername() && i.getBeginningAuctionDate().isAfter(T(java.time.LocalDate).now())}"  th:href="@{/modifierVente/{id}(id=${i.getItemId})}">Modifier</a>
+
+
                         <form data-th-if="${#authentication.getName() == i.getUser().getUsername() && i.etatVente.ordinal() == 2}" method="post" data-th-action="@{/deleteItem/{param}(param=${i.getItemId()})}">
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-danger btn-lg fw-bold">
