@@ -77,12 +77,32 @@ public class UserController {
         });
 
         itemService.getItems().forEach(item -> {
+
+            //Version where i keep the auction after user deletion and assign it to erasedUSER
+
+//            if (item.getUser().getUsername().equals(userToDelete.getUsername())) {
+//                System.out.println("this is my item im going to re-assign " + item.getName());
+//                var erasedUser = userService.getUserbyUsername("erasedUser");
+//                item.setUser(erasedUser);
+//                System.out.println(erasedUser.getUsername() + " " + item.getName());
+//                itemService.updateItem(item);
+//            }
+
             if (item.getUser().getUsername().equals(userToDelete.getUsername())) {
-                System.out.println("this is my item im going to re-assign " + item.getName());
+                var highestBid = new Auction();
+                if (!auctionService.getAuctionsByItem(item).isEmpty()) {
+                    highestBid = auctionService.getAuctionsByItem(item).stream().filter(auction ->
+                            auction.getItemSold().getItemId() == item.getItemId()).sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
+                }
+                var highestBidder = highestBid.getUser();
+
+                if (highestBidder != null && highestBidder.getUsername() != null) {
+                    highestBidder.setCredit(highestBidder.getCredit() + highestBid.getAmount());
+                    userService.update(highestBidder);
+                    System.out.println("reimbursing user " + highestBidder.getUsername());
+                }
                 var erasedUser = userService.getUserbyUsername("erasedUser");
                 item.setUser(erasedUser);
-                System.out.println(erasedUser.getUsername() + " " + item.getName());
-                itemService.updateItem(item);
             }
         });
 
