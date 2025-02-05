@@ -31,7 +31,6 @@ public class RegistrationController {
 
     @GetMapping("/login")
     public String showLoginForm(Principal principal) {
-        //System.out.println(principal.getName());
         return "login"; // Correspond à templates/login.html
     }
 
