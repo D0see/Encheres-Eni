@@ -1,6 +1,7 @@
 package com.enchereseni.bll;
 
 import com.enchereseni.bo.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,4 +17,7 @@ public interface UserService {
 
     void update (User user);
     boolean isUnique(User user);
+
+    @Transactional
+    void creerUser(User user);
 }

@@ -8,6 +8,7 @@ import com.enchereseni.bo.ItemSold;
 import com.enchereseni.bo.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,8 +32,11 @@ public class AuctionCreationController {
     }
 
     @PostMapping("/CreationEnchere/{itemId}")
-    public String createAuctionForItem(@RequestParam("amount") int amount, @PathVariable("itemId") int itemId, Model model, Principal principal) {
-
+    public String createAuctionForItem(@RequestParam("amount") int amount, @PathVariable("itemId") int itemId, Model model, Principal principal, BindingResult result) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            return "redirect:/AuctionCreation";
+        }
         Auction maxBid = new Auction();
         ItemSold currItem = itemService.getItemById(itemId);
         User currUser = userService.getUserbyUsername(principal.getName());
