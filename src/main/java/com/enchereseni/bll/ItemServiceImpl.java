@@ -76,8 +76,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void removeItem(ItemSold item) {
-    if (item.getBeginningAuctionDate().isBefore(LocalDate.now())) {
         itemSoldDAO.removeItemSoldById(item.getItemId());
-        }
     }
 }
