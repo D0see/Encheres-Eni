@@ -52,21 +52,6 @@ public class ObjectController {
 
     @PostMapping("/deleteItem/{param}")
     public String deleteItem(@PathVariable int param, Model model) {
-        var item = itemService.getItemById(param);
-        // reimburses bidder
-        var highestBid = new Auction();
-        if (!auctionService.getAuctionsByItem(item).isEmpty()) {
-            highestBid = auctionService.getAuctionsByItem(item).stream().filter(auction ->
-                    auction.getItemSold().getItemId() == param).sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
-        }
-        var highestBidder = highestBid.getUser();
-
-        if (highestBidder.getUsername() != null) {
-            highestBidder.setCredit(highestBidder.getCredit() + highestBid.getAmount());
-            userService.update(highestBidder);
-            System.out.println("reimbursing user " + highestBidder.getUsername());
-        }
-
         itemService.removeItem(itemService.getItemById(param));
         return "redirect:/encheres";
     }
@@ -151,9 +136,7 @@ public class ObjectController {
         item.setFirstPrice(updatedItem.getFirstPrice());
         item.setBeginningAuctionDate(updatedItem.getBeginningAuctionDate());
         item.setEndingAuctionDate(updatedItem.getEndingAuctionDate());
-
         itemService.updateItem(item); // Guardamos la modificación
-
         return "redirect:/articleDetail/" + id; // Volvemos a la vista de detalles
     }
 
