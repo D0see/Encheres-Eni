@@ -89,6 +89,9 @@ public class HomeController {
         System.out.println("searchByName " + searchByName);
         System.out.println("selectedCategory " + selectedCategory);
         var items = itemService.getItems();
+        String username = principal.getName();
+        User user = userService.getUserbyUsername(username);
+        model.addAttribute("user", user);
 
         //TO DO : PULL SOLDSTATE HERE and rework filters around it
 
