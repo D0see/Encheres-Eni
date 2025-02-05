@@ -44,13 +44,13 @@ public class UserController {
         userService.getUsers().stream().filter(user1 -> user1.getUsername().equals(user.getUsername())).findFirst().ifPresent(user1 -> {
             user.setUserID(user1.getUserID());
         });
-        System.out.println(user.getPseudo() + " newPseudo");
-        System.out.println(userService.isUnique(user) + " isUnique");
-        if (!principal.getName().equals(user.getUsername())  && !userService.getUserbyUsername(principal.getName()).getEmail().equals(user.getEmail()) && !userService.isUnique(user)) {
-            System.out.println("NOT UNIQUE MUDAFAKA");
+        if ((!principal.getName().equals(user.getUsername()) && !userService.isUnique(user))  ||
+            !userService.getUserbyUsername(principal.getName()).getEmail().equals(user.getEmail()) ) {
             return "redirect:/user/" + principal.getName();
         }
         userService.update(user);
+
+        //if pseudo changes disconnects & reconnects the user to update principal (bad bad bad)
         if (!principal.getName().equals(user.getUsername())) {
             User updatedUserDetails = userService.getUserbyUsername(user.getUsername());
             Authentication newAuth = new UsernamePasswordAuthenticationToken(
@@ -64,7 +64,6 @@ public class UserController {
                 session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
             }
         }
-        System.out.println("user updated");
         return "redirect:/user/" + user.getUsername();
     }
 
@@ -78,6 +77,17 @@ public class UserController {
         });
 
         itemService.getItems().forEach(item -> {
+
+            //Version where i keep the auction after user deletion and assign it to erasedUSER
+
+//            if (item.getUser().getUsername().equals(userToDelete.getUsername())) {
+//                System.out.println("this is my item im going to re-assign " + item.getName());
+//                var erasedUser = userService.getUserbyUsername("erasedUser");
+//                item.setUser(erasedUser);
+//                System.out.println(erasedUser.getUsername() + " " + item.getName());
+//                itemService.updateItem(item);
+//            }
+
             if (item.getUser().getUsername().equals(userToDelete.getUsername())) {
                 var highestBid = new Auction();
                 if (!auctionService.getAuctionsByItem(item).isEmpty()) {
@@ -86,11 +96,13 @@ public class UserController {
                 }
                 var highestBidder = highestBid.getUser();
 
-                if (highestBidder.getUsername() != null) {
+                if (highestBidder != null && highestBidder.getUsername() != null) {
                     highestBidder.setCredit(highestBidder.getCredit() + highestBid.getAmount());
                     userService.update(highestBidder);
                     System.out.println("reimbursing user " + highestBidder.getUsername());
                 }
+                var erasedUser = userService.getUserbyUsername("erasedUser");
+                item.setUser(erasedUser);
             }
         });
 

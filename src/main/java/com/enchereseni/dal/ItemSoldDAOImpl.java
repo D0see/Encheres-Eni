@@ -47,7 +47,7 @@ import org.springframework.stereotype.Repository;
 private static String UPDATE= """
 
         UPDATE ARTICLES_VENDUS
-        SET nom_article = ?, description = ?, date_debut_encheres = ?,
+        SET no_utilisateur = ?, nom_article = ?, description = ?, date_debut_encheres = ?,
         date_fin_encheres = ?, prix_initial = ?, no_categorie = ?
         WHERE no_article = ?
         """;
@@ -114,6 +114,7 @@ private static String UPDATE= """
         @Override
         public void updateItemSold(ItemSold itemSold) {
             vraiJdbcTemplate.update(UPDATE,
+                    itemSold.getUser().getUserID(),
                     itemSold.getName(),
                     itemSold.getDescription(),
                     itemSold.getBeginningAuctionDate(),
