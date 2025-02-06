@@ -3,19 +3,20 @@ package com.enchereseni.controller;
 import com.enchereseni.bll.AuctionService;
 import com.enchereseni.bll.ItemService;
 import com.enchereseni.bll.UserService;
-import com.enchereseni.bo.Auction;
 import com.enchereseni.bo.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 @Controller
 public class UserController {
 
@@ -49,8 +50,13 @@ public class UserController {
         var currEmail = userService.getUserbyUsername(principal.getName()).getEmail();
         var newEmail = user.getEmail();
 
+
+        System.out.println(currName + " currName");
+        System.out.println(newName + " newName");
+        System.out.println(currEmail + " currEmail");
+        System.out.println(newEmail + " newEmail");
         if ((!currName.equals(newName) && userService.getUsers().stream().anyMatch(user1 -> user1.getUsername().equals(newName))) ||
-                (!currEmail.equals(newEmail) && userService.getUsers().stream().anyMatch(user1 -> user1.getEmail().equals(currEmail)))) {
+                (!currEmail.equals(newEmail) && userService.getUsers().stream().anyMatch(user1 -> user1.getEmail().equals(newEmail)))) {
             return "redirect:/user/" + principal.getName();
         }
 
@@ -75,6 +81,7 @@ public class UserController {
 
     @PostMapping("/deleteMyAccount")
     public String deleteMyAccount(Principal principal, HttpServletRequest request) {
+        AtomicBoolean canDelete = new AtomicBoolean(false);
         System.out.println("delete my account");
         User userToDelete = userService.getUserbyUsername(principal.getName());
 
@@ -83,38 +90,18 @@ public class UserController {
         });
 
         itemService.getItems().forEach(item -> {
-
-            //Version where i keep the auction after user deletion and assign it to erasedUSER
-
-//            if (item.getUser().getUsername().equals(userToDelete.getUsername())) {
-//                System.out.println("this is my item im going to re-assign " + item.getName());
-//                var erasedUser = userService.getUserbyUsername("erasedUser");
-//                item.setUser(erasedUser);
-//                System.out.println(erasedUser.getUsername() + " " + item.getName());
-//                itemService.updateItem(item);
-//            }
-
-            if (item.getUser().getUsername().equals(userToDelete.getUsername())) {
-                var highestBid = new Auction();
-                if (!auctionService.getAuctionsByItem(item).isEmpty()) {
-                    highestBid = auctionService.getAuctionsByItem(item).stream().filter(auction ->
-                            auction.getItemSold().getItemId() == item.getItemId()).sorted((a, b) -> b.getAmount() - a.getAmount()).toList().get(0);
-                }
-                var highestBidder = highestBid.getUser();
-
-                if (highestBidder != null && highestBidder.getUsername() != null) {
-                    highestBidder.setCredit(highestBidder.getCredit() + highestBid.getAmount());
-                    userService.update(highestBidder);
-                    System.out.println("reimbursing user " + highestBidder.getUsername());
-                }
-                var erasedUser = userService.getUserbyUsername("erasedUser");
-                item.setUser(erasedUser);
+            if (item.getBeginningAuctionDate().isBefore(LocalDate.now()) &&
+                        item.getEndingAuctionDate().isAfter(LocalDate.now())) {
+                System.out.println("passes through");
+                canDelete.set(false);
             }
         });
 
-        userService.removeUser(userToDelete.getUserID());
-        request.getSession().invalidate();
-        SecurityContextHolder.clearContext();
+        if (canDelete.get()) {
+            userService.removeUser(userToDelete.getUserID());
+            request.getSession().invalidate();
+            SecurityContextHolder.clearContext();
+        }
         return "redirect:/";
     }
 }
