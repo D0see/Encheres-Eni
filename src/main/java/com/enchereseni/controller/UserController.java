@@ -81,7 +81,7 @@ public class UserController {
 
     @PostMapping("/deleteMyAccount")
     public String deleteMyAccount(Principal principal, HttpServletRequest request) {
-        AtomicBoolean canDelete = new AtomicBoolean(false);
+        AtomicBoolean canDelete = new AtomicBoolean(true);
         System.out.println("delete my account");
         User userToDelete = userService.getUserbyUsername(principal.getName());
 
@@ -91,13 +91,14 @@ public class UserController {
 
         itemService.getItems().forEach(item -> {
             if (item.getBeginningAuctionDate().isBefore(LocalDate.now()) &&
-                        item.getEndingAuctionDate().isAfter(LocalDate.now())) {
+                        item.getEndingAuctionDate().isAfter(LocalDate.now()) && item.getUser().getUsername().equals(userToDelete.getUsername())) {
                 System.out.println("passes through");
                 canDelete.set(false);
             }
         });
 
         if (canDelete.get()) {
+            System.out.println("delete");
             userService.removeUser(userToDelete.getUserID());
             request.getSession().invalidate();
             SecurityContextHolder.clearContext();
