@@ -69,6 +69,12 @@ public class AuctionDAOImpl implements AuctionDAO {
 
     }
 
+    static final String DELETE_ENCHERE="DELETE FROM ENCHERES WHERE no_utilisateur=?";
+    @Override
+    public void deleteAuctionByUserId(int id) {
+        jdbcTemplate.update(DELETE_ENCHERE, id);
+    }
+
     @Override
     public List<Auction> getAuctions() {
         String FIND_ALL = "SELECT no_utilisateur, no_article, date_enchere, montant_enchere FROM ENCHERES";

@@ -3,6 +3,7 @@ package com.enchereseni.controller;
 import com.enchereseni.bll.AuctionService;
 import com.enchereseni.bll.ItemService;
 import com.enchereseni.bll.UserService;
+import com.enchereseni.bo.Auction;
 import com.enchereseni.bo.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -85,19 +86,27 @@ public class UserController {
         System.out.println("delete my account");
         User userToDelete = userService.getUserbyUsername(principal.getName());
 
-        auctionService.getAuctionsByUsername(userToDelete.getUsername()).forEach(auction -> {
-            auction.setUser(userService.getUserbyUsername("erasedUser"));
-        });
+//        auctionService.getAuctionsByUsername(userToDelete.getUsername()).forEach(auction -> {
+//            auction.setUser(userService.getUserbyUsername("erasedUser"));
+//        });
 
         itemService.getItems().forEach(item -> {
             if (item.getBeginningAuctionDate().isBefore(LocalDate.now()) &&
                         item.getEndingAuctionDate().isAfter(LocalDate.now()) && item.getUser().getUsername().equals(userToDelete.getUsername())) {
+
                 System.out.println("passes through");
                 canDelete.set(false);
             }
         });
 
         if (canDelete.get()) {
+            auctionService.getAllAuctions().forEach(auction -> {
+                if (auction.getUser().getUsername().equals(userToDelete.getUsername())) {
+                    System.out.println("deleting auction" + auction.getItemSold().getName() + " " + auction.getUser().getUsername());
+                    auctionService.deleteAuctionByUserId(userToDelete.getUserID());
+                }
+            });
+
             System.out.println("delete");
             userService.removeUser(userToDelete.getUserID());
             request.getSession().invalidate();
