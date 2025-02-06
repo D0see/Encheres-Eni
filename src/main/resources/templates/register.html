@@ -11,30 +11,48 @@
   <h2 class="text-center mb-4">Créer un compte</h2>
   <form action="/register" method="post" data-th-object="${user}" class="p-4 border rounded bg-light">
     <div class="mb-3">
+
+      <label for="pseudo">Pseudo:</label>
       <input type="text" id="pseudo" name="pseudo" placeholder="Pseudo" pattern="[A-Za-z0-9_\-]{3,30}" maxlength="30" data-th-field="*{pseudo}" class="form-control" required title="Doit être composé de minimum 3 caractères et maximum 30 caractères">
     </div>
     <div class="mb-3">
-      <input type="password" id="password" name="password" placeholder="Mot de passe" maxlength="255" data-th-field="*{password}" class="form-control" required>
+      <label for="prenom">Mot de passe:</label>
+      <input type="password" id="password" name="password" placeholder="Mot de passe" maxlength="255" data-th-field="*{password}" class="form-control" required title="Doit contenir: 8 caractères minimum, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial">
+<!--             pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$"-->
+
     </div>
     <div class="mb-3">
+      <label for="nom">Email:</label>
       <input type="email" id="email" name="email" placeholder="E-mail" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" maxlength="255" data-th-field="*{email}" class="form-control" required title="Doit contenir un @ et un . ">
     </div>
+
     <div class="mb-3">
+      <label for="nom">Prénom:</label>
       <input type="text" id="prenom" name="firstName" placeholder="Prénom" maxlength="30" data-th-field="*{firstName}" class="form-control" required title="Maximun 30 caractères">
     </div>
+
     <div class="mb-3">
+      <label for="nom">Nom:</label>
       <input type="text" id="nom" name="lastName" placeholder="Nom" maxlength="30" data-th-field="*{lastName}" class="form-control" required title="Maximun 30 caractères">
     </div>
+
     <div class="mb-3">
+      <label for="nom">Téléphone:</label>
       <input type="text" id="phone" name="phone" placeholder="Numéro de téléphone" pattern="\+?\d{1,4}[\s\.\-]?\(?\d{1,4}\)?[\s\.\-]?\d{1,4}[\s\.\-]?\d{1,4}" maxlength="15" data-th-field="*{phone}" class="form-control" required title="Maximun 15 caractères ">
     </div>
+
     <div class="mb-3">
+      <label for="address">Adresse:</label>
       <input type="text" id="address" name="address" placeholder="Adresse" pattern="\d+\s[A-Za-zÀ-ÿ0-9\s,\. '\-]+" maxlength="30" data-th-field="*{address}" class="form-control" required title="Maximun 30 caractères, doit contenir au moins un chiffre au début">
     </div>
+
     <div class="mb-3">
+      <label for="zipCode">Code postal:</label>
       <input type="text" id="zipCode" name="zipCode" placeholder="Code postal" pattern="\d{5}$" maxlength="10" data-th-field="*{zipCode}" class="form-control" required title="Doit contenir 5 caractères ">
     </div>
+
     <div class="mb-3">
+      <label for="city">Ville:</label>
       <input type="text" id="city" name="city" placeholder="Ville" pattern="[A-Za-zÀ-ÿ\s'\-]+" maxlength="30" data-th-field="*{city}" class="form-control" required title="Maximun 30 caractères, les chiffres et les caractères spéciaux ne sont pas autorisés">
     </div>
     <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
