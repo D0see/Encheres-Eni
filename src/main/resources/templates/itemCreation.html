@@ -9,7 +9,7 @@
 <main >
     <div class="content">
 <h1 class="text-center mb-4">Nouvelle vente</h1>
-<form data-th-object="${itemSold}" method="post" data-th-action="@{/vendre}" class="p-4 border rounded bg-light">
+<form data-th-object="${itemSold}" method="post" data-th-action="@{/vendre}" class="p-4 border rounded bg-light" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="art" class="form-label">Article :</label>
         <input type="text" id="art" data-th-field="*{name}" class="form-control" placeholder="Enter name" required>
@@ -47,6 +47,8 @@
                 <div th:if="${#fields.hasErrors('endingAuctionDate')}" th:errors="*{endingAuctionDate}" style="color: red;">error></div>
 
     </div>
+
+    <input type="file" name="file" accept="image/*">
 
      <h5>Retrait</h5>
 
