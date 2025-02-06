@@ -70,9 +70,12 @@
                 <div class="card h-100">
 
                     <div class="card-img-container">
-                    <img  th:src="${i != null and i.imagePath != null} ? @{${i.imagePath}} : @{/images/default.jpg}"
-                         alt="Imagen del artículo" class="card-img-top" >
+                        <img th:src="${i != null and i.imagePath != null}
+                 ? @{${i.imagePath} + '?t=' + ${#dates.createNow().getTime()}}
+                 : @{/images/default.jpg}"
+                             alt="Imagen del artículo" class="card-img-top">
                     </div>
+
 
                     <div class="card-body">
                         <h5 class="card-title" ><a th:href="@{/articleDetail/{itemId}(itemId=${i.getItemId()})}"

@@ -73,8 +73,10 @@
       <input type="file" name="file" accept="image/*">
 
       <div class="card-img-container">
-        <img  th:src="${item != null and item.imagePath != null} ? @{${item.imagePath}} : @{/images/default.jpg}"
-              alt="Imagen del artículo" class="card-img-top" >
+        <img th:src="${item != null and item.imagePath != null}
+                 ? @{${item.imagePath} + '?t=' + ${#dates.createNow().getTime()}}
+                 : @{/images/default.jpg}"
+             alt="Imagen del artículo" class="card-img-top">
       </div>
 
       <button type="submit" class="btn btn-primary w-100">Modifier</button>
