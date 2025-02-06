@@ -12,12 +12,14 @@
 <form data-th-object="${itemSold}" method="post" data-th-action="@{/vendre}" class="p-4 border rounded bg-light" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="art" class="form-label">Article :</label>
-        <input type="text" id="art" data-th-field="*{name}" class="form-control" placeholder="Enter name" required>
+        <input type="text" id="art" data-th-field="*{name}" class="form-control" placeholder="Enter name" required
+               title="Maximun 30 caractères" pattern="[A-Za-z0-9\s\-_\.]{3,30}$">
         <div data-th-if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;">error</div>
     </div>
     <div class="mb-3">
         <label for="description" class="form-label">Description :</label>
-        <textarea id="description" data-th-field="*{description}" class="form-control" placeholder="Enter description" required></textarea>
+        <textarea id="description" data-th-field="*{description}" class="form-control" placeholder="Enter description" required
+                  title="Minimum 10 caractères et maximum 300 caractères" pattern="[A-Za-z0-9\s\-_\.]{10,300}$"></textarea>
                 <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color: red;">error></div>
 
     </div>
@@ -31,19 +33,19 @@
     </div>
     <div class="mb-3">
         <label for="prix" class="form-label">Mise à prix :</label>
-        <input type="number" id="prix" data-th-field="*{firstPrice}" class="form-control">
+        <input type="number" id="prix" data-th-field="*{firstPrice}" class="form-control" required title="Mise de départ minimum 1 crédit">
                 <div th:if="${#fields.hasErrors('firstPrice')}" th:errors="*{firstPrice}" style="color: red;">error></div>
 
     </div>
     <div class="mb-3">
         <label for="debut" class="form-label">Début de l'enchère :</label>
-        <input type="date" id="debut" data-th-field="*{beginningAuctionDate}" class="form-control">
+        <input type="date" id="debut" data-th-field="*{beginningAuctionDate}" class="form-control" required >
                 <div th:if="${#fields.hasErrors('beginningAuctionDate')}" th:errors="*{beginningAuctionDate}" style="color: red;">error></div>
 
     </div>
     <div class="mb-3">
         <label for="fin" class="form-label">Fin de l'enchère :</label>
-        <input type="date" id="fin" data-th-field="*{endingAuctionDate}" class="form-control">
+        <input type="date" id="fin" data-th-field="*{endingAuctionDate}" class="form-control" required>
                 <div th:if="${#fields.hasErrors('endingAuctionDate')}" th:errors="*{endingAuctionDate}" style="color: red;">error></div>
 
     </div>
@@ -54,19 +56,19 @@
 
     <div class="mb-3">
         <label class="form-label" for="street">Rue :</label>
-        <input id="street" type="text" data-th-field="${user.address}" class="form-control">
+        <input id="street" type="text" data-th-field="${user.address}" class="form-control" required>
         <div th:if="${#fields.hasErrors('user.address')}" th:errors="*{user.address}" style="color: red;">error</div>
     </div>
 
     <div class="mb-3">
         <label class="form-label" for="code">Code postal :</label>
-        <input id="code" type="text" data-th-field="${user.zipCode}" class="form-control">
+        <input id="code" type="text" data-th-field="${user.zipCode}" class="form-control" required>
         <div th:if="${#fields.hasErrors('user.zipCode')}" th:errors="*{user.zipCode}" style="color: red;">error</div>
     </div>
 
     <div class="mb-3">
         <label class="form-label" for="city">Ville :</label>
-        <input id="city" type="text" data-th-field="${user.city}" class="form-control">
+        <input id="city" type="text" data-th-field="${user.city}" class="form-control" required>
         <div th:if="${#fields.hasErrors('user.city')}" th:errors="*{user.city}" style="color: red;">error</div>
     </div>
 

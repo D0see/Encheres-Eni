@@ -18,6 +18,7 @@ import java.rmi.MarshalledObject;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SessionAttributes("categories")
 @Controller
@@ -57,7 +58,9 @@ public class HomeController {
                 item -> {
                     item.setAuctions(auctionService.getAllAuctions().stream().filter(
                             auction -> auction.getItemSold().getItemId() == item.getItemId()).toList());
-                    item.setAuctions(item.getAuctions().subList(Math.max(0, item.getAuctions().size() - 3), item.getAuctions().size()));
+                    item.setAuctions(item.getAuctions().subList(Math.max(0, item.getAuctions().size() - 3), item.getAuctions().size()).stream().sorted(
+                            (a, b) -> a.getAmount() - b.getAmount()).collect(Collectors.toList())
+                    );
 
                     item.getAuctions().forEach(auction -> {
                         System.out.println(auction.getAmount() + ' ' + auction.getUser().getUsername());

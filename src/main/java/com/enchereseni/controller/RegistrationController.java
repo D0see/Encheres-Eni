@@ -44,7 +44,6 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("user") User user, Model model, BindingResult result) {
-        System.out.println(user.getEmail());
         if (result.hasErrors()) {
             model.addAttribute("error", "Une erreur est survenue pendant l'inscription");
             return "register";
@@ -52,7 +51,6 @@ public class RegistrationController {
         String regexPseudo="^[a-zA-Z0-9_-]+$";
         if (!Pattern.matches(regexPseudo, user.getPseudo())) {
             model.addAttribute("error", "Le pseudo doit être uniquement composé de lettres et de chiffres.");
-            System.out.println(user.getPseudo());
             return "register";
         }
         if (!userService.isUnique(user)) {return "redirect:/register?nonUniqueUser";}
