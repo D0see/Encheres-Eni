@@ -44,10 +44,16 @@ public class UserController {
         userService.getUsers().stream().filter(user1 -> user1.getUsername().equals(user.getUsername())).findFirst().ifPresent(user1 -> {
             user.setUserID(user1.getUserID());
         });
-        if ((!principal.getName().equals(user.getUsername()) && !userService.isUnique(user))  ||
-            !userService.getUserbyUsername(principal.getName()).getEmail().equals(user.getEmail()) ) {
+        var currName = principal.getName();
+        var newName = user.getUsername();
+        var currEmail = userService.getUserbyUsername(principal.getName()).getEmail();
+        var newEmail = user.getEmail();
+
+        if ((!currName.equals(newName) && userService.getUsers().stream().anyMatch(user1 -> user1.getUsername().equals(newName))) ||
+                (!currEmail.equals(newEmail) && userService.getUsers().stream().anyMatch(user1 -> user1.getEmail().equals(currEmail)))) {
             return "redirect:/user/" + principal.getName();
         }
+
         userService.update(user);
 
         //if pseudo changes disconnects & reconnects the user to update principal (bad bad bad)
