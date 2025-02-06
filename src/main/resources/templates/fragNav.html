@@ -43,7 +43,7 @@
                     <li class="nav-item" data-th-if="${#authentication.getName() != 'anonymousUser'}">
                         <form data-th-action="@{/logout}" method="post" class="d-inline">
                             <button class="btn btn-link nav-link" data-th-method="POST"
-                                    data-th-text="${#authentication.getName()}+ ' Logout'"></button>
+                                    data-th-text="${#authentication.getName()}+ ' Se déconnecter'"></button>
                         </form>
                     </li>
 
