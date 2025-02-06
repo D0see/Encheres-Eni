@@ -1,18 +1,19 @@
 
-/*.content{*/
+.content{
 
-/*    margin-top: 5%;*/
-/*}*/
+margin-top: 5%
+}
+
 /* Definimos las variables de colores */
-/*
+
 :root {
     --primary-color: #E76F51;
     --secondary-color: #F4A261;
     --accent-color: #E9C46A;
-    --highlight-color: #2A9D8F;
+    --highlight-color: #0d6efd;
     --dark-color: #264653;
 }
-
+/*
 !* Estilización general *!
 body {
     font-family: 'Arial', sans-serif !important;
@@ -21,7 +22,7 @@ body {
     margin-top: 60px !important; !* Ajuste para la navbar fija *!
 }
 
-!* Navbar personalizada *!
+*/
 .navbar-custom {
     background-color: var(--highlight-color) !important;
 }
@@ -36,13 +37,13 @@ body {
     color: white !important;
     font-weight: bold !important;
     transition: color 0.3s ease-in-out !important;
+    cursor: pointer; !important;
 }
 
 .navbar-nav .nav-link:hover {
     color: var(--secondary-color) !important;
 }
 
-!* Aseguramos la disposición de la navbar *!
 .navbar-nav.ms-auto {
     margin-left: auto !important;
 }
@@ -52,7 +53,7 @@ body {
     left: 50% !important;
     transform: translateX(-50%) !important;
 }
-
+/*
 !* Botones *!
 .btn-primary {
     background-color: var(--primary-color) !important;
