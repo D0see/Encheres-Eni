@@ -3,6 +3,7 @@ package com.enchereseni.bo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -36,10 +37,29 @@ public class ItemSold {
     private Category category;
 
     private User user;
+    private String imagePath;
+    private transient MultipartFile imageFile;
+
+    public MultipartFile getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(MultipartFile imageFile) {
+        this.imageFile = imageFile;
+    }
+
     private List<Auction> auctions;
 
     private EtatVente etatVente;
     private Auction highestBid;
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
     public ItemSold(int itemId, String name, String description, LocalDate beginningAuctionDate, LocalDate endingAuctionDate, int firstPrice, int finalPrice, boolean soldState, List<Auction> auctions, Category category, User user) {
         this.itemId = itemId;
@@ -53,6 +73,7 @@ public class ItemSold {
         this.user = user;
         this.category = category;
         this.auctions = auctions;
+        this.imagePath = null;
     }
 
     public ItemSold() {}

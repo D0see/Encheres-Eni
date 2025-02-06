@@ -26,7 +26,7 @@ import org.springframework.stereotype.Repository;
 
         private final String FIND_BY_ID = """
      SELECT av.no_article, av.nom_article, av.description, av.date_debut_encheres, av.date_fin_encheres, 
-            av.prix_initial, av.prix_vente, 
+            av.prix_initial, av.prix_vente,  av.image_path,  
             c.no_categorie, c.libelle, 
             u.no_utilisateur
      FROM ARTICLES_VENDUS av
@@ -37,7 +37,7 @@ import org.springframework.stereotype.Repository;
 
         private final String FIND_ALL = """
      SELECT av.no_article, av.nom_article, av.description, av.date_debut_encheres, av.date_fin_encheres, 
-            av.prix_initial, av.prix_vente, 
+            av.prix_initial, av.prix_vente, av.image_path ,
             c.no_categorie, c.libelle, 
             u.no_utilisateur
      FROM ARTICLES_VENDUS av
@@ -47,8 +47,8 @@ import org.springframework.stereotype.Repository;
 private static String UPDATE= """
 
         UPDATE ARTICLES_VENDUS
-        SET nom_article = ?, description = ?, date_debut_encheres = ?,
-        date_fin_encheres = ?, prix_initial = ?, no_categorie = ?
+        SET no_utilisateur = ?, nom_article = ?, description = ?, date_debut_encheres = ?,
+        date_fin_encheres = ?, prix_initial = ?, no_categorie = ?,image_path = ?
         WHERE no_article = ?
         """;
 
@@ -64,9 +64,9 @@ private static String UPDATE= """
 
         private final String INSERT = """
     INSERT INTO ARTICLES_VENDUS 
-        (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,prix_vente, no_utilisateur, no_categorie) 
+        (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,prix_vente, no_utilisateur, no_categorie,image_path) 
     VALUES 
-        (:nomArticle, :description, :beginningAuctionDate, :endingAuctionDate, :initialPrice,:finalPrice, :userId, :categoryId)
+        (:nomArticle, :description, :beginningAuctionDate, :endingAuctionDate, :initialPrice,:finalPrice, :userId, :categoryId, :imagePath )
 """;
 
 
@@ -76,25 +76,26 @@ private static String UPDATE= """
             this.userService = userService;
         }
 
-        @Override
-        public int createItemSold(ItemSold itemSold) {
-            KeyHolder keyHolder = new GeneratedKeyHolder();
-            MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-            namedParameters.addValue("nomArticle", itemSold.getName());
-            namedParameters.addValue("description", itemSold.getDescription());
-            namedParameters.addValue("beginningAuctionDate", itemSold.getBeginningAuctionDate());
-            namedParameters.addValue("endingAuctionDate", itemSold.getEndingAuctionDate());
-            namedParameters.addValue("initialPrice", itemSold.getFirstPrice());
-            namedParameters.addValue("finalPrice", itemSold.getFinalPrice());
-            namedParameters.addValue("userId", itemSold.getUser().getUserID()); // Asume que existe un User
-            namedParameters.addValue("categoryId", itemSold.getCategory().getCategory()); // Usar getNoCategorie()
-            jdbcTemplate.update(INSERT, namedParameters, keyHolder);
+            @Override
+            public int createItemSold(ItemSold itemSold) {
+                KeyHolder keyHolder = new GeneratedKeyHolder();
+                MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+                namedParameters.addValue("nomArticle", itemSold.getName());
+                namedParameters.addValue("description", itemSold.getDescription());
+                namedParameters.addValue("beginningAuctionDate", itemSold.getBeginningAuctionDate());
+                namedParameters.addValue("endingAuctionDate", itemSold.getEndingAuctionDate());
+                namedParameters.addValue("initialPrice", itemSold.getFirstPrice());
+                namedParameters.addValue("finalPrice", itemSold.getFinalPrice());
+                namedParameters.addValue("userId", itemSold.getUser().getUserID());
+                namedParameters.addValue("categoryId", itemSold.getCategory().getCategory());
+                namedParameters.addValue("imagePath", itemSold.getImagePath());
+                jdbcTemplate.update(INSERT, namedParameters, keyHolder);
 
-            int generatedId = keyHolder.getKey().intValue(); // Recuperar el ID generado
-            itemSold.setItemId(generatedId);
-            return generatedId; // Devolver el ID generado
+                int generatedId = keyHolder.getKey().intValue(); // Recuperar el ID generado
+                itemSold.setItemId(generatedId);
+                return generatedId; // Devolver el ID generado
 
-        }
+            }
 
 
         @Override
@@ -113,13 +114,16 @@ private static String UPDATE= """
         @Override
         public void updateItemSold(ItemSold itemSold) {
             vraiJdbcTemplate.update(UPDATE,
+                    itemSold.getUser().getUserID(),
                     itemSold.getName(),
                     itemSold.getDescription(),
                     itemSold.getBeginningAuctionDate(),
                     itemSold.getEndingAuctionDate(),
                     itemSold.getFirstPrice(),
                     itemSold.getCategory().getCategory(),
-                    itemSold.getItemId() // Clave primaria para actualizar el artículo correcto
+                    itemSold.getImagePath(),
+                    itemSold.getItemId()
+
             );
         }
 
