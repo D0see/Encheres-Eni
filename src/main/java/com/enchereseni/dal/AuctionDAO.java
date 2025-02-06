@@ -9,6 +9,7 @@ public interface AuctionDAO {
     void updateAuction(Auction auction);
     void deleteAuction(Auction auction);
     List<Auction> getAuctions();
+    void deleteAuctionByUserId(int id);
 
 
 

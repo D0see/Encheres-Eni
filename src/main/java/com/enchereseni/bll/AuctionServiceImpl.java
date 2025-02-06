@@ -58,4 +58,10 @@ public class AuctionServiceImpl implements AuctionService {
         }).toList();
     }
 
+    @Override
+    public void deleteAuctionByUserId(int id) {
+        auctionDAO.deleteAuctionByUserId(id);
+    }
+
+
 }
