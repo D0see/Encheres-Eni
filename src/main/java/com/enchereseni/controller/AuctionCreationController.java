@@ -32,11 +32,7 @@ public class AuctionCreationController {
     }
 
     @PostMapping("/CreationEnchere/{itemId}")
-    public String createAuctionForItem(@RequestParam("amount") int amount, @PathVariable("itemId") int itemId, Model model, Principal principal, BindingResult result) {
-        if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
-            return "redirect:/AuctionCreation";
-        }
+    public String createAuctionForItem(@RequestParam("amount") int amount, @PathVariable("itemId") int itemId, Model model, Principal principal) {
         Auction maxBid = new Auction();
         ItemSold currItem = itemService.getItemById(itemId);
         User currUser = userService.getUserbyUsername(principal.getName());
