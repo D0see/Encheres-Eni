@@ -84,7 +84,7 @@ public class HomeController {
     @PostMapping("/encheres")
     public String filterEncheres(
             @RequestParam(name = "selectedFilters", required = false) List<String> selectedFilters,
-            @RequestParam(name = "searchByName", required  = false) String searchByName,
+            @RequestParam(name = "searchByName", required  = true) String searchByName,
             @RequestParam(name = "selectedCategory", required = true) String selectedCategory,
             Principal principal,
             Model model) {
@@ -92,9 +92,10 @@ public class HomeController {
         System.out.println("searchByName " + searchByName);
         System.out.println("selectedCategory " + selectedCategory);
         var items = itemService.getItems();
-        String username = principal.getName();
-        User user = userService.getUserbyUsername(username);
+        String username = (principal != null) ? principal.getName() : null;
+        User user = (username != null) ? userService.getUserbyUsername(username) : null;
         model.addAttribute("user", user);
+
 
         //TO DO : PULL SOLDSTATE HERE and rework filters around it
 
