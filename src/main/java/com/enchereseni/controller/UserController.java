@@ -35,7 +35,7 @@ public class UserController {
     public String showUser(@PathVariable("name") String userName, Model model, Principal principal) {
         model.addAttribute("isUserInSession", userName.equals(principal.getName()));
         var targetUser = userService.getUsers().stream().filter(user -> user.getUsername().equals(userName)).findAny();
-        targetUser.ifPresent(user -> {
+        targetUser.ifPresent(user -> {user.setCredit(userService.getUserbyUsername(principal.getName()).getCredit());
             model.addAttribute("user", user);
         });
         return "affichageUser";

@@ -37,7 +37,7 @@
 
 
             jdbc.update(
-                    "INSERT INTO UTILISATEURS (pseudo, mot_de_passe, email, administrateur, nom, prenom, telephone, rue, code_postal, ville, credit) " +
+                    "INSERT INTO UTILISATEURS (pseudo, mot_de_passe, email, administrateur, prenom, nom, telephone, rue, code_postal, ville, credit) " +
                             "VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, ?, 100)", // Default empty values
                     user.getPseudo(),
                     encoder.encode(user.getPassword()),
@@ -60,7 +60,7 @@
         public User read(int id) {
             return jdbc.queryForObject(FIND_BY_ID,new UserRowMapper(),id);
             }
-
+    
         @Override
         public void update(User user) {
             jdbc.update(UPDATE, user.getPseudo(),user.getPassword(),user.getEmail(), user.isAdmin(), user.getLastName(),user.getFirstName(),
